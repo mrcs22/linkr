@@ -3,8 +3,8 @@ import styled from "styled-components"
 
 export default function HeaderMenu({showDropdownMenu, showDropdown}){
     return (
-        <StyledHeaderMenu>
-            <div className="chevron" shouldRotate={showDropdownMenu}>
+        <StyledHeaderMenu shouldRotate={showDropdownMenu}>
+            <div className="chevron" >
                 <IoChevronDown onClick={showDropdown}/>
             </div>
             <ProfileImage onClick={showDropdown}/>
@@ -20,7 +20,8 @@ const StyledHeaderMenu = styled.div`
         display: inherit;
         align-items: inherit;
         font-size: 40px;
-        transform: ${props => (props.shouldRotate ? `rotate(180deg)` : "")};
+        transform: ${props => (props.shouldRotate ? `rotateX(180deg)` : "")};
+        transition: transform ease-in-out .3s;
     }
 `
 
