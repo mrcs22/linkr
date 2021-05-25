@@ -1,34 +1,38 @@
 import MainContainer from "./MainContainer";
 import styled from "styled-components";
+import React, { useContext, useState } from 'react';
+import axios from "axios";
+import { Link, useHistory } from "react-router-dom";
+import UserContext from "./UserContext";
 
 export default function LogIn(){
     return(
 
-        <MainContainer>
+        // <MainContainer>
 
-            <PagePresentation>
+        //     <PagePresentation>
 
 
-            </PagePresentation>
+        //     </PagePresentation>
 
-            <FormContainer>
+        //     <FormContainer>
 
                 
-            </FormContainer>
+        //     </FormContainer>
             
 
-            <form onSubmit={register}>
+        //     <form onSubmit={register}>
 
-                <input type="email" required placeholder="email" disabled={disabled} value={email} onChange={(e) => setEmail(e.target.value)} />
+        //         <input type="email" required placeholder="email" disabled={disabled} value={email} onChange={(e) => setEmail(e.target.value)} />
 
-                <input type="password" required placeholder="password" disabled={disabled} value={password} onChange={(e) => setPassword(e.target.value)} />
+        //         <input type="password" required placeholder="password" disabled={disabled} value={password} onChange={(e) => setPassword(e.target.value)} />
 
-                <button type="submit"> {loading} </button>
+        //         <button type="submit"> {loading} </button>
 
-                <Link to={"/"}> <p>First time? Create an account!</p> </Link>
+        //         <Link to={"/"}> <p>First time? Create an account!</p> </Link>
 
-            </form>
+        //     </form>
 
-        </MainContainer> 
+        // </MainContainer> 
     );
 }
