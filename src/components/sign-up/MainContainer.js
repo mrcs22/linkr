@@ -4,4 +4,5 @@ export default styled.div`
   min-height: 100vh;
   width: 100%;
   display: flex;
+  font-weight: 700;
 `;
