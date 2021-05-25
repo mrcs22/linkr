@@ -16,13 +16,11 @@ const StyledHeaderMenu = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    div{
+    .chevron {
         display: inherit;
         align-items: inherit;
-    }
-    .chevron {
         font-size: 40px;
-        transform: ${props => props.shouldRotate ? `rotate(180deg)` : ""};
+        transform: ${props => (props.shouldRotate ? `rotate(180deg)` : "")};
     }
 `
 

@@ -17,7 +17,7 @@ export default function Header(){
             <Title>linkr</Title>
             <HeaderMenu showDropdownMenu={showDropdownMenu} showDropdown={showDropdown}/>
         </StyledHeader>
-        <DropdownMenu showDropdownMenu={showDropdownMenu}/>
+        <DropdownMenu showDropdownMenu={showDropdownMenu} showDropdown={showDropdown}/>
         </>
     )
 }
