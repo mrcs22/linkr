@@ -1,23 +1,16 @@
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import { createGlobalStyle } from "styled-components";
+import Header from "./components/header/Header";
 import Timeline from "./components/timeline/Timeline";
-const GlobalStyle = createGlobalStyle`
-  * {
-    box-sizing: border-box;
-   font-family: 'Lexend Deca', sans-serif;
-    font-weight: 400;
-    margin: 0;
-    padding: 0;
-    text-decoration: none;
-    
-  }`;
+import GlobalStyle from "./styles/GlobalStyles"
 
 export default function App() {
   return (
     <BrowserRouter>
       <GlobalStyle />
       <Switch>
-        <Route path="/" exact></Route>
+        <Route path="/" exact>
+            <Header />
+        </Route>
         <Route path="/sign-up" exact></Route>
         <Route path="/timeline" exact component={Timeline}></Route>
         <Route path="/my-posts" exact></Route>
