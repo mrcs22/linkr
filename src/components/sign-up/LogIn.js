@@ -1,10 +1,10 @@
 import MainContainer from "./MainContainer";
 import styled from "styled-components";
 
-export default function SignUp(){
+export default function LogIn(){
     return(
-        <MainContainer>    
 
+        <MainContainer>
 
             <PagePresentation>
 
@@ -14,7 +14,8 @@ export default function SignUp(){
             <FormContainer>
 
                 
-            </FormContainer>   
+            </FormContainer>
+            
 
             <form onSubmit={register}>
 
@@ -22,18 +23,12 @@ export default function SignUp(){
 
                 <input type="password" required placeholder="password" disabled={disabled} value={password} onChange={(e) => setPassword(e.target.value)} />
 
-                <input type="text" required placeholder="username" disabled={disabled} value={name} onChange={(e) => setName(e.target.value)} />
-
-                <input type="url" required placeholder="picture url" disabled={disabled} value={image} onChange={(e) => setImage(e.target.value)} />
-
                 <button type="submit"> {loading} </button>
 
-                <Link to={"/"}> <p>Switch back to log in</p> </Link>
+                <Link to={"/"}> <p>First time? Create an account!</p> </Link>
 
             </form>
 
-        </MainContainer>       
-
-    </Register>
+        </MainContainer> 
     );
 }
