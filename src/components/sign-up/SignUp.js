@@ -18,7 +18,7 @@ export default function SignUp(){
 
         e.preventDefault();
         
-        setDisabled(!disabled);
+        setDisabled(true);
         
         const body = {email, password, username, pictureUrl};
 
@@ -27,10 +27,8 @@ export default function SignUp(){
         request.then((e) => history.push("/"));
 
         request.catch(e => {
-            setDisabled(!disabled);
-            if(e.response.status === 403){
-                alert("O e-mail inserido já está cadastrado.");
-            }            
+            setDisabled(false);           
+            alert("Erro: " + e.response.status + ", " + e.response.data.message);      
         });
     }
 

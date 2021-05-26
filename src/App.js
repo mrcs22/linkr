@@ -29,7 +29,7 @@ export default function App() {
         <UserContext.Provider value={{user, setUser}}>
 
           <Route path="/" exact component={LogIn}></Route>
-          <Route path="/sign-up" exact ></Route>
+          <Route path="/sign-up" exact component={SignUp}></Route>
           <Route path="/timeline" exact component={Timeline}></Route>
           <Route path="/my-posts" exact></Route>
           <Route path="/my-likes" exact></Route>
