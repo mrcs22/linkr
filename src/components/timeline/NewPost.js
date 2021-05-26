@@ -108,14 +108,37 @@ const Post = styled.div`
   div:last-child {
     width: 503px;
   }
+
+  @media (max-width: 611px) {
+    min-height: 164px;
+    width: 100%;
+    min-width: 350px;
+
+    padding: 10px 16px;
+
+    div:first-child {
+      display: none;
+    }
+
+    div:last-child {
+      width: 100%;
+    }
+  }
 `;
 
 const Title = styled.p`
   font-family: "Lato";
   font-size: 20px;
+  font-weight: 300;
   color: #707070;
 
   margin-bottom: 15px;
+
+  @media (max-width: 611px) {
+    font-size: 17px;
+    text-align: center;
+    margin-bottom: 10px;
+  }
 `;
 
 const StyledForm = styled.form`
@@ -136,6 +159,10 @@ const Input = styled.input`
   padding: 8px 12px;
 
   margin-bottom: 5px;
+
+  @media (max-width: 611px) {
+    width: 100%;
+  }
 `;
 
 const TextArea = styled.textarea`
@@ -152,7 +179,10 @@ const TextArea = styled.textarea`
 
   margin-bottom: 5px;
 
-  position: relative;
+  @media (max-width: 611px) {
+    min-width: 100%;
+    max-width: 100%;
+  }
 `;
 
 const Button = styled.input`
@@ -168,4 +198,9 @@ const Button = styled.input`
 
   border-radius: 5px;
   border: none;
+
+  @media (max-width: 611px) {
+    height: 22px;
+    font-size: 13px;
+  }
 `;

@@ -13,6 +13,7 @@ const Div = styled.div`
   width: 100%;
 
   padding-top: 72px;
+  padding-bottom: 20px;
 
   background-color: #333;
 `;
@@ -22,4 +23,12 @@ const Content = styled.div`
 
   margin: 0 auto;
   margin-top: 53px;
+
+  @media (max-width: 938px) {
+    width: 611px;
+  }
+
+  @media (max-width: 611px) {
+    width: 100vw;
+  }
 `;
