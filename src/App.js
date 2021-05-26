@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
 import Timeline from "./components/timeline/Timeline";
+import UserContext from "./components/UserContext";
 const GlobalStyle = createGlobalStyle`
   * {
     box-sizing: border-box;
@@ -13,12 +14,16 @@ const GlobalStyle = createGlobalStyle`
   }`;
 
 export default function App() {
+
+  const [user, setUser] = useState(null);
+  
   return (
     <BrowserRouter>
       <GlobalStyle />
+
       <Switch>
-        <Route path="/" exact></Route>
-        <Route path="/sign-up" exact></Route>
+        <Route path="/" exact component={LogIn}></Route>
+        <Route path="/sign-up" exact ></Route>
         <Route path="/timeline" exact component={Timeline}></Route>
         <Route path="/my-posts" exact></Route>
         <Route path="/my-likes" exact></Route>
