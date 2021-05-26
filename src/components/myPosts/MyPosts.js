@@ -5,11 +5,11 @@ import styled from "styled-components";
 import Container from "../Container";
 import Header from "../header/Header";
 import UserContext from "../UserContext";
-import NewPost from "./NewPost";
+
 import Post from "../post/Post";
 import PuffLoader from "../Loader";
 
-export default function Timeline() {
+export default function MyPosts() {
   const { user } = useContext(UserContext);
   const [posts, setPosts] = useState(null);
 
@@ -21,8 +21,8 @@ export default function Timeline() {
     <>
       <Header avatar={user.user.avatar} />
       <Container>
-        <Text>timeline</Text>
-        <NewPost getPosts={() => getPosts(user.token)} token={user.token} />
+        <Text>my posts</Text>
+
         {posts === null ? (
           <PuffLoader />
         ) : posts.length === 0 ? (
