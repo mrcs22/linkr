@@ -64,14 +64,12 @@ export default function NewPost({ getPosts }) {
     );
 
     req.then((r) => {
-      console.log(r.data);
       clearInputs();
       setIsSavingPost(false);
       getPosts();
     });
 
     req.catch((r) => {
-      console.log(r.data);
       alert("Houve um erro ao publicar o seu link");
       setIsSavingPost(false);
     });

@@ -55,7 +55,6 @@ export default function Timeline() {
     );
 
     req.then((r) => {
-      console.log(r.data);
       setPosts(r.data.posts);
     });
 
