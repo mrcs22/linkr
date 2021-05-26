@@ -15,7 +15,7 @@ export default function Timeline() {
   return (
     <Container>
       <StyledP>timeline</StyledP>
-      <NewPost />
+      <NewPost getPosts={getPosts} />
       {posts.map((p) => (
         <Post
           key={p.id}

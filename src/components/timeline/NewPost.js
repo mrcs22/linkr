@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import styled from "styled-components";
 
-export default function NewPost() {
+export default function NewPost({ getPosts }) {
   const [text, setText] = useState("");
   const [link, setLink] = useState("");
   const [isSavingPost, setIsSavingPost] = useState(false);
@@ -67,6 +67,7 @@ export default function NewPost() {
       console.log(r.data);
       clearInputs();
       setIsSavingPost(false);
+      getPosts();
     });
 
     req.catch((r) => {
