@@ -12,7 +12,6 @@ import PuffLoader from "./Loader";
 export default function Timeline() {
   const { user } = useContext(UserContext);
   const [posts, setPosts] = useState(null);
-  console.log(user);
 
   useEffect(() => {
     getPosts(user.token);
@@ -32,6 +31,7 @@ export default function Timeline() {
           posts.map((p) => (
             <Post
               key={p.id}
+              postId={p.id}
               username={p.user.username}
               userId={p.user.id}
               avatar={p.user.avatar}
@@ -40,6 +40,7 @@ export default function Timeline() {
               linkTitle={p.linkTitle}
               linkDescription={p.linkDescription}
               linkImage={p.linkImage}
+              getPosts={getPosts}
             />
           ))
         )}
