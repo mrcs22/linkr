@@ -28,13 +28,14 @@ export default function SignUp(){
 
         request.catch(e => {
             setDisabled(!disabled);
-            alert("Dados incorretos, insira os dados corretos.");
+            if(e.response.status === 400){
+                alert("O e-mail inserido já está cadastrado.");
+            }            
         });
 
     }
 
     return(
-
 
         <MainContainer>    
 
@@ -57,7 +58,7 @@ export default function SignUp(){
 
                     <input type="url" required placeholder="picture url" disabled={disabled} value={pictureUrl} onChange={(e) => setPictureurl(e.target.value)} />
 
-                    <button type="submit">Sign Up</button>
+                    <button type="submit" disabled={disabled}>Sign Up</button>
 
                     <Link to={"/"}> <h1>Switch back to log in</h1> </Link>
 
@@ -90,12 +91,25 @@ const PagePresentation = styled.div`
         width: 442px;
         height: 128px;
     }
-    @media(max-width: 800px) {
+    @media(max-width: 600px) {
+        width: 100vw;
+        padding-top: 10px;
+        display flex;
+        flex-direction: column;
+        align-itens: center;
+
         h1 {
-         margin-left: 0px;
-         margin-top: 10px;
+            font-size: 76px;
+            line-height: 84px;        
+        }
+        h2{
+            font-size: 23px;
+            line-height: 34px;
+            width: 132px;
+            height: 67px;
         }
       }
+
 `;
 
 const FormContainer = styled.div` 
@@ -137,6 +151,7 @@ const FormContainer = styled.div`
         color: #fff;
         font-size: 27px;
         border: none;
+        margin-bottom: 13px;
     }
     h1{
 
@@ -154,5 +169,4 @@ const FormContainer = styled.div`
          align-text: center;
         }
       }
-
 `;

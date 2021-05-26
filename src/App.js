@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
-import Login from "./components/sign-up/LogIn";
+import SignUp from "./components/sign-up/SignUp";
+import LogIn from "./components/sign-up/LogIn";
 import Timeline from "./components/timeline/Timeline";
 const GlobalStyle = createGlobalStyle`
   * {
@@ -17,9 +18,9 @@ export default function App() {
   return (
     <BrowserRouter>
       <GlobalStyle />
- 
+      <SignUp />
       <Switch>
-        <Route path="/" exact component={Login}></Route>
+        <Route path="/" exact component={LogIn}></Route>
         <Route path="/sign-up" exact ></Route>
         <Route path="/timeline" exact component={Timeline}></Route>
         <Route path="/my-posts" exact></Route>

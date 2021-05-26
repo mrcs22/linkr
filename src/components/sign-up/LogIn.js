@@ -15,20 +15,15 @@ export default function LogIn(){
     function login(e) {
 
         e.preventDefault();
+        setDisabled(!disabled);  
 
-        setDisabled(!disabled);
-  
-
-        const body = {
-          email,
-          password
-        };
+        const body = {email, password};
     
         const request = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login", body);
 
         request.then((response) => {
             // setUser(response.data);
-            history.push("/habitos");
+            history.push("/timeline");
         });
 
         request.catch(e => {
@@ -37,12 +32,7 @@ export default function LogIn(){
         });
       } 
 
-
-
-    return(
-
-        
-       
+    return(       
 
         <MainContainer>    
 
@@ -61,7 +51,7 @@ export default function LogIn(){
 
                     <input type="password" required placeholder="password" disabled={disabled} value={password} onChange={(e) => setPassword(e.target.value)} />
 
-                    <button type="submit">Log In</button>
+                    <button type="submit" disabled={disabled}>Log In</button>
 
                     <Link to={"/sign-up"}> <h1>First time? Create an account!</h1> </Link>
 
@@ -69,8 +59,7 @@ export default function LogIn(){
                 
             </FormContainer>   
 
-        </MainContainer>  
-    
+        </MainContainer>      
     );    
 }
 
@@ -142,6 +131,7 @@ const FormContainer = styled.div`
         color: #fff;
         font-size: 27px;
         border: none;
+        margin-bottom: 13px;
     }
     h1{
 
