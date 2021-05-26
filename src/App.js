@@ -1,6 +1,4 @@
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import Header from "./components/header/Header";
-import { createGlobalStyle } from "styled-components";
 import SignUp from "./components/sign-up/SignUp";
 import LogIn from "./components/sign-up/LogIn";
 import Timeline from "./components/timeline/Timeline";
