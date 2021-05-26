@@ -16,10 +16,6 @@ export default function UserPosts() {
   const { id } = useParams();
   const [posts, setPosts] = useState(null);
 
-  console.log("posts", posts);
-
-  console.log("user", selectedUserInfo);
-
   useEffect(() => {
     getPostsAndSelectedUserInfo(user.token);
   }, [user.token]);
