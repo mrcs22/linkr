@@ -3,13 +3,13 @@ import Loader from "react-loader-spinner";
 
 export default function PuffLoader() {
   return (
-    <Div>
+    <LoaderContainer>
       <Loader type="Puff" color="#00BFFF" height={120} width={120} />
-    </Div>
+    </LoaderContainer>
   );
 }
 
-const Div = styled.div`
+const LoaderContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;

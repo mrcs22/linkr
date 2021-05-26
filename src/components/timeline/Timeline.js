@@ -22,12 +22,12 @@ export default function Timeline() {
     <>
       <Header avatar={user.user.avatar} />
       <Container>
-        <StyledP>timeline</StyledP>
+        <Text>timeline</Text>
         <NewPost getPosts={() => getPosts(user.token)} token={user.token} />
         {posts === null ? (
           <PuffLoader />
         ) : posts.length === 0 ? (
-          <StyledP noPosts>Nenhum Post encontrado</StyledP>
+          <Text noPosts>Nenhum Post encontrado</Text>
         ) : (
           posts.map((p) => (
             <Post
@@ -70,7 +70,7 @@ export default function Timeline() {
   }
 }
 
-const StyledP = styled.p`
+const Text = styled.p`
   font-family: "Oswald";
 
   font-size: ${({ noPosts }) => (noPosts ? "30px" : "43px")};
