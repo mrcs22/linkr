@@ -1,24 +1,25 @@
 import MainContainer from "./MainContainer";
 import PagePresentation from "./PagePresentation";
 import FormContainer from "./FormContainer";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useHistory } from "react-router-dom";
 import UserContext from "../UserContext";
 
 export default function LogIn() {
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [disabled, setDisabled] = useState(false);
   let history = useHistory();
   const { setUser } = useContext(UserContext);
 
-  if (localStorage.getItem("user")) {
-    setUser(JSON.parse(localStorage.getItem("user")));
-    history.push("/timeline");
-  }
-  
+  useEffect(() => {
+    if (localStorage.getItem("user")) {
+      setUser(JSON.parse(localStorage.getItem("user")));
+      history.push("/timeline");
+    }
+  }, []);
+
   function login(e) {
     e.preventDefault();
     setDisabled(true);
@@ -26,7 +27,7 @@ export default function LogIn() {
     const body = { email, password };
 
     const request = axios.post(
-      "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login",
+      "https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/sign-in",
       body
     );
 
