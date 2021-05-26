@@ -5,20 +5,20 @@ import UserContext from "../UserContext";
 
 export default function Hashtag(){
 
-    const { hash } = useParams();
-    const [hashtag, setHashtag] = useState([]);
+    const { hashtag } = useParams();
+    const [hash, setHash] = useState([]);
     const { user } = useContext(UserContext);
 
     useEffect(() => {
 
         const config = {headers:{Authorization: `Bearer ${user.token}`} }   
         
-        const promise = axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/hashtags/${hash}/posts`, config);
+        const promise = axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/hashtags/${hashtag}/posts`, config);
 
         promise.then((answer) => {
-            setHashtag(answer.data);    
+            setHash(answer.data);    
         });
-    }, [hash]);
+    }, [hashtag, user]);
 
     return(
 
