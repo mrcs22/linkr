@@ -31,7 +31,9 @@ export default function LogIn(){
 
         request.catch(e => {
             setDisabled(!disabled);
-            alert("Dados incorretos, insira os dados corretos.");
+            if(e.response.status === 400){
+                alert("E-mail ou senha incorreta.");
+            }            
         });
       } 
 
