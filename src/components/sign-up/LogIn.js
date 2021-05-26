@@ -1,38 +1,41 @@
 import MainContainer from "./MainContainer";
 import PagePresentation from "./PagePresentation";
 import FormContainer from "./FormContainer";
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import axios from "axios";
 import { Link, useHistory } from "react-router-dom";
+import UserContext from "../UserContext";
 
-export default function SignUp(){
+export default function LogIn(){
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [username, setUsername] = useState("");
-    const [pictureUrl, setPictureurl] = useState("");
     const [disabled, setDisabled] = useState(false);
     let history = useHistory();
+    const {setUser} = useContext(UserContext);
 
-    function register(e){
+    function login(e) {
 
         e.preventDefault();
-        
-        setDisabled(true);
-        
-        const body = {email, password, username, pictureUrl};
+        setDisabled(true);  
 
-        const request = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/sign-up", body);
+        const body = {email, password};
+    
+        const request = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login", body);
 
-        request.then((e) => history.push("/"));
+        request.then((response) => {
+            setUser(response.data);
+            history.push("/timeline");
+        });
 
         request.catch(e => {
             setDisabled(false);           
             alert("Erro: " + e.response.status + ", " + e.response.data.message);      
         });
-    }
+      } 
 
-    return(
+
+    return(       
 
         <MainContainer>    
 
@@ -45,26 +48,22 @@ export default function SignUp(){
 
             <FormContainer>
 
-                <form onSubmit={register}>
+                <form onSubmit={login}>
 
                     <input type="email" required placeholder="email" disabled={disabled} value={email} onChange={(e) => setEmail(e.target.value)} />
 
                     <input type="password" required placeholder="password" disabled={disabled} value={password} onChange={(e) => setPassword(e.target.value)} />
 
-                    <input type="text" required placeholder="username" disabled={disabled} value={username} onChange={(e) => setUsername(e.target.value)} />
+                    <button type="submit" disabled={disabled}>Log In</button>
 
-                    <input type="url" required placeholder="picture url" disabled={disabled} value={pictureUrl} onChange={(e) => setPictureurl(e.target.value)} />
-
-                    <button type="submit" disabled={disabled}>Sign Up</button>
-
-                    <Link to={"/"}> <h1>Switch back to log in</h1> </Link>
+                    <Link to={"/sign-up"}> <h1>First time? Create an account!</h1> </Link>
 
                 </form>
                 
             </FormContainer>   
 
-        </MainContainer>       
-    );
+        </MainContainer>      
+    );    
 }
 
 
