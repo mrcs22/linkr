@@ -3,6 +3,7 @@ import { createGlobalStyle } from "styled-components";
 import SignUp from "./components/sign-up/SignUp";
 import LogIn from "./components/sign-up/LogIn";
 import Timeline from "./components/timeline/Timeline";
+import UserContext from "./components/UserContext";
 const GlobalStyle = createGlobalStyle`
   * {
     box-sizing: border-box;
@@ -15,6 +16,9 @@ const GlobalStyle = createGlobalStyle`
   }`;
 
 export default function App() {
+
+  const [user, setUser] = useState(null);
+  
   return (
     <BrowserRouter>
       <GlobalStyle />
