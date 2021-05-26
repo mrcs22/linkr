@@ -1,5 +1,7 @@
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
+import SignUp from "./components/sign-up/SignUp";
+import LogIn from "./components/sign-up/LogIn";
 import Timeline from "./components/timeline/Timeline";
 import UserContext from "./components/UserContext";
 import { useState } from "react";
@@ -27,7 +29,7 @@ export default function App() {
         <UserContext.Provider value={{user, setUser}}>
 
           <Route path="/" exact component={LogIn}></Route>
-          <Route path="/sign-up" exact ></Route>
+          <Route path="/sign-up" exact component={SignUp}></Route>
           <Route path="/timeline" exact component={Timeline}></Route>
           <Route path="/my-posts" exact></Route>
           <Route path="/my-likes" exact></Route>
