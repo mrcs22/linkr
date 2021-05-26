@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
 import Timeline from "./components/timeline/Timeline";
 import UserContext from "./components/UserContext";
+import { useState } from "react";
 const GlobalStyle = createGlobalStyle`
   * {
     box-sizing: border-box;
