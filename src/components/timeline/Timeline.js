@@ -1,9 +1,11 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
+
 import Container from "../Container";
 import NewPost from "./NewPost";
 import Post from "../timeline/Post";
+import PuffLoader from "./Loader";
 
 export default function Timeline() {
   const [posts, setPosts] = useState([]);
@@ -16,18 +18,22 @@ export default function Timeline() {
     <Container>
       <StyledP>timeline</StyledP>
       <NewPost getPosts={getPosts} />
-      {posts.map((p) => (
-        <Post
-          key={p.id}
-          username={p.user.username}
-          avatar={p.user.avatar}
-          text={p.text}
-          link={p.link}
-          linkTitle={p.linkTitle}
-          linkDescription={p.linkDescription}
-          linkImage={p.linkImage}
-        />
-      ))}
+      {posts.length === 0 ? (
+        <PuffLoader />
+      ) : (
+        posts.map((p) => (
+          <Post
+            key={p.id}
+            username={p.user.username}
+            avatar={p.user.avatar}
+            text={p.text}
+            link={p.link}
+            linkTitle={p.linkTitle}
+            linkDescription={p.linkDescription}
+            linkImage={p.linkImage}
+          />
+        ))
+      )}
     </Container>
   );
 
