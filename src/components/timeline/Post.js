@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import PostLike from "./PostLike";
 
 export default function Post(props) {
   const {
     username,
+    userId,
     avatar,
     text,
     link,
@@ -13,14 +15,16 @@ export default function Post(props) {
     linkImage,
   } = props;
 
-  const [postText, setPostText] = useState(text);
+  const postText = highlightHashtags(text);
 
   const [isPostLiked, setIsPostLiked] = useState(false);
 
   return (
     <Div>
       <div>
-        <img src={avatar} alt={username} />
+        <Link to={`/user/${userId}`}>
+          <img src={avatar} alt={username} />
+        </Link>
         <PostLike
           likes="13"
           isPostLiked={isPostLiked}
@@ -29,24 +33,41 @@ export default function Post(props) {
       </div>
       <div>
         <Name>{username}</Name>
-        <Text
-          value={postText}
-          disabled={true}
-          onChange={(e) => setPostText(e.target.value)}
-        />
+
+        <Text>{postText}</Text>
+
         <LinkInfo>
           <div>
             <p>{linkTitle}</p>
 
             <p>{linkDescription}</p>
 
-            <a>{link}</a>
+            <a href={link} target="_blank" rel="noreferrer">
+              {link}
+            </a>
           </div>
           <img src={linkImage} />
         </LinkInfo>
       </div>
     </Div>
   );
+
+  function highlightHashtags(text) {
+    let newText = text.split(" ");
+
+    newText = newText.map((h, i) => {
+      if (h.startsWith("#")) {
+        return (
+          <Hashtag key={i} to={`hashtag/${h.replace("#", "")}`}>
+            {h}
+          </Hashtag>
+        );
+      }
+      return <span key={i}>{" " + h + " "}</span>;
+    });
+
+    return newText;
+  }
 }
 
 const Div = styled.div`
@@ -165,26 +186,20 @@ const Name = styled.p`
   }
 `;
 
-const Text = styled.textarea`
+const Text = styled.div`
   height: 44px;
   width: 503px;
+  overflow: hidden;
 
   font-family: "Lato";
   font-size: 17px;
+  color: #b7b7b7;
 
-  background-color: #fff;
+  background-color: inherit;
 
   border: none;
   border-radius: 7px;
   margin-bottom: 5px;
-  &:disabled {
-    background-color: inherit;
-    color: #b7b7b7;
-
-    border: none;
-
-    resize: none;
-  }
 
   @media (max-width: 611px) {
     height: 53px;
@@ -280,4 +295,11 @@ const LinkInfo = styled.div`
       }
     }
   }
+`;
+
+const Hashtag = styled(Link)`
+  font-family: "Lato";
+  font-size: 17px;
+  font-weight: bold;
+  color: #fff;
 `;

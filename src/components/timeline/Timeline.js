@@ -8,7 +8,7 @@ import Post from "../timeline/Post";
 import PuffLoader from "./Loader";
 
 export default function Timeline() {
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState(null);
 
   useEffect(() => {
     getPosts();
@@ -18,13 +18,16 @@ export default function Timeline() {
     <Container>
       <StyledP>timeline</StyledP>
       <NewPost getPosts={getPosts} />
-      {posts.length === 0 ? (
+      {posts === null ? (
         <PuffLoader />
+      ) : posts.length === 0 ? (
+        <StyledP noPosts>Nenhum Post encontrado</StyledP>
       ) : (
         posts.map((p) => (
           <Post
             key={p.id}
             username={p.user.username}
+            userId={p.user.id}
             avatar={p.user.avatar}
             text={p.text}
             link={p.link}
@@ -65,9 +68,11 @@ export default function Timeline() {
 const StyledP = styled.p`
   font-family: "Oswald";
 
-  font-size: 43px;
-  color: #fff;
+  font-size: ${({ noPosts }) => (noPosts ? "30px" : "43px")};
+  color: ${({ noPosts }) => (noPosts ? "#bababa" : "#fff")};
 
+  margin-left: ${({ noPosts }) => (noPosts ? "130px" : 0)};
+  margin-top: ${({ noPosts }) => (noPosts ? "20px" : 0)};
   margin-bottom: 45px;
 
   @media (max-width: 611px) {
