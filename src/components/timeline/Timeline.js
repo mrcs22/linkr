@@ -16,7 +16,7 @@ export default function Timeline() {
 
   useEffect(() => {
     getPosts(user.token);
-  }, []);
+  }, [user.token]);
 
   return (
     <>
