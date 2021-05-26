@@ -46,7 +46,7 @@ export default function Post(props) {
               {link}
             </a>
           </div>
-          <img src={linkImage} />
+          <img src={linkImage} alt={linkTitle} />
         </LinkInfo>
       </div>
     </Div>

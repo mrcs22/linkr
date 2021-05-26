@@ -1,48 +1,53 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
 
 import Container from "../Container";
+import Header from "../header/Header";
+import UserContext from "../UserContext";
 import NewPost from "./NewPost";
 import Post from "../timeline/Post";
 import PuffLoader from "./Loader";
 
 export default function Timeline() {
+  const { user } = useContext(UserContext);
   const [posts, setPosts] = useState(null);
+  console.log(user);
 
   useEffect(() => {
-    getPosts();
+    getPosts(user.token);
   }, []);
 
   return (
-    <Container>
-      <StyledP>timeline</StyledP>
-      <NewPost getPosts={getPosts} />
-      {posts === null ? (
-        <PuffLoader />
-      ) : posts.length === 0 ? (
-        <StyledP noPosts>Nenhum Post encontrado</StyledP>
-      ) : (
-        posts.map((p) => (
-          <Post
-            key={p.id}
-            username={p.user.username}
-            userId={p.user.id}
-            avatar={p.user.avatar}
-            text={p.text}
-            link={p.link}
-            linkTitle={p.linkTitle}
-            linkDescription={p.linkDescription}
-            linkImage={p.linkImage}
-          />
-        ))
-      )}
-    </Container>
+    <>
+      <Header avatar={user.user.avatar} />
+      <Container>
+        <StyledP>timeline</StyledP>
+        <NewPost getPosts={() => getPosts(user.token)} token={user.token} />
+        {posts === null ? (
+          <PuffLoader />
+        ) : posts.length === 0 ? (
+          <StyledP noPosts>Nenhum Post encontrado</StyledP>
+        ) : (
+          posts.map((p) => (
+            <Post
+              key={p.id}
+              username={p.user.username}
+              userId={p.user.id}
+              avatar={p.user.avatar}
+              text={p.text}
+              link={p.link}
+              linkTitle={p.linkTitle}
+              linkDescription={p.linkDescription}
+              linkImage={p.linkImage}
+            />
+          ))
+        )}
+      </Container>
+    </>
   );
 
-  function getPosts() {
-    const token = "7aec3998-8be0-451f-b134-c9044f0a4abb";
-
+  function getPosts(token) {
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -59,6 +64,7 @@ export default function Timeline() {
     });
 
     req.catch((r) => {
+      console.log(r.message);
       alert("Houve uma falha ao obter os posts, por favor atualize a página!");
     });
   }

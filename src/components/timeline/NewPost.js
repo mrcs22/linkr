@@ -1,8 +1,11 @@
 import axios from "axios";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import styled from "styled-components";
 
-export default function NewPost({ getPosts }) {
+import UserContext from "../UserContext";
+
+export default function NewPost({ getPosts, token }) {
+  const { user } = useContext(UserContext);
   const [text, setText] = useState("");
   const [link, setLink] = useState("");
   const [isSavingPost, setIsSavingPost] = useState(false);
@@ -10,10 +13,7 @@ export default function NewPost({ getPosts }) {
   return (
     <Post>
       <div>
-        <img
-          src="https://midias.folhavitoria.com.br/files/2017/02/estopinha-2.jpg"
-          alt="Jailson"
-        ></img>
+        <img src={user.user.avatar} alt={user.user.username}></img>
       </div>
       <div>
         <Title>O que você tem pra favoritar hoje?</Title>
@@ -46,7 +46,6 @@ export default function NewPost({ getPosts }) {
   function saveNewPost(e) {
     e.preventDefault();
     setIsSavingPost(true);
-    const token = "7aec3998-8be0-451f-b134-c9044f0a4abb";
 
     const config = {
       headers: {
