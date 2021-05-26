@@ -30,7 +30,7 @@ export default function LogIn(){
 
         request.catch(e => {
             setDisabled(!disabled);
-            if(e.response.status === 400){
+            if(e.response.status === 403){
                 alert("E-mail ou senha incorreta.");
             }            
         });

@@ -4,7 +4,6 @@ import FormContainer from "./FormContainer";
 import React, { useState } from 'react';
 import axios from "axios";
 import { Link, useHistory } from "react-router-dom";
-// import UserContext from "./UserContext";
 
 export default function SignUp(){
 
@@ -29,11 +28,10 @@ export default function SignUp(){
 
         request.catch(e => {
             setDisabled(!disabled);
-            if(e.response.status === 400){
+            if(e.response.status === 403){
                 alert("O e-mail inserido já está cadastrado.");
             }            
         });
-
     }
 
     return(
