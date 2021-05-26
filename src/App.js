@@ -22,13 +22,19 @@ export default function App() {
       <GlobalStyle />
 
       <Switch>
-        <Route path="/" exact component={LogIn}></Route>
-        <Route path="/sign-up" exact ></Route>
-        <Route path="/timeline" exact component={Timeline}></Route>
-        <Route path="/my-posts" exact></Route>
-        <Route path="/my-likes" exact></Route>
-        <Route path="/hashtags/:hashtag" exact></Route>
-        <Route path="/user/:id" exact></Route>
+
+        <UserContext.Provider value={{user, setUser}}>
+
+          <Route path="/" exact component={LogIn}></Route>
+          <Route path="/sign-up" exact ></Route>
+          <Route path="/timeline" exact component={Timeline}></Route>
+          <Route path="/my-posts" exact></Route>
+          <Route path="/my-likes" exact></Route>
+          <Route path="/hashtags/:hashtag" exact></Route>
+          <Route path="/user/:id" exact></Route>
+
+        </UserContext.Provider>
+        
       </Switch>
     </BrowserRouter>
   );
