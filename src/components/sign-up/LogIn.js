@@ -7,7 +7,6 @@ import { Link, useHistory } from "react-router-dom";
 import UserContext from "../UserContext";
 
 export default function LogIn() {
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [disabled, setDisabled] = useState(false);
@@ -18,7 +17,7 @@ export default function LogIn() {
     setUser(JSON.parse(localStorage.getItem("user")));
     history.push("/timeline");
   }
-  
+
   function login(e) {
     e.preventDefault();
     setDisabled(true);
@@ -26,7 +25,7 @@ export default function LogIn() {
     const body = { email, password };
 
     const request = axios.post(
-      "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login",
+      "https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/sign-in",
       body
     );
 
