@@ -13,6 +13,11 @@ export default function LogIn() {
   let history = useHistory();
   const { setUser } = useContext(UserContext);
 
+  if (localStorage.getItem("user")) {
+    setUser(JSON.parse(localStorage.getItem("user")));
+    history.push("/timeline");
+  }
+
   function login(e) {
     e.preventDefault();
     setDisabled(true);
@@ -26,6 +31,7 @@ export default function LogIn() {
 
     request.then((response) => {
       setUser(response.data);
+      localStorage.setItem("user", JSON.stringify(response.data));
       history.push("/timeline");
     });
 
