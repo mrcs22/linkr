@@ -18,7 +18,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <GlobalStyle />
-      <SignUp />
+
       <Switch>
         <Route path="/" exact component={LogIn}></Route>
         <Route path="/sign-up" exact ></Route>
