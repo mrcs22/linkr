@@ -59,7 +59,7 @@ export default function MyPosts() {
     );
 
     req.then((r) => {
-      setPosts(r.data.posts);
+      setPosts(r.data.posts.filter((p) => p.user.id === user.user.id));
     });
 
     req.catch((r) => {
