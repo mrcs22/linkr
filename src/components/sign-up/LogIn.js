@@ -4,9 +4,7 @@ import FormContainer from "./FormContainer";
 import React, { useContext, useState } from 'react';
 import axios from "axios";
 import { Link, useHistory } from "react-router-dom";
-// import UserContext from "./UserContext";
-
-
+import UserContext from "../UserContext";
 
 export default function LogIn(){
 
@@ -14,6 +12,7 @@ export default function LogIn(){
     const [password, setPassword] = useState("");
     const [disabled, setDisabled] = useState(false);
     let history = useHistory();
+    const {setUser} = useContext(UserContext);
 
     function login(e) {
 
@@ -25,7 +24,7 @@ export default function LogIn(){
         const request = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login", body);
 
         request.then((response) => {
-            // setUser(response.data);
+            setUser(response.data);
             history.push("/timeline");
         });
 
