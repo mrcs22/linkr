@@ -4,8 +4,7 @@ import DropdownMenu from './DropdownMenu'
 import { useState } from "react"
 
 export default function Header(){
-    const [showDropdownMenu, setShowDropdownMenu] = useState(false)
-    console.log(showDropdownMenu)
+    const [showDropdownMenu, setShowDropdownMenu] = useState(false))
 
     const showDropdown = () => {
         setShowDropdownMenu(!showDropdownMenu)
