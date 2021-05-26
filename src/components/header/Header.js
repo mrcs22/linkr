@@ -3,7 +3,7 @@ import HeaderMenu from "./HeaderMenu";
 import DropdownMenu from "./DropdownMenu";
 import { useState } from "react";
 
-export default function Header() {
+export default function Header({avatar}) {
   const [showDropdownMenu, setShowDropdownMenu] = useState(false);
 
   const showDropdown = () => {
@@ -15,6 +15,7 @@ export default function Header() {
       <StyledHeader>
         <Title>linkr</Title>
         <HeaderMenu
+          avatar={avatar}
           showDropdownMenu={showDropdownMenu}
           showDropdown={showDropdown}
         />

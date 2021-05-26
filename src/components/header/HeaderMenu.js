@@ -26,7 +26,6 @@ const StyledHeaderMenu = styled.div`
     align-items: inherit;
     font-size: 40px;
     transform: ${(props) => (props.shouldRotate ? `rotateX(180deg)` : "")};
-    transition: transform ease-in-out 0.3s;
   }
 `;
 
@@ -36,5 +35,7 @@ const ProfileImage = styled.img`
   border-radius: 27px;
   background: url(${({ avatar }) => avatar});
   background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
   margin-left: 5px;
 `;
