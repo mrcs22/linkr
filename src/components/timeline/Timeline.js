@@ -16,7 +16,18 @@ export default function Timeline() {
     <Container>
       <StyledP>timeline</StyledP>
       <NewPost />
-      <Post />
+      {posts.map((p) => (
+        <Post
+          key={p.id}
+          username={p.user.username}
+          avatar={p.user.avatar}
+          text={p.text}
+          link={p.link}
+          linkTitle={p.linkTitle}
+          linkDescription={p.linkDescription}
+          linkImage={p.linkImage}
+        />
+      ))}
     </Container>
   );
 
@@ -36,7 +47,7 @@ export default function Timeline() {
 
     req.then((r) => {
       console.log(r.data);
-      setPosts(r.data);
+      setPosts(r.data.posts);
     });
 
     req.catch((r) => {

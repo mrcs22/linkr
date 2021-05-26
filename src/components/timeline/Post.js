@@ -2,18 +2,25 @@ import { useState } from "react";
 import styled from "styled-components";
 import PostLike from "./PostLike";
 
-export default function Post() {
+export default function Post(props) {
+  const {
+    username,
+    avatar,
+    text,
+    link,
+    linkTitle,
+    linkDescription,
+    linkImage,
+  } = props;
+
+  const [postText, setPostText] = useState(text);
+
   const [isPostLiked, setIsPostLiked] = useState(false);
-  const [text, setText] = useState(
-    " Muito maneiro esse tutorial de Material UI com React, deem uma olhada! #react #material"
-  );
+
   return (
     <Div>
       <div>
-        <img
-          src="https://midias.folhavitoria.com.br/files/2017/02/estopinha-2.jpg"
-          alt="Jailson"
-        />
+        <img src={avatar} alt={username} />
         <PostLike
           likes="13"
           isPostLiked={isPostLiked}
@@ -21,25 +28,21 @@ export default function Post() {
         />
       </div>
       <div>
-        <Name>Jailson Catioro</Name>
+        <Name>{username}</Name>
         <Text
-          value={text}
+          value={postText}
           disabled={true}
-          onChange={(e) => setText(e.target.value)}
+          onChange={(e) => setPostText(e.target.value)}
         />
         <LinkInfo>
           <div>
-            <p>Como aplicar o Material UI em um projeto React</p>
+            <p>{linkTitle}</p>
 
-            <p>
-              Hey! I have moved this tutorial to my personal blog. Same content,
-              new location. Sorry about making you click through to another
-              page.
-            </p>
+            <p>{linkDescription}</p>
 
-            <a>https://medium.com/@pshrmn/a-simple-react-router</a>
+            <a>{link}</a>
           </div>
-          <img src="https://conteudo.imguol.com.br/c/entretenimento/24/2020/09/15/banana-1600197261350_v2_450x337.jpg"></img>
+          <img src={linkImage} />
         </LinkInfo>
       </div>
     </Div>
