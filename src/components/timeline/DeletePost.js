@@ -7,6 +7,7 @@ import Modal from "react-modal"
 
 export default function DeletePost({ownerId, postId, getPosts}){
     const [showModal, setShowModal] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
     const { user } = useContext(UserContext)
 
     const openModal = () => {
@@ -18,6 +19,7 @@ export default function DeletePost({ownerId, postId, getPosts}){
     }
 
     const deletePost = () => {
+        setIsLoading(true)
         const config = {
             headers: {
                 Authorization: `Bearer ${user.token}`
@@ -26,8 +28,12 @@ export default function DeletePost({ownerId, postId, getPosts}){
         const request = axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts/${postId}`, config)
         request.then((res) => {
             getPosts(user.token)
+            setIsLoading(false)
         })
-        request.catch((err) => console.log(err.response.data))
+        request.catch((err) => {
+            setShowModal(false)
+            alert("Não foi possível excluir o post")
+        })
     }
 
     return(
@@ -40,8 +46,8 @@ export default function DeletePost({ownerId, postId, getPosts}){
             <Modal isOpen={showModal} style={modalStyle} onRequestClose={closeModal} ariaHideApp={false}>
                 <p>Tem certeza que deseja excluir essa publicação?</p>
                 <ButtonContainer>
-                    <button className="back_button" onClick={(e) => closeModal(e)}>Não, voltar</button>
-                    <button className="delete_button" onClick={deletePost}>Sim, excluir</button>
+                    <button disabled={isLoading} className="back_button" onClick={(e) => closeModal(e)}>Não, voltar</button>
+                    <button disabled={isLoading} className="delete_button" onClick={deletePost}>Sim, excluir</button>
                 </ButtonContainer>
             </Modal>
         </>
