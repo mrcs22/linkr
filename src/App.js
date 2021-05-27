@@ -13,6 +13,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <GlobalStyle />
+
       <Switch>
         <UserContext.Provider value={{ user, setUser }}>
           <Route path="/" exact component={LogIn}></Route>

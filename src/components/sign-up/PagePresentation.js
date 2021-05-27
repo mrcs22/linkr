@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export default styled.div`
-min-width: 70vw;
+    min-width: 70vw;
     background: #151515;
     font-weight: 700;
     padding-left: 10vw;
