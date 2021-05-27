@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import DeletePost from "./DeletePost";
+import EditPost from "./EditPost"
 import PostLike from "./PostLike";
 
 export default function Post(props) {
@@ -34,6 +35,7 @@ export default function Post(props) {
           setIsPostLiked={setIsPostLiked}
         />
       </div>
+      <EditPost ownerId={userId} postId={postId} getPosts={getPosts}/>
       <DeletePost ownerId={userId} postId={postId} getPosts={getPosts}/>
       <div>
         <Name>{username}</Name>
