@@ -1,21 +1,40 @@
 import styled from "styled-components"
 import { BsPencil } from "react-icons/bs"
-import { useContext, useState } from "react"
+import { useContext, useState, useCallback, useEffect } from "react"
 import UserContext from "../UserContext"
 import axios from "axios"
 
-export default function EditPost({ownerId, text, postText}){
-    const { user } = useContext(UserContext)
+export default function EditPost({ownerId, text, postText, postId}){
     const [isEditing, setIsEditing] = useState(false)
     const [editedText, setEditedText] = useState("")
     const [newText, setNewText] = useState(postText)
+    const [isLoading, setIsLoading] = useState(false)
+    const { user } = useContext(UserContext)
 
     const editPost = () => {
-        setIsEditing(true)
-        setEditedText(text)
+        setIsEditing(!isEditing)
+        if(editedText === ""){
+            setEditedText(text)
+        }
     }
 
+    const escFunction = useCallback((event) => {
+        if(event.keyCode === 27) {
+          setIsEditing(false)
+          setEditedText("")
+        }
+      }, []);
+    
+      useEffect(() => {
+        document.addEventListener("keydown", escFunction, false);
+    
+        return () => {
+          document.removeEventListener("keydown", escFunction, false);
+        };
+      }, []);
+
     const sendChanges = (e) => {
+        setIsLoading(true)
         e.preventDefault()
         const body = {text: editedText}
         const config = {
@@ -23,16 +42,26 @@ export default function EditPost({ownerId, text, postText}){
                 Authorization: `Bearer ${user.token}`
             }
         }
-        const request = axios.put("https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts/ID_DO_POST", body, config)
-        request.then((res) => console.log(res))
+        const request = axios.put(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts/`, body, config)
+        request.then((res) => {
+            setNewText(res.data.post.text)
+            setIsEditing(false)
+            setEditedText(res.data.post.text)
+            setIsLoading(false)
+        })
+        request.catch((err) => {
+            alert("Não foi possível salvar as alterações")
+            console.log(err.response.data)
+            setIsLoading(false)
+        })
     }
 
     return(
         <EditContainer userId={user.user.id} ownerId={ownerId} >
             <BsPencil className="edit_button" onClick={editPost}/>
             {isEditing ?
-                <form onSubmit={sendChanges}><StyledInput value={editedText} autoFocus={true} onChange={(e) => setEditedText(e.target.value)}/></form> : 
-                <Text>{postText}</Text>
+                <form onSubmit={sendChanges}><StyledInput value={editedText} autoFocus={true} onChange={(e) => setEditedText(e.target.value)} disabled={isLoading}/></form> : 
+                <Text>{newText}</Text>
             }  
         </EditContainer>
     )
@@ -40,7 +69,7 @@ export default function EditPost({ownerId, text, postText}){
 
 const EditContainer = styled.div`
     color: #fff;
-    max-width: 20px;
+    max-width: 500px;
     cursor: pointer;
     position: relative;
 
@@ -49,6 +78,10 @@ const EditContainer = styled.div`
         position: absolute;
         top: -26px;
         left: 440px;
+
+        @media (max-width: 611px){
+            display: none;
+        }
     }
 `
 
@@ -89,5 +122,9 @@ const StyledInput = styled.input`
 
     :focus {
         outline: none;
+    }
+    :disabled {
+        background-color: #999;
+        color: #fff;
     }
 `

@@ -71,6 +71,10 @@ const DeleteContainer = styled.div`
     top: 17px;
     right: 20px;
     width: 20px;
+
+    @media (max-width: 611px){
+        display: none;
+    }
 `
 
 const modalStyle = {
