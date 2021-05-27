@@ -51,7 +51,6 @@ export default function EditPost({ownerId, text, postText, postId}){
         })
         request.catch((err) => {
             alert("Não foi possível salvar as alterações")
-            console.log(err.response.data)
             setIsLoading(false)
         })
     }
