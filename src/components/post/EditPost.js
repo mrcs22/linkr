@@ -42,7 +42,7 @@ export default function EditPost({ownerId, text, postText, postId}){
                 Authorization: `Bearer ${user.token}`
             }
         }
-        const request = axios.put(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts/`, body, config)
+        const request = axios.put(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts/${postId}`, body, config)
         request.then((res) => {
             setNewText(res.data.post.text)
             setIsEditing(false)
