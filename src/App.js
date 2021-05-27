@@ -25,7 +25,6 @@ export default function App() {
           <Route path="/my-posts" exact component={MyPosts}></Route>
           <Route path="/my-likes" exact component={LikedPosts}></Route>
           <Route path="/hashtags/:hashtag" exact component={Hashtag}></Route>
-
           <Route path="/user/:id" exact component={UserPosts}></Route>
         </UserContext.Provider>
       </Switch>
