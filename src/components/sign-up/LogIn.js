@@ -18,7 +18,7 @@ export default function LogIn() {
       setUser(JSON.parse(localStorage.getItem("user")));
       history.push("/timeline");
     }
-  }, []);
+  }, [setUser, history]);
 
   function login(e) {
     e.preventDefault();

@@ -1,36 +1,46 @@
+import { useParams } from "react-router-dom";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import { useEffect, useState, useContext } from "react";
+import UserContext from "../UserContext";
 import styled from "styled-components";
 
 import Container from "../Container";
 import Header from "../header/Header";
-import UserContext from "../UserContext";
-import NewPost from "../post/NewPost";
+
 import Post from "../post/Post";
 import PuffLoader from "../Loader";
-import HashtagTrend from "../hashtag/HashtagTrend"
 
-export default function Timeline() {
+export default function Hashtag() {
+  const { hashtag } = useParams();
+  const [tags, setTags] = useState([]);
   const { user } = useContext(UserContext);
-  const [posts, setPosts] = useState(null);
 
   useEffect(() => {
-    getPosts(user.token);
-  }, [user.token]);
+    const config = { headers: { Authorization: `Bearer ${user.token}` } };
+
+    const promise = axios.get(
+      `https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/hashtags/${hashtag}/posts`,
+      config
+    );
+
+    promise.then((answer) => {
+      setTags(answer.data.posts);
+    });
+  }, [hashtag, user]);
 
   return (
     <>
       <Header avatar={user.user.avatar} />
+
       <Container>
-        <Text>timeline</Text>
-        <HashtagTrend></HashtagTrend>
-        <NewPost getPosts={() => getPosts(user.token)} token={user.token} />
-        {posts === null ? (
+        <Text># {hashtag}</Text>
+
+        {tags === null ? (
           <PuffLoader />
-        ) : posts.length === 0 ? (
+        ) : tags.length === 0 ? (
           <Text noPosts>Nenhum Post encontrado</Text>
         ) : (
-          posts.map((p) => (
+          tags.map((p) => (
             <Post
               key={p.id}
               postId={p.id}
@@ -42,34 +52,12 @@ export default function Timeline() {
               linkTitle={p.linkTitle}
               linkDescription={p.linkDescription}
               linkImage={p.linkImage}
-              getPosts={getPosts}
             />
           ))
         )}
       </Container>
     </>
   );
-
-  function getPosts(token) {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
-
-    const req = axios.get(
-      "https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts",
-      config
-    );
-
-    req.then((r) => {
-      setPosts(r.data.posts);
-    });
-
-    req.catch((r) => {
-      alert("Houve uma falha ao obter os posts, por favor atualize a página!");
-    });
-  }
 }
 
 const Text = styled.p`
