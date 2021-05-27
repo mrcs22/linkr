@@ -3,6 +3,7 @@ import SignUp from "./components/sign-up/SignUp";
 import LogIn from "./components/sign-up/LogIn";
 import Timeline from "./components/timeline/Timeline";
 import MyPosts from "./components/myPosts/MyPosts";
+import UserPosts from "./components/userPosts/UserPosts";
 import GlobalStyle from "./styles/GlobalStyles";
 import UserContext from "./components/UserContext";
 import { useState } from "react";
@@ -23,7 +24,7 @@ export default function App() {
           <Route path="/my-posts" exact component={MyPosts}></Route>
           <Route path="/my-likes" exact></Route>
           <Route path="/hashtags/:hashtag" exact component={Hashtag}></Route>
-          <Route path="/user/:id" exact></Route>
+          <Route path="/user/:id" exact component={UserPosts}></Route>
         </UserContext.Provider>
       </Switch>
     </BrowserRouter>
