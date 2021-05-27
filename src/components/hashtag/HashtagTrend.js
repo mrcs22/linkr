@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import UserContext from "../UserContext";
 import styled from "styled-components";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function HashtagTrend() {
   const [trend, setTrend] = useState([]);
@@ -27,7 +27,7 @@ export default function HashtagTrend() {
       <Trends>
         {trend.map((item) => (
           <Link to={`/hashtags/${item.name}`}>
-              <h1>#{item.name}</h1>
+            <h1>#{item.name}</h1>
           </Link>
         ))}
       </Trends>
@@ -44,8 +44,8 @@ const TrendBox = styled.div`
   padding-left: 16px;
   font-weight: 700;
 
-  @media(max-width: 600px) {
-    display: none;    
+  @media (max-width: 600px) {
+    display: none;
   }
 `;
 
