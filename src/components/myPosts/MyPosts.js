@@ -31,6 +31,7 @@ export default function MyPosts() {
           posts.map((p) => (
             <Post
               key={p.id}
+              postId={p.id}
               username={p.user.username}
               userId={p.user.id}
               avatar={p.user.avatar}
@@ -39,6 +40,7 @@ export default function MyPosts() {
               linkTitle={p.linkTitle}
               linkDescription={p.linkDescription}
               linkImage={p.linkImage}
+              getPosts={getPosts}
             />
           ))
         )}
