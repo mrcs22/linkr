@@ -7,11 +7,14 @@ font-weight: 700;
 padding-top: 30vh; 
 display: flex;
 justify-content: center;   
-padding-left: 0;
 
 form{
-    width: 429px;
-    height: 65px;
+    max-width: 100%;
+    height: auto;
+    display flex;
+    flex-direction: column;
+    align-itens: center;
+    align-text: center;
 }
 h1{
     font-weight: 400;
@@ -44,22 +47,21 @@ button{
 
 @media(max-width: 600px) {
     width: 100vw;
-    padding-top: 10px;
     background: #333;
-    height: auto;
+    height: calc(100vh - 175px);
     display flex;
-    flex-direction: column;  
-    align-itens: center;     
-    padding-top: 40px;
+    flex-direction: column;    
+    padding-top: 20px;
 
     form{
-        width: 330px;
+        max-width: 100%;
         height: auto;
-        margin-left: auto;
-        margin-right: auto;
-    
+        display flex;
+        flex-direction: column;
+        align-text: center;
+    }      
     input{
-        width: 330px;
+        width: 320px;        
         height: 55px;
         margin-bottom: 13px;  
         border-radius: 6px;
@@ -67,21 +69,23 @@ button{
         color: #9F9F9F;   
         padding-left: 13px;
         font-size: 22px;
-        
+        margin-left: auto;
+        margin-right: auto;
         }
     button{
-        width: 330px;
+        width: 320px;
         height: 55px;
         border-radius: 6px;
         background: #1877F2;
         color: #fff;
         font-size: 22px;
         border: none;
-        margin-bottom: 21px;        
+        margin-bottom: 21px; 
+        margin-left: auto;
+        margin-right: auto;       
         }
     h1{            
-        font-size: 17px;
-        align-itens: center;
+        font-size: 17px;        
         margin-bottom: 10px;
         }
     }

@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import DeletePost from "./DeletePost";
 import PostLike from "./PostLike";
 
 export default function Post(props) {
   const {
+    postId,
     username,
     userId,
     avatar,
@@ -13,6 +15,7 @@ export default function Post(props) {
     linkTitle,
     linkDescription,
     linkImage,
+    getPosts,
   } = props;
 
   const postText = highlightHashtags(text);
@@ -31,6 +34,7 @@ export default function Post(props) {
           setIsPostLiked={setIsPostLiked}
         />
       </div>
+      <DeletePost ownerId={userId} postId={postId} getPosts={getPosts} />
       <div>
         <Name>{username}</Name>
 
@@ -73,7 +77,7 @@ export default function Post(props) {
 const Div = styled.div`
   display: flex;
   justify-content: space-between;
-
+  position: relative;
   min-height: 276px;
   width: 611px;
 
