@@ -42,4 +42,8 @@ const StyledMenu = styled.div`
     color: #fff;
     font-family: "Lato";
     font-size: 17px;
+
+    @media (max-width: 611px){
+        width: 27%;
+    }
 `

@@ -5,11 +5,11 @@ import styled from "styled-components";
 import Container from "../Container";
 import Header from "../header/Header";
 import UserContext from "../UserContext";
-import NewPost from "../post/NewPost";
+
 import Post from "../post/Post";
 import PuffLoader from "../Loader";
 
-export default function Timeline() {
+export default function LikedPosts() {
   const { user } = useContext(UserContext);
   const [posts, setPosts] = useState(null);
 
@@ -21,17 +21,16 @@ export default function Timeline() {
     <>
       <Header avatar={user.user.avatar} />
       <Container>
-        <Text>timeline</Text>
-        <NewPost getPosts={() => getPosts(user.token)} token={user.token} />
+        <Text>my likes</Text>
+
         {posts === null ? (
           <PuffLoader />
         ) : posts.length === 0 ? (
-          <Text noPosts>Nenhum Post encontrado</Text>
+          <Text noPosts>Você ainda não curtiu nenhum post</Text>
         ) : (
           posts.map((p) => (
             <Post
               key={p.id}
-              postId={p.id}
               username={p.user.username}
               userId={p.user.id}
               avatar={p.user.avatar}
@@ -40,7 +39,6 @@ export default function Timeline() {
               linkTitle={p.linkTitle}
               linkDescription={p.linkDescription}
               linkImage={p.linkImage}
-              getPosts={getPosts}
             />
           ))
         )}
@@ -56,7 +54,7 @@ export default function Timeline() {
     };
 
     const req = axios.get(
-      "https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts",
+      `https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts/liked`,
       config
     );
 
