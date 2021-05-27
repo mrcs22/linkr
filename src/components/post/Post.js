@@ -122,18 +122,23 @@ const Div = styled.div`
       text-align: center;
     }
 
-    div {
+    & > div {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
 
-      width: 100%;
+      width: calc(100% - 50px);
     }
-  }
 
-  div:last-child {
-    width: 503px;
+    p {
+      word-break: break-all;
+      word-wrap: break-word;
+    }
+    a {
+      word-break: break-all;
+      word-wrap: break-word;
+    }
   }
 
   @media (max-width: 611px) {
@@ -167,8 +172,8 @@ const Div = styled.div`
       }
     }
 
-    div:last-child {
-      width: 100%;
+    & > div:last-child {
+      width: calc(100% - 55px);
     }
   }
 `;
@@ -215,8 +220,9 @@ const LinkInfo = styled.div`
   justify-content: space-between;
   overflow: hidden;
 
-  height: 155px;
-  width: 503px;
+  min-height: 155px;
+  width: 100%;
+  max-width: 503px;
 
   border: 1px solid #4d4d4d;
   border-radius: 4px 12px 13px 4px;
@@ -226,6 +232,8 @@ const LinkInfo = styled.div`
   img {
     height: 155px;
     width: 153px;
+
+    margin: auto 0;
   }
 
   div {
@@ -259,7 +267,7 @@ const LinkInfo = styled.div`
   }
 
   @media (max-width: 611px) {
-    height: 115px;
+    min-height: 115px;
     width: 100%;
 
     border: 1px solid #4d4d4d;
@@ -274,7 +282,7 @@ const LinkInfo = styled.div`
 
     div {
       p:first-child {
-        width: calc(100% -100px);
+        width: calc(100% - 5px);
 
         font-size: 11px;
 
@@ -282,13 +290,17 @@ const LinkInfo = styled.div`
       }
 
       p {
-        width: calc(100% -100px);
+        width: calc(100% - 5px);
 
         font-size: 9px;
 
         margin-top: 4px;
       }
       a {
+        display: block;
+        word-wrap: break-word;
+        word-break: break-all;
+        width: calc(100% - 5px);
         font-size: 9px;
 
         margin-top: 4px;
