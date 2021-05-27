@@ -54,12 +54,12 @@ export default function MyPosts() {
     };
 
     const req = axios.get(
-      "https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts",
+      `https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/users/${user.user.id}/posts`,
       config
     );
 
     req.then((r) => {
-      setPosts(r.data.posts.filter((p) => p.user.id === user.user.id));
+      setPosts(r.data.posts);
     });
 
     req.catch((r) => {
