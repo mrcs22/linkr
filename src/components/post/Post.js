@@ -41,7 +41,7 @@ export default function Post(props) {
       <div>
         <Name>{username}</Name>
 
-        <EditPost ownerId={userId} text={text} postText={postText} postId={postId}/>
+        <EditPost ownerId={userId} text={text} postText={postText} postId={postId} highlightHashtags={highlightHashtags}/>
 
         <LinkInfo>
           <div>

@@ -116,11 +116,13 @@ const ButtonContainer = styled.div`
     .back_button {
         color: #1877f2;
         background-color: #fff;
+        cursor: pointer;
     }
 
     .delete_button {
         color: #fff;
         background-color: #1877f2;
+        cursor: pointer;
     }
 
 `

@@ -4,24 +4,20 @@ import { useContext, useState, useCallback, useEffect } from "react"
 import UserContext from "../UserContext"
 import axios from "axios"
 
-export default function EditPost({ownerId, text, postText, postId}){
+export default function EditPost({ownerId, text, postText, postId, highlightHashtags}){
     const [isEditing, setIsEditing] = useState(false)
-    const [editedText, setEditedText] = useState("")
-    const [newText, setNewText] = useState(postText)
+    const [editedText, setEditedText] = useState(text)
+    const [newText, setNewText] = useState(text)
     const [isLoading, setIsLoading] = useState(false)
     const { user } = useContext(UserContext)
 
     const editPost = () => {
         setIsEditing(!isEditing)
-        if(editedText === ""){
-            setEditedText(text)
-        }
     }
 
     const escFunction = useCallback((event) => {
         if(event.keyCode === 27) {
           setIsEditing(false)
-          setEditedText("")
         }
       }, []);
     
@@ -60,7 +56,7 @@ export default function EditPost({ownerId, text, postText, postId}){
             <BsPencil className="edit_button" onClick={editPost}/>
             {isEditing ?
                 <form onSubmit={sendChanges}><StyledInput value={editedText} autoFocus={true} onChange={(e) => setEditedText(e.target.value)} disabled={isLoading}/></form> : 
-                <Text>{newText}</Text>
+                <Text>{highlightHashtags(newText)}</Text>
             }  
         </EditContainer>
     )
