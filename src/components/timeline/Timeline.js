@@ -5,7 +5,7 @@ import styled from "styled-components";
 import Container from "../Container";
 import Header from "../header/Header";
 import UserContext from "../UserContext";
-import NewPost from "./NewPost";
+import NewPost from "../post/NewPost";
 import Post from "../post/Post";
 import PuffLoader from "../Loader";
 

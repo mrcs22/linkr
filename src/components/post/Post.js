@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import DeletePost from "./DeletePost";
+import EditPost from "./EditPost"
 import PostLike from "./PostLike";
 
 export default function Post(props) {
@@ -34,11 +35,13 @@ export default function Post(props) {
           setIsPostLiked={setIsPostLiked}
         />
       </div>
-      <DeletePost ownerId={userId} postId={postId} getPosts={getPosts} />
+
+      <DeletePost ownerId={userId} postId={postId} getPosts={getPosts}/>
+
       <div>
         <Name>{username}</Name>
 
-        <Text>{postText}</Text>
+        <EditPost ownerId={userId} text={text} postText={postText} postId={postId}/>
 
         <LinkInfo>
           <div>
@@ -192,30 +195,6 @@ const Name = styled.p`
   @media (max-width: 611px) {
     font-size: 17px;
     margin-bottom: 7px;
-  }
-`;
-
-const Text = styled.div`
-  height: 44px;
-  width: 503px;
-  overflow: hidden;
-
-  font-family: "Lato";
-  font-size: 17px;
-  color: #b7b7b7;
-
-  background-color: inherit;
-
-  border: none;
-  border-radius: 7px;
-  margin-bottom: 5px;
-
-  @media (max-width: 611px) {
-    height: 53px;
-    width: 100%;
-
-    font-size: 15px;
-    margin-bottom: 13px;
   }
 `;
 
