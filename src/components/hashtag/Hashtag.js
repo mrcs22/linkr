@@ -24,7 +24,7 @@ export default function Hashtag() {
     );
 
     promise.then((answer) => {
-      setTags(answer.data);
+      setTags(answer.data.posts);
     });
   }, [hashtag, user]);
 
@@ -33,7 +33,7 @@ export default function Hashtag() {
       <Header avatar={user.user.avatar} />
 
       <Container>
-        <Text>#{Hashtag}</Text>
+        <Text># {hashtag}</Text>
 
         {tags === null ? (
           <PuffLoader />

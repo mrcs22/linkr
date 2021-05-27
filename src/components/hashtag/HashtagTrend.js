@@ -41,21 +41,27 @@ const TrendBox = styled.div`
   border-radius: 16px;
   background: #171717;
   color: #fff;
-  padding-left: 16px;
+
   font-weight: 700;
+  position: fixed;
+  left: calc(50vw + 150px);
+  top: 211px;
 
   @media (max-width: 600px) {
     display: none;
   }
 `;
 
+
+
 const Title = styled.div`
-  width: 300px;
-  border-bottom: 1px solid #484848;
+  width: 100%;
   font-family: "Oswald", sans-serif;
   text-align: left;
   font-size: 27px;
   line-height: 61px;
+  padding-left: 16px;
+  border-bottom: 1px solid #484848;
 `;
 
 const Trends = styled.div`
@@ -63,9 +69,13 @@ const Trends = styled.div`
   max-width: 100%;
   height: 293px;
   overflow: hidden;
+  padding-left: 16px;
+  margin-top: 22px;
+  
   h1 {
-    font-size: 19px;
-    line-height: 22.8px;
+    font-size: 20px;
+    line-height: 28px;
     letter-spacing: 0.05em;
+   
   }
 `;

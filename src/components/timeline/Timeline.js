@@ -8,6 +8,7 @@ import UserContext from "../UserContext";
 import NewPost from "./NewPost";
 import Post from "../post/Post";
 import PuffLoader from "../Loader";
+import HashtagTrend from "../hashtag/HashtagTrend"
 
 export default function Timeline() {
   const { user } = useContext(UserContext);
@@ -22,6 +23,7 @@ export default function Timeline() {
       <Header avatar={user.user.avatar} />
       <Container>
         <Text>timeline</Text>
+        <HashtagTrend></HashtagTrend>
         <NewPost getPosts={() => getPosts(user.token)} token={user.token} />
         {posts === null ? (
           <PuffLoader />
