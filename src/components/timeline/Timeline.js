@@ -43,6 +43,7 @@ export default function Timeline() {
               linkDescription={p.linkDescription}
               linkImage={p.linkImage}
               getPosts={getPosts}
+              likes={p.likes}
             />
           ))
         )}

@@ -17,6 +17,7 @@ export default function Post(props) {
     linkDescription,
     linkImage,
     getPosts,
+    likes
   } = props;
 
   const postText = highlightHashtags(text);
@@ -30,7 +31,8 @@ export default function Post(props) {
           <img src={avatar} alt={username} />
         </Link>
         <PostLike
-          likes="13"
+          postId={postId}
+          likesNumber={likes.length}
           isPostLiked={isPostLiked}
           setIsPostLiked={setIsPostLiked}
         />
