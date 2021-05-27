@@ -5,11 +5,11 @@ import styled from "styled-components";
 import Container from "../Container";
 import Header from "../header/Header";
 import UserContext from "../UserContext";
-import NewPost from "./NewPost";
+
 import Post from "../post/Post";
 import PuffLoader from "../Loader";
 
-export default function Timeline() {
+export default function MyPosts() {
   const { user } = useContext(UserContext);
   const [posts, setPosts] = useState(null);
 
@@ -21,8 +21,8 @@ export default function Timeline() {
     <>
       <Header avatar={user.user.avatar} />
       <Container>
-        <Text>timeline</Text>
-        <NewPost getPosts={() => getPosts(user.token)} token={user.token} />
+        <Text>my posts</Text>
+
         {posts === null ? (
           <PuffLoader />
         ) : posts.length === 0 ? (
@@ -31,7 +31,6 @@ export default function Timeline() {
           posts.map((p) => (
             <Post
               key={p.id}
-              postId={p.id}
               username={p.user.username}
               userId={p.user.id}
               avatar={p.user.avatar}
@@ -40,7 +39,6 @@ export default function Timeline() {
               linkTitle={p.linkTitle}
               linkDescription={p.linkDescription}
               linkImage={p.linkImage}
-              getPosts={getPosts}
             />
           ))
         )}
@@ -56,7 +54,7 @@ export default function Timeline() {
     };
 
     const req = axios.get(
-      "https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts",
+      `https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/users/${user.user.id}/posts`,
       config
     );
 

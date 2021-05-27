@@ -1,7 +1,7 @@
 import MainContainer from "./MainContainer";
 import PagePresentation from "./PagePresentation";
 import FormContainer from "./FormContainer";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useHistory } from "react-router-dom";
 import UserContext from "../UserContext";
@@ -13,10 +13,12 @@ export default function LogIn() {
   let history = useHistory();
   const { setUser } = useContext(UserContext);
 
-  if (localStorage.getItem("user")) {
-    setUser(JSON.parse(localStorage.getItem("user")));
-    history.push("/timeline");
-  }
+  useEffect(() => {
+    if (localStorage.getItem("user")) {
+      setUser(JSON.parse(localStorage.getItem("user")));
+      history.push("/timeline");
+    }
+  }, []);
 
   function login(e) {
     e.preventDefault();
