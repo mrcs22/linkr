@@ -8,6 +8,7 @@ import LikedPosts from "./components/likedPosts/LikedPosts";
 import GlobalStyle from "./styles/GlobalStyles";
 import UserContext from "./components/UserContext";
 import { useState } from "react";
+import Hashtag from "./components/hashtag/Hashtag";
 
 export default function App() {
   const [user, setUser] = useState(null);
@@ -23,7 +24,8 @@ export default function App() {
           <Route path="/timeline" exact component={Timeline}></Route>
           <Route path="/my-posts" exact component={MyPosts}></Route>
           <Route path="/my-likes" exact component={LikedPosts}></Route>
-          <Route path="/hashtags/:hashtag" exact></Route>
+          <Route path="/hashtags/:hashtag" exact component={Hashtag}></Route>
+
           <Route path="/user/:id" exact component={UserPosts}></Route>
         </UserContext.Provider>
       </Switch>
