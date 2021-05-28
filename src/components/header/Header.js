@@ -42,7 +42,7 @@ const StyledHeader = styled.div`
   background-color: #151515;
   color: #fff;
   padding: 0 30px;
-  z-index: 1;
+  z-index: 10;
 `;
 
 const Title = styled.h1`
