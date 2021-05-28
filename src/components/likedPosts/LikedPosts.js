@@ -39,6 +39,7 @@ export default function LikedPosts() {
               linkTitle={p.linkTitle}
               linkDescription={p.linkDescription}
               linkImage={p.linkImage}
+              likes={p.likes}
             />
           ))
         )}

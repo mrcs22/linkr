@@ -31,8 +31,8 @@ export default function Post(props) {
           <img src={avatar} alt={username} />
         </Link>
         <PostLike
+          likes={likes}
           postId={postId}
-          likesNumber={likes.length}
           isPostLiked={isPostLiked}
           setIsPostLiked={setIsPostLiked}
         />
