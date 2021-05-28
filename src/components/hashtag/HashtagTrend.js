@@ -26,7 +26,7 @@ export default function HashtagTrend() {
       <Title>trending</Title>
       <Trends>
         {trend.map((item) => (
-          <Link to={`/hashtags/${item.name}`}>
+          <Link to={`/hashtag/${item.name}`}>
             <h1>#{item.name}</h1>
           </Link>
         ))}
@@ -52,8 +52,6 @@ const TrendBox = styled.div`
   }
 `;
 
-
-
 const Title = styled.div`
   width: 100%;
   font-family: "Oswald", sans-serif;
@@ -71,11 +69,10 @@ const Trends = styled.div`
   overflow: hidden;
   padding-left: 16px;
   margin-top: 22px;
-  
+
   h1 {
     font-size: 20px;
     line-height: 28px;
     letter-spacing: 0.05em;
-   
   }
 `;
