@@ -2,6 +2,7 @@ import styled from "styled-components";
 import HeaderMenu from "./HeaderMenu";
 import DropdownMenu from "./DropdownMenu";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function Header({avatar}) {
   const [showDropdownMenu, setShowDropdownMenu] = useState(false);
@@ -13,7 +14,9 @@ export default function Header({avatar}) {
   return (
     <>
       <StyledHeader>
-        <Title>linkr</Title>
+        <Title>
+          <Link to="/timeline">linkr</Link>
+          </Title>
         <HeaderMenu
           avatar={avatar}
           showDropdownMenu={showDropdownMenu}
