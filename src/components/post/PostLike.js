@@ -53,7 +53,7 @@ export default function PostLike({ isPostLiked, setIsPostLiked, postId, likes}) 
         }
       } else {
         if(postLikes.length >= 3){
-          return `${postLikes[0]["user.username"]}, ${postLikes[1]["user.username"]} e ${postLikes.length - 1} pessoa${postLikes.length-1 > 1 ? "s" : ""}`
+          return `${postLikes[0]["user.username"]}, ${postLikes[1]["user.username"]} e ${postLikes.length - 2} pessoa${postLikes.length-1 > 1 ? "s" : ""}`
         } else if(postLikes.length === 2){
           return `${postLikes[0]["user.username"]} e ${postLikes[1]["user.username"]}`
         } else{

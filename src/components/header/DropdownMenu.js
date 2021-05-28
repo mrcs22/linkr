@@ -26,6 +26,7 @@ const MenuContainer = styled.div`
     background: transparent;
     width: 100%;
     height: 100vh;
+    z-index: 4;
 `
 
 const StyledMenu = styled.div`

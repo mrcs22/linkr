@@ -156,7 +156,7 @@ const Div = styled.div`
     min-width: 350px;
 
     padding: 9px 15px;
-
+    border-radius: 0px;
     margin-top: 16px;
 
     & > div:first-child {

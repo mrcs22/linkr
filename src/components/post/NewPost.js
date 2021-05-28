@@ -111,7 +111,7 @@ const Post = styled.div`
     min-height: 164px;
     width: 100%;
     min-width: 350px;
-
+    border-radius: 0px;
     padding: 10px 16px;
 
     div:first-child {
