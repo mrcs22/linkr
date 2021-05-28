@@ -41,6 +41,7 @@ export default function MyPosts() {
               linkDescription={p.linkDescription}
               linkImage={p.linkImage}
               getPosts={getPosts}
+              likes={p.likes}
             />
           ))
         )}
