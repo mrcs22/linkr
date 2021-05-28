@@ -45,6 +45,6 @@ const StyledMenu = styled.div`
     font-size: 17px;
 
     @media (max-width: 611px){
-        width: 27%;
+        width: 30%;
     }
 `

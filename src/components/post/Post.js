@@ -153,7 +153,7 @@ const Div = styled.div`
   @media (max-width: 611px) {
     min-height: 232px;
     width: 100%;
-    min-width: 350px;
+    min-width: 320px;
 
     padding: 9px 15px;
     border-radius: 0px;
