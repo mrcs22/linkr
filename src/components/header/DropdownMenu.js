@@ -26,6 +26,7 @@ const MenuContainer = styled.div`
     background: transparent;
     width: 100%;
     height: 100vh;
+    z-index: 4;
 `
 
 const StyledMenu = styled.div`
@@ -42,7 +43,6 @@ const StyledMenu = styled.div`
     color: #fff;
     font-family: "Lato";
     font-size: 17px;
-    z-index: 4;
 
     @media (max-width: 611px){
         width: 30%;
