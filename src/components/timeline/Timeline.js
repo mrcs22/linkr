@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
+import useInterval from "../../helpers/useInterval";
 
 import Container from "../Container";
 import Header from "../header/Header";
@@ -8,7 +9,7 @@ import UserContext from "../UserContext";
 import NewPost from "../post/NewPost";
 import Post from "../post/Post";
 import PuffLoader from "../Loader";
-import HashtagTrend from "../hashtag/HashtagTrend"
+import HashtagTrend from "../hashtag/HashtagTrend";
 
 export default function Timeline() {
   const { user } = useContext(UserContext);
