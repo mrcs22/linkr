@@ -19,6 +19,10 @@ export default function Timeline() {
     getPosts(user.token);
   }, [user.token]);
 
+  useInterval(() => {
+    getPosts(user.token);
+  }, 15000);
+
   return (
     <>
       <Header avatar={user.user.avatar} />
