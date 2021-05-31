@@ -31,6 +31,7 @@ export default function LikedPosts() {
           posts.map((p) => (
             <Post
               key={p.id}
+              postId={p.id}
               username={p.user.username}
               userId={p.user.id}
               avatar={p.user.avatar}
@@ -40,6 +41,7 @@ export default function LikedPosts() {
               linkDescription={p.linkDescription}
               linkImage={p.linkImage}
               likes={p.likes}
+              getPosts={getPosts}
             />
           ))
         )}
