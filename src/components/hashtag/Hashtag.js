@@ -52,6 +52,7 @@ export default function Hashtag() {
               linkTitle={p.linkTitle}
               linkDescription={p.linkDescription}
               linkImage={p.linkImage}
+              likes={p.likes}
             />
           ))
         )}

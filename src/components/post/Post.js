@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import DeletePost from "./DeletePost";
-import EditPost from "./EditPost"
+import EditPost from "./EditPost";
 import PostLike from "./PostLike";
 
 export default function Post(props) {
@@ -17,7 +17,7 @@ export default function Post(props) {
     linkDescription,
     linkImage,
     getPosts,
-    likes
+    likes,
   } = props;
 
   const postText = highlightHashtags(text);
@@ -38,12 +38,20 @@ export default function Post(props) {
         />
       </div>
 
-      <DeletePost ownerId={userId} postId={postId} getPosts={getPosts}/>
+      <DeletePost ownerId={userId} postId={postId} getPosts={getPosts} />
 
       <div>
-        <Name>{username}</Name>
+        <Link to={`/user/${userId}`}>
+          <Name>{username}</Name>
+        </Link>
 
-        <EditPost ownerId={userId} text={text} postText={postText} postId={postId} highlightHashtags={highlightHashtags}/>
+        <EditPost
+          ownerId={userId}
+          text={text}
+          postText={postText}
+          postId={postId}
+          highlightHashtags={highlightHashtags}
+        />
 
         <LinkInfo>
           <div>
