@@ -14,14 +14,52 @@ import HashtagTrend from "../hashtag/HashtagTrend";
 export default function Timeline() {
   const { user } = useContext(UserContext);
   const [posts, setPosts] = useState(null);
+  const [likedUsers, setLikedUsers] = useState(null)
 
   useEffect(() => {
     getPosts(user.token);
+    getLikedUsers(user.token)
   }, [user.token]);
 
   useInterval(() => {
     getPosts(user.token);
   }, 15000);
+
+  
+  function getPosts(token) {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const req = axios.get(
+      "https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/following/posts",
+      config
+    );
+
+    req.then((r) => {
+      setPosts(r.data.posts);
+    });
+
+    req.catch((r) => {
+      alert("Houve uma falha ao obter os posts, por favor atualize a página!");
+    });
+  }
+
+const getLikedUsers = (token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const request = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/users/follows", config)
+  request.then((res) => {
+    setLikedUsers(res.data.users)
+  })
+  request.catch((err) => {
+    alert("Houve uma falha ao obter os posts, por favor atualize a página!");
+  })
+}
 
   return (
     <>
@@ -32,8 +70,10 @@ export default function Timeline() {
         <NewPost getPosts={() => getPosts(user.token)} token={user.token} />
         {posts === null ? (
           <PuffLoader />
+        ) : likedUsers.length === 0 ? (
+          <Text noPosts>Você não segue ninguém ainda.</Text>
         ) : posts.length === 0 ? (
-          <Text noPosts>Nenhum Post encontrado</Text>
+          <Text noPosts>Nenhuma publicação encontrada</Text>
         ) : (
           posts.map((p) => (
             <Post
@@ -55,27 +95,6 @@ export default function Timeline() {
       </Container>
     </>
   );
-
-  function getPosts(token) {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
-
-    const req = axios.get(
-      "https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts",
-      config
-    );
-
-    req.then((r) => {
-      setPosts(r.data.posts);
-    });
-
-    req.catch((r) => {
-      alert("Houve uma falha ao obter os posts, por favor atualize a página!");
-    });
-  }
 }
 
 const Text = styled.p`
