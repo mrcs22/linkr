@@ -8,6 +8,7 @@ import UserContext from "../UserContext";
 
 import Post from "../post/Post";
 import PuffLoader from "../Loader";
+import HashtagTrend from "../hashtag/HashtagTrend";
 
 export default function MyPosts() {
   const { user } = useContext(UserContext);
@@ -22,7 +23,7 @@ export default function MyPosts() {
       <Header avatar={user.user.avatar} />
       <Container>
         <Text>my posts</Text>
-
+        <HashtagTrend />
         {posts === null ? (
           <PuffLoader />
         ) : posts.length === 0 ? (
