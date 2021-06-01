@@ -12,7 +12,9 @@ import Hashtag from "./components/hashtag/Hashtag";
 import PrivateRoute from "./components/PrivateRoute";
 
 export default function App() {
-  const [user, setUser] = useState(null);
+  const initialUserState =  (localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null)
+  
+  const [user, setUser] = useState(initialUserState);
 
   return (
     <BrowserRouter>

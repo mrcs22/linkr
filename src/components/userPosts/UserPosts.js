@@ -9,6 +9,8 @@ import UserContext from "../UserContext";
 import Post from "../post/Post";
 import PuffLoader from "../Loader";
 import { useParams } from "react-router";
+import FollowButton from "./FollowButton";
+import HashtagTrend from "../hashtag/HashtagTrend";
 
 export default function UserPosts() {
   const { user } = useContext(UserContext);
@@ -29,7 +31,8 @@ export default function UserPosts() {
             ? ""
             : ` ${selectedUserInfo.username}'s posts`}
         </Text>
-
+        <FollowButton/>
+        <HashtagTrend/>
         {posts === null ? (
           <PuffLoader />
         ) : posts.length === 0 ? (
