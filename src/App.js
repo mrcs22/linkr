@@ -9,6 +9,7 @@ import GlobalStyle from "./styles/GlobalStyles";
 import UserContext from "./components/UserContext";
 import { useState } from "react";
 import Hashtag from "./components/hashtag/Hashtag";
+import PrivateRoute from "./components/PrivateRoute";
 
 export default function App() {
   const [user, setUser] = useState(null);
@@ -21,11 +22,11 @@ export default function App() {
         <UserContext.Provider value={{ user, setUser }}>
           <Route path="/" exact component={LogIn}></Route>
           <Route path="/sign-up" exact component={SignUp}></Route>
-          <Route path="/timeline" exact component={Timeline}></Route>
-          <Route path="/my-posts" exact component={MyPosts}></Route>
-          <Route path="/my-likes" exact component={LikedPosts}></Route>
-          <Route path="/hashtag/:hashtag" exact component={Hashtag}></Route>
-          <Route path="/user/:id" exact component={UserPosts}></Route>
+          <PrivateRoute path={"/timeline"} component={Timeline}/>
+          <PrivateRoute path={"/my-posts"} component={MyPosts}/>
+          <PrivateRoute path={"/my-likes"} component={LikedPosts}/>
+          <PrivateRoute path={"/hashtags/:hashtag"} component={Hashtag}/>
+          <PrivateRoute path={"/user/:id"} component={UserPosts}/>
         </UserContext.Provider>
       </Switch>
     </BrowserRouter>

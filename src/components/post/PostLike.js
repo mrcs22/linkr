@@ -6,12 +6,12 @@ import ReactTooltip from 'react-tooltip'
 import UserContext from "../UserContext";
 
 
-const fixFabioMistake = (data) => {
+const padronizeApiResponse = (data) => {
   return {...data, "user.username": data.username || data["user.username"] || "", "user.id": data.userId || data["user.id"] || data.id}
 }
 
 export default function PostLike({ isPostLiked, setIsPostLiked, postId, likes}) {
-  const [postLikes, setPostLikes] = useState(likes.map(fixFabioMistake))
+  const [postLikes, setPostLikes] = useState(likes.map(padronizeApiResponse))
   const { user } = useContext(UserContext)
 
   const config = {
@@ -27,7 +27,7 @@ export default function PostLike({ isPostLiked, setIsPostLiked, postId, likes}) 
   function likePost() {
     const request = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts/${postId}/like`, {}, config)
     request.then((res) => {
-      setPostLikes(res.data.post.likes.map(fixFabioMistake))
+      setPostLikes(res.data.post.likes.map(padronizeApiResponse))
       setIsPostLiked(true);
     })
   }
@@ -35,7 +35,7 @@ export default function PostLike({ isPostLiked, setIsPostLiked, postId, likes}) 
   function unlikePost() {
     const request = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts/${postId}/dislike`, {}, config)
     request.then((res) => {
-      setPostLikes(res.data.post.likes.map(fixFabioMistake))
+      setPostLikes(res.data.post.likes.map(padronizeApiResponse))
       setIsPostLiked(false);
     })
   }
