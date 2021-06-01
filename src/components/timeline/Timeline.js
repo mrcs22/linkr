@@ -68,7 +68,7 @@ const getLikedUsers = (token) => {
         <Text>timeline</Text>
         <HashtagTrend></HashtagTrend>
         <NewPost getPosts={() => getPosts(user.token)} token={user.token} />
-        {posts === null ? (
+        {posts === null || likedUsers === null ? (
           <PuffLoader />
         ) : likedUsers.length === 0 ? (
           <Text noPosts>Você não segue ninguém ainda.</Text>
