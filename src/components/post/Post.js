@@ -5,6 +5,8 @@ import DeletePost from "./DeletePost";
 import EditPost from "./EditPost";
 import LinkInfo from "./LinkInfo";
 import PostLike from "./PostLike";
+import YoutubePlayer from "./YoutubePlayer";
+import getYoutubeId from "get-youtube-id";
 
 export default function Post(props) {
   const {
@@ -20,6 +22,8 @@ export default function Post(props) {
     getPosts,
     likes,
   } = props;
+
+  const youtubeId = link.includes("youtube") ? getYoutubeId(link) : null;
 
   const postText = highlightHashtags(text);
 
@@ -54,13 +58,20 @@ export default function Post(props) {
           highlightHashtags={highlightHashtags}
         />
 
-        <LinkInfo
-          linkTitle={linkTitle}
-          linkDescription={linkDescription}
-          link={link}
-          linkImage={linkImage}
-          linkTitle={linkTitle}
-        />
+        {youtubeId !== null ? (
+          <YoutubePlayer
+            linkTitle={linkTitle}
+            link={link}
+            youtubeId={youtubeId}
+          />
+        ) : (
+          <LinkInfo
+            linkTitle={linkTitle}
+            linkDescription={linkDescription}
+            link={link}
+            linkImage={linkImage}
+          />
+        )}
       </div>
     </Div>
   );
@@ -152,6 +163,10 @@ const Div = styled.div`
       word-break: break-all;
       word-wrap: break-word;
     }
+  }
+
+  & > div:last-child {
+    width: 502px;
   }
 
   @media (max-width: 611px) {
