@@ -19,6 +19,7 @@ const Div = styled.div`
 `;
 
 const Content = styled.div`
+  position: relative;
   width: 937px;
 
   margin: 0 auto;
