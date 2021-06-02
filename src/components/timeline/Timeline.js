@@ -61,6 +61,8 @@ const getLikedUsers = (token) => {
   })
 }
 
+console.log(posts);
+
   return (
     <>
       <Header avatar={user.user.avatar} />
@@ -89,6 +91,9 @@ const getLikedUsers = (token) => {
               linkImage={p.linkImage}
               getPosts={getPosts}
               likes={p.likes}
+              comments={p.commentCount}
+              likedUsers={likedUsers}
+              user={user}
             />
           ))
         )}

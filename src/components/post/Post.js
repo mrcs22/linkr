@@ -5,8 +5,12 @@ import DeletePost from "./DeletePost";
 import EditPost from "./EditPost";
 import LinkInfo from "./LinkInfo";
 import PostLike from "./PostLike";
+import PostComment from "./PostComment";
 import YoutubePlayer from "./YoutubePlayer";
 import getYoutubeId from "get-youtube-id";
+import { FiSend } from "react-icons/fi";
+import axios from "axios";
+// import InputAdornment from '@material-ui/core/InputAdornment';
 
 export default function Post(props) {
   const {
@@ -21,6 +25,9 @@ export default function Post(props) {
     linkImage,
     getPosts,
     likes,
+    comments,
+    likedUsers,
+    user
   } = props;
 
   const youtubeId = link.includes("youtube") ? getYoutubeId(link) : null;
@@ -29,51 +36,101 @@ export default function Post(props) {
 
   const [isPostLiked, setIsPostLiked] = useState(false);
 
+  const [keyword, setKeyword] = useState("");
+  
+  const [notes, setNotes] = useState("");
+
+  const [visibility, setVisibility] = useState(false);
+
   return (
-    <Div>
-      <div>
-        <Link to={`/user/${userId}`}>
-          <img src={avatar} alt={username} />
-        </Link>
-        <PostLike
-          likes={likes}
-          postId={postId}
-          isPostLiked={isPostLiked}
-          setIsPostLiked={setIsPostLiked}
-        />
-      </div>
-
-      <DeletePost ownerId={userId} postId={postId} getPosts={getPosts} />
-
-      <div>
-        <Link to={`/user/${userId}`}>
-          <Name>{username}</Name>
-        </Link>
-
-        <EditPost
-          ownerId={userId}
-          text={text}
-          postText={postText}
-          postId={postId}
-          highlightHashtags={highlightHashtags}
-        />
-
-        {youtubeId !== null ? (
-          <YoutubePlayer
-            linkTitle={linkTitle}
-            link={link}
-            youtubeId={youtubeId}
+    <div>
+      <Div>
+        <div>
+          <Link to={`/user/${userId}`}>
+            <img src={avatar} alt={username} />
+          </Link>
+          <PostLike
+            likes={likes}
+            postId={postId}
+            isPostLiked={isPostLiked}
+            setIsPostLiked={setIsPostLiked}
           />
+          <PostComment 
+            postId={postId} 
+            comments={comments}
+            visibility={visibility}
+            setVisibility={setVisibility}
+          />
+        </div>
+
+        <DeletePost ownerId={userId} postId={postId} getPosts={getPosts} />
+
+        <div>
+          <Link to={`/user/${userId}`}>
+            <Name>{username}</Name>
+          </Link>
+
+          <EditPost
+            ownerId={userId}
+            text={text}
+            postText={postText}
+            postId={postId}
+            highlightHashtags={highlightHashtags}
+          />
+
+          {youtubeId !== null ? (
+            <YoutubePlayer
+              linkTitle={linkTitle}
+              link={link}
+              youtubeId={youtubeId}
+            />
+          ) : (
+            <LinkInfo
+              linkTitle={linkTitle}
+              linkDescription={linkDescription}
+              link={link}
+              linkImage={linkImage}
+            />
+          )}
+        </div>
+      </Div>
+
+      {visibility === false ? "": (
+      <Comments>
+        {notes.length === 0 ? (
+          <Note>
+            <h3>Nenhum comentário ainda</h3>
+          </Note>
         ) : (
-          <LinkInfo
-            linkTitle={linkTitle}
-            linkDescription={linkDescription}
-            link={link}
-            linkImage={linkImage}
-          />
+          notes.map((item) => (
+            <Note>
+              <img src={item.user.avatar} alt={item.user.username} />
+              <h1>#{item.user.username}</h1>
+              <h2>
+                {item.user.username === username
+                  ? "• post’s author"
+                  : likedUsers.includes(item.user.username)
+                  ? "• following"
+                  : ""}
+              </h2>
+            </Note>
+          ))
         )}
-      </div>
-    </Div>
+
+        <CommentBar>
+          <img src={user.user.avatar} alt={username} />
+          <form onSubmit={postComment}>
+            <input
+              type="text"
+              placeholder="write a comment"
+              value={keyword}
+              onChange={(e) => setKeyword(e.target.value)}
+            />
+          </form>
+        </CommentBar>
+      </Comments>
+      )}
+    </div>
   );
 
   function highlightHashtags(text) {
@@ -92,7 +149,95 @@ export default function Post(props) {
 
     return newText;
   }
+
+  function postComment() {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    };
+
+    const body = keyword;
+
+    const req = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts/${postId}/comments`,config, body);
+
+    req.then((r) => {
+      setNotes(r.data.comments);
+    });
+
+    req.catch((r) => {
+      console.log(r);
+    });
+  }
 }
+const Comments = styled.div`
+  width: 611px;
+  background: #1e1e1e;
+  border-radius: 16px;
+  padding-top: 76px;
+  padding-bottom: 25px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-bottom: 15px;
+  margin-top: -63px;
+  display: flex;
+  flex-direction: column;
+`;
+const Note = styled.div`
+  width: 571px;
+  height: 71px;
+  border-bottom: 1px solid #353535;
+  display: flex;
+  justify-content: left;
+  align-itens: center;
+  font-size: 14px;
+  h1 {
+    color: #f3f3f3;
+    font-weight: 700;
+  }
+  h2 {
+    color: #565656;
+    font-weight: 400;
+  }
+  h3 {
+    display: flex;
+    margin: 0 auto;
+    color: #f3f3f3;
+    font-weight: 700;
+    line-height: 71px;
+    text-align: center;
+  }
+  img {
+    width: 39px;
+    height: 39px;
+    border-radius: 50%;
+    margin-right: 13px;
+  }
+`;
+const CommentBar = styled.div`
+  display: flex;
+  height: 39px;
+  margin-top: 13px;
+
+  img {
+    width: 39px;
+    height: 39px;
+    border-radius: 50%;
+    margin-right: 13px;
+  }
+  input {
+    font-family: "Lato";
+    font-style: italic;
+    width: 510px;
+    border: none;
+    height: 39px;
+    padding-left: 13px;
+    border-radius: 8px;
+    background: #252525;
+    color: #575757;
+    font-size: 16px;
+  }
+`;
 
 const Div = styled.div`
   display: flex;
@@ -106,15 +251,16 @@ const Div = styled.div`
 
   border-radius: 16px;
 
-  padding: 16px 18px;
+  padding: 16px 11px;
 
   margin-top: 29px;
 
   & > div:first-child {
     display: flex;
-    width: 50px;
+    width: 60px;
     flex-direction: column;
     align-items: center;
+    margin-right: 9px;
 
     img {
       width: 50px;
@@ -137,7 +283,8 @@ const Div = styled.div`
     }
 
     p {
-      width: 50px;
+      width: 60px;
+      margin-bottom: 19px;
 
       font-family: "Lato";
       font-size: 11px;

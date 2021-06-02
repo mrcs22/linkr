@@ -85,7 +85,7 @@ const Trends = styled.div`
   height: 293px;  
   padding-left: 16px;
   padding-right: 16px;
-  margin-top: 15px;
+  margin-top: 10px;
 
   h1 {
     font-size: 20px;
@@ -108,7 +108,8 @@ const HashtagSearch = styled.div`
     height: 35px;
     padding-left: 13px;    
     margin-right: 16px;
-    margin-top: 14px;
+    margin-top: 10px;
+    margin-bottom: 15px;
     border-radius: 8px;
     background: #252525;
     color: #575757;     
