@@ -3,27 +3,35 @@ import { DebounceInput } from "react-debounce-input"
 import { useContext, useState } from "react"
 import axios from "axios"
 import UserContext from "../UserContext"
+import { Link } from "react-router-dom"
 
 export default function SearchBar({followedUsers}){
-    const [searchedUser, setSearchedUser] = useState("")
+    const [results, setResults] = useState(null)
+    const [isLoading, setIsLoading] = useState(false)
     const { user } = useContext(UserContext)
-    console.log(followedUsers)
-    const search = () => {
+
+    const search = (searchName) => {
+        if(searchName === ""){
+            setResults(null)
+            return
+        }
+        setIsLoading(true)
         const config = {
             headers: {
               Authorization: `Bearer ${user.token}`,
             },
             params: {
-                username: `${searchedUser}`
+                username: `${searchName}`
             }
         };
         const request = axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/users/search`, config)
         request.then((res) => {
-            console.log(res.data)
+            setResults(res.data.users)
+            setIsLoading(false)
         })
         request.catch((err) => {
-            console.log(err.response.data)
             alert("Houve um erro ao pesquisar pelo usuário, tente novamente.")
+            setIsLoading(false)
         })
     }
 
@@ -34,12 +42,27 @@ export default function SearchBar({followedUsers}){
                 debounceTimeout={300}
                 type="search"
                 placeholder="Search for people and friends"
-                onChange={(event) => {
-                    setSearchedUser(event.target.value)
-                    search()
+                onChange={(event) => { 
+                    search(event.target.value)
                 }}
             /> 
-            <StyledResult></StyledResult>
+            <ResultContainer hasResult={results}>
+                <Ul>
+                    {isLoading && <Li>Loading...</Li>}
+                    {results &&
+                        !isLoading &&
+                        results.map((result) => (
+                            <Li key={result.id}>
+                                <Link to={`/user/${result.id}`} className="link">
+                                    <img src={result.avatar}/>
+                                    <Name>{result.username}</Name>
+                                    {followedUsers.find((user) => user.id === result.id) && 
+                                        <FollowTag>• following</FollowTag>}
+                                </Link>
+                            </Li>
+                        ))}
+                </Ul>
+            </ResultContainer>
         </StyledSearchBar>
     )
 }
@@ -47,7 +70,8 @@ export default function SearchBar({followedUsers}){
 const StyledSearchBar = styled.div`
     position: relative;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
     background-color: #fff;
     width: 563px;
@@ -70,14 +94,56 @@ const StyledSearchBar = styled.div`
     }
 `
 
-const StyledResult = styled.div`
-
+const ResultContainer = styled.div`
+    display: ${props => props.hasResult ? "flex" : "none"};
     position: absolute;
     z-index: -1;
     top: 35px;
     left: 0;
     width: 100%;
-    height: 150px;
+    height: 250px;
+    padding-top: 5px;
     background-color: #e7e7e7;
     border-radius: 0 0 5px 5px;
+    overflow: scroll;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+
+    img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+    }
+`
+
+const Ul = styled.ul`
+`
+
+const Li = styled.li`
+    display: flex;
+    align-items: center;
+    margin: 20px;
+
+    .link {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+    }
+`
+
+const Name = styled.p`
+    font-family: "Lato";
+    font-size: 19px;
+    color: #515151;
+    margin: 0 12px;
+
+`
+
+const FollowTag = styled.span`
+    font-family: "Lato";
+    font-size: 19px;
+    color: #c5c5c5;
 `
