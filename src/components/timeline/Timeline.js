@@ -15,13 +15,14 @@ import HashtagTrend from "../hashtag/HashtagTrend";
 export default function Timeline() {
   const { user } = useContext(UserContext);
   const [posts, setPosts] = useState(null);
-  const [likedUsers, setLikedUsers] = useState(null);
+
+  const [followedUsers, setFollowedUsers] = useState(null)
   const [hasMore, setHasMore] = useState(true);
   const olderLoadedPostId = posts === null ? null : posts[posts.length - 1].id;
 
   useEffect(() => {
     getPosts(user.token);
-    getLikedUsers(user.token);
+    getFollowedUsers(user.token)
   }, [user.token]);
 
   useInterval(() => {
@@ -58,6 +59,21 @@ export default function Timeline() {
     });
   }
 
+const getFollowedUsers = (token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const request = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/users/follows", config)
+  request.then((res) => {
+    setFollowedUsers(res.data.users)
+  })
+  request.catch((err) => {
+    alert("Houve uma falha ao obter os posts, por favor atualize a página!");
+  })
+}
+
   function checkForPostsUpdate(receivedPosts) {
     if (posts === null) {
       setPosts(receivedPosts);
@@ -82,34 +98,16 @@ export default function Timeline() {
     }
   }
 
-  const getLikedUsers = (token) => {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
-    const request = axios.get(
-      "https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/users/follows",
-      config
-    );
-    request.then((res) => {
-      setLikedUsers(res.data.users);
-    });
-    request.catch((err) => {
-      alert("Houve uma falha ao obter os posts, por favor atualize a página!");
-    });
-  };
-
   return (
     <>
-      <Header avatar={user.user.avatar} />
+      <Header avatar={user.user.avatar} followedUsers={followedUsers}/>
       <Container>
         <Text>timeline</Text>
         <HashtagTrend></HashtagTrend>
         <NewPost getPosts={() => getPosts(user.token)} token={user.token} />
-        {posts === null ? (
+        {posts === null || followedUsers === null ? (
           <PuffLoader />
-        ) : likedUsers.length === 0 ? (
+        ) : followedUsers.length === 0 ? (
           <Text noPosts>Você não segue ninguém ainda.</Text>
         ) : posts.length === 0 ? (
           <Text noPosts>Nenhuma publicação encontrada</Text>

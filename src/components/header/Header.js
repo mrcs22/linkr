@@ -3,8 +3,9 @@ import HeaderMenu from "./HeaderMenu";
 import DropdownMenu from "./DropdownMenu";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import SearchBar from "./SearchBar";
 
-export default function Header({avatar}) {
+export default function Header({avatar, followedUsers}) {
   const [showDropdownMenu, setShowDropdownMenu] = useState(false);
 
   const showDropdown = () => {
@@ -17,6 +18,7 @@ export default function Header({avatar}) {
         <Title>
           <Link to="/timeline">linkr</Link>
           </Title>
+          <SearchBar followedUsers={followedUsers}/>
         <HeaderMenu
           avatar={avatar}
           showDropdownMenu={showDropdownMenu}
