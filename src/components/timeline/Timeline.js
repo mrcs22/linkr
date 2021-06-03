@@ -61,8 +61,6 @@ const getLikedUsers = (token) => {
   })
 }
 
-console.log(posts);
-
   return (
     <>
       <Header avatar={user.user.avatar} />

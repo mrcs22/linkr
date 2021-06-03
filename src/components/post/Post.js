@@ -10,7 +10,6 @@ import YoutubePlayer from "./YoutubePlayer";
 import getYoutubeId from "get-youtube-id";
 import { FiSend } from "react-icons/fi";
 import axios from "axios";
-// import InputAdornment from '@material-ui/core/InputAdornment';
 
 export default function Post(props) {
   const {
@@ -27,21 +26,17 @@ export default function Post(props) {
     likes,
     comments,
     likedUsers,
-    user
+    user,
   } = props;
 
   const youtubeId = link.includes("youtube") ? getYoutubeId(link) : null;
-
   const postText = highlightHashtags(text);
-
   const [isPostLiked, setIsPostLiked] = useState(false);
-
   const [keyword, setKeyword] = useState("");
-  
-  const [notes, setNotes] = useState("");
-
+  const [notes, setNotes] = useState([]);
   const [visibility, setVisibility] = useState(false);
 
+  
   return (
     <div>
       <Div>
@@ -55,11 +50,13 @@ export default function Post(props) {
             isPostLiked={isPostLiked}
             setIsPostLiked={setIsPostLiked}
           />
-          <PostComment 
-            postId={postId} 
+          <PostComment
+            postId={postId}
             comments={comments}
             visibility={visibility}
             setVisibility={setVisibility}
+            setNotes={setNotes}
+            getComments={getComments}
           />
         </div>
 
@@ -95,40 +92,48 @@ export default function Post(props) {
         </div>
       </Div>
 
-      {visibility === false ? "": (
-      <Comments>
-        {notes.length === 0 ? (
-          <Note>
-            <h3>Nenhum comentário ainda</h3>
-          </Note>
-        ) : (
-          notes.map((item) => (
+      {visibility === false ? (
+        ""
+      ) : (
+        <Comments>
+          {notes.length === 0 ? (
             <Note>
-              <img src={item.user.avatar} alt={item.user.username} />
-              <h1>#{item.user.username}</h1>
-              <h2>
-                {item.user.username === username
-                  ? "• post’s author"
-                  : likedUsers.includes(item.user.username)
-                  ? "• following"
-                  : ""}
-              </h2>
+              <h3>Nenhum comentário ainda</h3>
             </Note>
-          ))
-        )}
+          ) : (
+            notes.map((item) => (
+              <Note>
+                <img src={item.user.avatar} alt={item.user.username} />
+                <div className="texts">
+                  <div>
+                    <h1>{item.user.username}</h1>
+                    <h2>
+                      {item.user.username === username
+                        ? "• post’s author"
+                        : likedUsers.includes(item.user.username)
+                        ? "• following"
+                        : ""}
+                    </h2>
+                  </div>
+                  <h4>{item.text}</h4>
+                </div>
+              </Note>
+            ))
+          )}
 
-        <CommentBar>
-          <img src={user.user.avatar} alt={username} />
-          <form onSubmit={postComment}>
-            <input
-              type="text"
-              placeholder="write a comment"
-              value={keyword}
-              onChange={(e) => setKeyword(e.target.value)}
-            />
-          </form>
-        </CommentBar>
-      </Comments>
+          <CommentBar>
+            <img src={user.user.avatar} alt={username} />
+            <form onSubmit={postComment}>
+              <input
+                type="text"
+                placeholder="write a comment"
+                value={keyword}
+                onChange={(e) => setKeyword(e.target.value)}
+              />
+              <SendIcon />
+            </form>
+          </CommentBar>
+        </Comments>
       )}
     </div>
   );
@@ -150,23 +155,55 @@ export default function Post(props) {
     return newText;
   }
 
-  function postComment() {
+  function postComment(e) {
+    
+
+    e.preventDefault();
+    
+
     const config = {
       headers: {
         Authorization: `Bearer ${user.token}`,
       },
     };
 
-    const body = keyword;
+    const body = { text: keyword };
 
-    const req = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts/${postId}/comments`,config, body);
+    const req = axios.post(
+      `https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts/${postId}/comment`,
+      body,
+      config
+    );
 
     req.then((r) => {
-      setNotes(r.data.comments);
+      getComments();
+      setKeyword("");
     });
 
     req.catch((r) => {
-      console.log(r);
+      alert("Houve um erro ao enviar o comentário");
+    });
+  }
+
+  function getComments() {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    };
+
+    const req = axios.get(
+      `https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts/${postId}/comments`,
+      config
+    );
+
+    req.then((r) => {
+      setNotes(r.data.comments);
+
+    });
+
+    req.catch((r) => {
+      alert("Não foi possivel carregar os comentários, tente novamente");
     });
   }
 }
@@ -188,12 +225,14 @@ const Note = styled.div`
   height: 71px;
   border-bottom: 1px solid #353535;
   display: flex;
+
   justify-content: left;
   align-itens: center;
   font-size: 14px;
   h1 {
     color: #f3f3f3;
     font-weight: 700;
+    margin-right: 10px;
   }
   h2 {
     color: #565656;
@@ -207,9 +246,22 @@ const Note = styled.div`
     line-height: 71px;
     text-align: center;
   }
+  h4 {
+    color: #acacac;
+    font-size: 14px;
+    font-weight: 400;
+    width: 450px;
+    margin-top: 4px;
+  }
+  .texts {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
   img {
     width: 39px;
     height: 39px;
+    margin-top: 16px;
     border-radius: 50%;
     margin-right: 13px;
   }
@@ -218,6 +270,7 @@ const CommentBar = styled.div`
   display: flex;
   height: 39px;
   margin-top: 13px;
+  position: relative;
 
   img {
     width: 39px;
@@ -228,7 +281,7 @@ const CommentBar = styled.div`
   input {
     font-family: "Lato";
     font-style: italic;
-    width: 510px;
+    width: 520px;
     border: none;
     height: 39px;
     padding-left: 13px;
@@ -236,7 +289,17 @@ const CommentBar = styled.div`
     background: #252525;
     color: #575757;
     font-size: 16px;
+    position: relative;
   }
+`;
+
+const SendIcon = styled(FiSend)`
+  position: absolute;
+  width: 14px;
+  height: 15px;
+  right: 10px;
+  bottom: 12px;
+  color: #f3f3f3;
 `;
 
 const Div = styled.div`
