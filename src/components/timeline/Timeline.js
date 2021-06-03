@@ -1,8 +1,8 @@
 import axios from "axios";
 import { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
+import InfiniteScroll from "react-infinite-scroller";
 import useInterval from "../../helpers/useInterval";
-
 import Container from "../Container";
 import Header from "../header/Header";
 import UserContext from "../UserContext";
@@ -16,6 +16,8 @@ export default function Timeline() {
   const { user } = useContext(UserContext);
   const { followedUsers, setFollowedUsers} = useContext(FollowedContext)
   const [posts, setPosts] = useState(null);
+  const [hasMore, setHasMore] = useState(true);
+  const olderLoadedPostId = posts === null ? null : posts[posts.length - 1].id;
 
   useEffect(() => {
     getPosts(user.token);
@@ -26,20 +28,29 @@ export default function Timeline() {
     getPosts(user.token);
   }, 15000);
 
-  
-  function getPosts(token) {
+  function getPosts(token, older) {
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     };
-    const req = axios.get(
-      "https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/following/posts",
-      config
-    );
+
+    const url = `https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/following/posts${
+      older ? `?olderThan=${older}` : ""
+    }`;
+
+    const req = axios.get(url, config);
 
     req.then((r) => {
-      setPosts(r.data.posts);
+      if (older) {
+        if (r.data.posts.length === 0) {
+          setHasMore(false);
+          return;
+        }
+        setPosts([...posts, ...r.data.posts]);
+      } else {
+        checkForPostsUpdate(r.data.posts);
+      }
     });
 
     req.catch((r) => {
@@ -62,6 +73,30 @@ const getFollowedUsers = (token) => {
   })
 }
 
+  function checkForPostsUpdate(receivedPosts) {
+    if (posts === null) {
+      setPosts(receivedPosts);
+    } else {
+      const newPosts = [];
+
+      receivedPosts.forEach((rp) => {
+        let doPush = true;
+
+        posts.forEach((p) => {
+          if (p.id === rp.id) {
+            doPush = false;
+          }
+        });
+
+        if (doPush) {
+          newPosts.push(rp);
+        }
+      });
+
+      setPosts([...newPosts, ...posts]);
+    }
+  }
+
   return (
     <>
       <Header avatar={user.user.avatar} followedUsers={followedUsers}/>
@@ -76,22 +111,29 @@ const getFollowedUsers = (token) => {
         ) : posts.length === 0 ? (
           <Text noPosts>Nenhuma publicação encontrada</Text>
         ) : (
-          posts.map((p) => (
-            <Post
-              key={p.id}
-              postId={p.id}
-              username={p.user.username}
-              userId={p.user.id}
-              avatar={p.user.avatar}
-              text={p.text}
-              link={p.link}
-              linkTitle={p.linkTitle}
-              linkDescription={p.linkDescription}
-              linkImage={p.linkImage}
-              getPosts={getPosts}
-              likes={p.likes}
-            />
-          ))
+          <InfiniteScroll
+            pageStart={0}
+            loadMore={() => getPosts(user.token, olderLoadedPostId)}
+            hasMore={hasMore}
+            loader={<PuffLoader />}
+          >
+            {posts.map((p) => (
+              <Post
+                key={p.id}
+                postId={p.id}
+                username={p.user.username}
+                userId={p.user.id}
+                avatar={p.user.avatar}
+                text={p.text}
+                link={p.link}
+                linkTitle={p.linkTitle}
+                linkDescription={p.linkDescription}
+                linkImage={p.linkImage}
+                getPosts={getPosts}
+                likes={p.likes}
+              />
+            ))}
+          </InfiniteScroll>
         )}
       </Container>
     </>
