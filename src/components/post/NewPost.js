@@ -3,7 +3,7 @@ import { useState, useContext } from "react";
 import styled from "styled-components";
 import { IoLocationOutline } from "react-icons/io5";
 
-import {IoMdPin} from "react-icons/io";
+import { IoMdPin } from "react-icons/io";
 
 import UserContext from "../UserContext";
 
@@ -12,7 +12,7 @@ export default function NewPost({ getPosts, token }) {
   const [text, setText] = useState("");
   const [link, setLink] = useState("");
   const [isSavingPost, setIsSavingPost] = useState(false);
-  const [locationCondition, setLocationcondition] = useState(false);
+  const [coordinates, setCoordinates] = useState(null);
 
   return (
     <Post>
@@ -38,7 +38,14 @@ export default function NewPost({ getPosts, token }) {
             placeholder="Muito irado esse link falando de #javascript"
           />
           <Footer>
-            <locationIcon><h1>{locationCondition ? "Localização ativada" : "Localização desativada"}</h1></locationIcon>
+            <div onClick={getLocation}>
+              <LocationIcon />
+              <h1>
+                {coordinates !== null
+                  ? "Localização ativada"
+                  : "Localização desativada"}
+              </h1>
+            </div>
             <Button
               disabled={isSavingPost}
               type="submit"
@@ -65,6 +72,10 @@ export default function NewPost({ getPosts, token }) {
       {
         text,
         link,
+        geolocation:{
+          latitude: coordinates.latitude,
+          longitude: coordinates.longitude
+        }
       },
       config
     );
@@ -85,6 +96,21 @@ export default function NewPost({ getPosts, token }) {
     setLink("");
     setText("");
   }
+
+  function getLocation(){
+
+  if(!'geolocation' in navigator){
+    return alert("Navegador não tem suporte para localização");
+  } 
+  var permission = window.confirm("Permite acesso à sua atual localização?");
+  if(permission){
+    navigator.geolocation.getCurrentPosition((p) =>{
+      setCoordinates(p.coords);  
+    });
+  }
+}
+
+
 }
 
 const Post = styled.div`
@@ -153,15 +179,30 @@ const StyledForm = styled.form`
 `;
 const Footer = styled.div`
   width: 503px;
+  font-family: "Lato";
   height: 31px;
   display: flex;
   justify-content: space-between;
-
+  align-itens: center;
+  line-height: 31px;
+  h1{
+    color: #949494;
+    font-weight: 300;
+    font-size: 13px;
+  }
+  div{
+    display:flex;
+    width: 150px;
+    justify-content: left; 
+    line-height: 18px;
+  }
 `;
 
-const locationIcon = styled(IoLocationOutline)`
-color:blue;
-
+const LocationIcon = styled(IoLocationOutline)`
+  width: 13px;
+  height: 15px;
+  margin-right: 5px;
+  color: #949494;
 `;
 const Input = styled.input`
   width: 503px;
