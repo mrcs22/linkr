@@ -1,6 +1,9 @@
 import axios from "axios";
 import { useState, useContext } from "react";
 import styled from "styled-components";
+import { IoLocationOutline } from "react-icons/io5";
+
+import {IoMdPin} from "react-icons/io";
 
 import UserContext from "../UserContext";
 
@@ -9,6 +12,7 @@ export default function NewPost({ getPosts, token }) {
   const [text, setText] = useState("");
   const [link, setLink] = useState("");
   const [isSavingPost, setIsSavingPost] = useState(false);
+  const [locationCondition, setLocationcondition] = useState(false);
 
   return (
     <Post>
@@ -33,11 +37,14 @@ export default function NewPost({ getPosts, token }) {
             onChange={(e) => setText(e.target.value)}
             placeholder="Muito irado esse link falando de #javascript"
           />
-          <Button
-            disabled={isSavingPost}
-            type="submit"
-            value={isSavingPost ? "Publicando..." : "Publicar"}
-          />
+          <Footer>
+            <locationIcon><h1>{locationCondition ? "Localização ativada" : "Localização desativada"}</h1></locationIcon>
+            <Button
+              disabled={isSavingPost}
+              type="submit"
+              value={isSavingPost ? "Publicando..." : "Publicar"}
+            />
+          </Footer>
         </StyledForm>
       </div>
     </Post>
@@ -144,7 +151,18 @@ const StyledForm = styled.form`
   flex-direction: column;
   align-items: flex-end;
 `;
+const Footer = styled.div`
+  width: 503px;
+  height: 31px;
+  display: flex;
+  justify-content: space-between;
 
+`;
+
+const locationIcon = styled(IoLocationOutline)`
+color:blue;
+
+`;
 const Input = styled.input`
   width: 503px;
   height: 30px;
