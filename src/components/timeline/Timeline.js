@@ -10,11 +10,12 @@ import NewPost from "../post/NewPost";
 import Post from "../post/Post";
 import PuffLoader from "../Loader";
 import HashtagTrend from "../hashtag/HashtagTrend";
+import FollowedContext from "../FollowedContext";
 
 export default function Timeline() {
   const { user } = useContext(UserContext);
+  const { followedUsers, setFollowedUsers} = useContext(FollowedContext)
   const [posts, setPosts] = useState(null);
-  const [followedUsers, setFollowedUsers] = useState(null)
 
   useEffect(() => {
     getPosts(user.token);
