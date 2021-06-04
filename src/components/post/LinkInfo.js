@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export default function LinkInfo(props) {
-  const { linkTitle, linkDescription, link, linkImage } = props;
+  const { linkTitle, linkDescription, link, linkImage, setShowModal } = props;
 
   return (
     <Content>
@@ -10,7 +10,7 @@ export default function LinkInfo(props) {
 
         <p>{linkDescription}</p>
 
-        <a href={link} target="_blank" rel="noreferrer">
+        <a onClick={() => setShowModal(true)} rel="noreferrer">
           {link}
         </a>
       </div>
