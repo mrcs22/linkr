@@ -13,6 +13,9 @@ import axios from "axios";
 import UserContext from "../UserContext";
 import PostComment from "./PostComment";
 import { FiSend } from "react-icons/fi";
+import MapContainer from "./MapContainer";
+import { IoMdPin } from "react-icons/io";
+
 export default function Post(props) {
   const {
     postId,
@@ -28,6 +31,7 @@ export default function Post(props) {
     likes,
     reposts,
     followedUsers,
+    geolocation,
     repostUser,
     comments    
   } = props;
@@ -86,9 +90,18 @@ export default function Post(props) {
       <DeletePost ownerId={userId} postId={postId} getPosts={getPosts} />
 
       <div>
-        <Link to={`/user/${userId}`}>
-          <Name>{username}</Name>
-        </Link>
+      <UserLocation>
+          <Link to={`/user/${userId}`}>
+            <Name>{username}</Name>
+          </Link>
+          {geolocation !== undefined ? (<LocationIcon onClick={openModal} />): ""}
+
+          {geolocation !== undefined ? (
+            <LocationIcon onClick={openModal} />
+          ) : (
+            ""
+          )}
+        </UserLocation>
 
         <EditPost
           ownerId={userId}
@@ -295,6 +308,18 @@ const SendIcon = styled(FiSend)`
   bottom: 12px;
   color: #f3f3f3;
 `;
+const UserLocation = styled.div`
+  height: 23px;
+  display: flex;
+`;
+const LocationIcon = styled(IoMdPin)`
+  width: 16px;
+  height: 19px;
+  margin-right: 5px;
+  color: #ffffff;
+  margin-left: 8px;
+  margin-top: 2px;
+`;
 const Comments = styled.div`
   width: 611px;
   background: #1e1e1e;
@@ -413,7 +438,7 @@ const Div = styled.div`
   margin-top: 29px;
   & > div:first-child {
     display: flex;
-    width: 50px;
+    width: 60px;
     flex-direction: column;
     align-items: center;
     img {
@@ -427,12 +452,13 @@ const Div = styled.div`
       height: 18px;
       color: #fff;
       margin-bottom: 4px;
+      margin-top: 8px;
     }
     svg.liked {
       color: #ac0000;
     }
     p {
-      width: 50px;
+      width: 60px;
       font-family: "Lato";
       font-size: 11px;
       color: #fff;
