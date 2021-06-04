@@ -7,7 +7,6 @@ export default function PostRepost(props) {
     function askToRepost(){
         openModal();
     }
-
   
     return (
       <div>
