@@ -7,6 +7,10 @@ import LinkInfo from "./LinkInfo";
 import PostLike from "./PostLike";
 import YoutubePlayer from "./YoutubePlayer";
 import getYoutubeId from "get-youtube-id";
+import { IoMdPin } from "react-icons/io";
+import Modal from "react-modal";
+import MapContainer from "./MapContainer";
+import LinkPreview from "../linkPreview/LinkPreview";
 
 export default function Post(props) {
   const {
@@ -21,13 +25,22 @@ export default function Post(props) {
     linkImage,
     getPosts,
     likes,
+    geolocation,
   } = props;
 
   const youtubeId = link.includes("youtube") ? getYoutubeId(link) : null;
-
+  const [showModal, setShowModal] = useState(false);
   const postText = highlightHashtags(text);
-
   const [isPostLiked, setIsPostLiked] = useState(false);
+  const [showLinkPreview, setShowLinkPreview] = useState(false);
+
+  const openModal = () => {
+    setShowModal(true);
+  };
+
+  const closeModal = (e) => {
+    setShowModal(false);
+  };
 
   return (
     <Div>
@@ -46,9 +59,16 @@ export default function Post(props) {
       <DeletePost ownerId={userId} postId={postId} getPosts={getPosts} />
 
       <div>
-        <Link to={`/user/${userId}`}>
-          <Name>{username}</Name>
-        </Link>
+        <UserLocation>
+          <Link to={`/user/${userId}`}>
+            <Name>{username}</Name>
+          </Link>
+          {geolocation !== undefined ? (
+            <LocationIcon onClick={openModal} />
+          ) : (
+            ""
+          )}
+        </UserLocation>
 
         <EditPost
           ownerId={userId}
@@ -65,14 +85,37 @@ export default function Post(props) {
             youtubeId={youtubeId}
           />
         ) : (
-          <LinkInfo
-            linkTitle={linkTitle}
-            linkDescription={linkDescription}
-            link={link}
-            linkImage={linkImage}
-          />
+          <>
+            <LinkInfo
+              linkTitle={linkTitle}
+              linkDescription={linkDescription}
+              link={link}
+              linkImage={linkImage}
+              setShowModal={setShowLinkPreview}
+            />
+            <LinkPreview
+              title={linkTitle}
+              link={link}
+              showModal={showLinkPreview}
+              setShowModal={setShowLinkPreview}
+            />
+          </>
         )}
       </div>
+
+      <Modal
+        isOpen={showModal}
+        style={modalStyle}
+        onRequestClose={closeModal}
+        ariaHideApp={false}
+      >
+        <Title>
+          <p>{username}'s location</p>
+          <X onClick={(e) => closeModal(e)}>X</X>
+        </Title>
+
+        <MapContainer geolocation={geolocation} />
+      </Modal>
     </Div>
   );
 
@@ -93,7 +136,48 @@ export default function Post(props) {
     return newText;
   }
 }
-
+const modalStyle = {
+  overlay: {
+    width: "100%",
+    height: "100vh",
+    backgroundColor: "rgba(255, 255, 255, 0.9)",
+    zIndex: "2",
+  },
+  content: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-around",
+    alignItems: "center",
+    position: "absolute",
+    top: "20vh",
+    margin: "0 auto",
+    width: "790px",
+    height: "354px",
+    backgroundColor: "#333",
+    borderRadius: "20px",
+    color: "#fff",
+    fontSize: "38px",
+    fontWeight: "700",
+  },
+};
+const X = styled.h1`
+  color: #fff;
+  font-size: 25px;
+  position: absolute;
+  left: 735px;
+  top: 23px;
+`;
+const Title = styled.div`
+  display: flex;
+  justify-content: space-between;
+  line-height: 38px;
+  width: 100%;
+  p {
+    position: absolute;
+    left: 40px;
+    top: 20px;
+  }
+`;
 const Div = styled.div`
   display: flex;
   justify-content: space-between;
@@ -205,7 +289,18 @@ const Div = styled.div`
     }
   }
 `;
-
+const LocationIcon = styled(IoMdPin)`
+  width: 16px;
+  height: 19px;
+  margin-right: 5px;
+  color: #ffffff;
+  margin-left: 8px;
+  margin-top: 2px;
+`;
+const UserLocation = styled.div`
+  height: 23px;
+  display: flex;
+`;
 const Name = styled.p`
   font-family: "Lato";
   font-size: 19px;
@@ -218,7 +313,6 @@ const Name = styled.p`
     margin-bottom: 7px;
   }
 `;
-
 const Hashtag = styled(Link)`
   font-family: "Lato";
   font-size: 17px;
