@@ -2,10 +2,10 @@ import { BiRepost } from "react-icons/bi";
 
 export default function PostRepost(props) {
 
-    const { reposts, openModal } = props;
+    const { reposts, openRepost } = props;
 
     function askToRepost(){
-        openModal();
+        openRepost();
     }
   console.log(reposts);
     return (

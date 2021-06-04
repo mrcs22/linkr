@@ -32,15 +32,15 @@ export default function Post(props) {
   const youtubeId = link.includes("youtube") ? getYoutubeId(link) : null;
   const postText = highlightHashtags(text);
   const [isPostLiked, setIsPostLiked] = useState(false);
-  const [showModal, setShowModal] = useState(false);
+  const [showRepost, setShowrepost] = useState(false);
   const { user } = useContext(UserContext);
 
-  const openModal = () => {
-    setShowModal(true);
+  const openRepost = () => {
+    setShowrepost(true);
   };
 
-  const closeModal = (e) => {
-    setShowModal(false);
+  const closeRepost = (e) => {
+    setShowrepost(false);
   };
 
   return (
@@ -55,7 +55,7 @@ export default function Post(props) {
           isPostLiked={isPostLiked}
           setIsPostLiked={setIsPostLiked}
         />
-        <PostRepost reposts={reposts} openModal={openModal} />
+        <PostRepost reposts={reposts} openRepost={openRepost} />
       </div>
 
       <DeletePost ownerId={userId} postId={postId} getPosts={getPosts} />
@@ -90,14 +90,14 @@ export default function Post(props) {
       </div>
 
       <Modal
-        isOpen={showModal}
+        isOpen={showRepost}
         style={modalStyle}
-        onRequestClose={closeModal}
+        onRequestClose={closeRepost}
         ariaHideApp={false}
       >
         <p>Do you want to re-post this link?</p>
         <ButtonContainer>
-          <button className="back_button" onClick={(e) => closeModal(e)}>
+          <button className="back_button" onClick={(e) => closeRepost(e)}>
             No, cancel
           </button>
           <button className="delete_button" onClick={toRepost}>
@@ -138,11 +138,11 @@ export default function Post(props) {
     );
     request.then((res) => {
       getPosts(user.token);
-      closeModal();
+      closeRepost();
     });
     request.catch((resp) => {
       alert("Não foi possível repostar o post");
-      closeModal();
+      closeRepost();
     });
   }
 }
