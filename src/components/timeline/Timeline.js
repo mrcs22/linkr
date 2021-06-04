@@ -109,10 +109,8 @@ const Text = styled.p`
   margin-left: ${({ noPosts }) => (noPosts ? "130px" : 0)};
   margin-top: ${({ noPosts }) => (noPosts ? "20px" : 0)};
   margin-bottom: 45px;
-
   @media (max-width: 611px) {
     font-size: 33px;
-
     margin-bottom: 29px;
     margin-left: 17px;
   }
