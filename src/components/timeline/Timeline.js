@@ -16,13 +16,13 @@ export default function Timeline() {
   const { user } = useContext(UserContext);
   const [posts, setPosts] = useState(null);
 
-  const [followedUsers, setFollowedUsers] = useState(null)
+  const [followedUsers, setFollowedUsers] = useState(null);
   const [hasMore, setHasMore] = useState(true);
   const olderLoadedPostId = posts === null ? null : posts[posts.length - 1].id;
 
   useEffect(() => {
     getPosts(user.token);
-    getFollowedUsers(user.token)
+    getFollowedUsers(user.token);
   }, [user.token]);
 
   console.log(posts);
@@ -38,8 +38,6 @@ export default function Timeline() {
       },
     };
 
-    
-
     const url = `https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/following/posts${
       older ? `?olderThan=${older}` : ""
     }`;
@@ -54,6 +52,7 @@ export default function Timeline() {
         }
         setPosts([...posts, ...r.data.posts]);
       } else {
+       
         checkForPostsUpdate(r.data.posts);
       }
     });
@@ -63,36 +62,44 @@ export default function Timeline() {
     });
   }
 
-const getFollowedUsers = (token) => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+  const getFollowedUsers = (token) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const request = axios.get(
+      "https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/users/follows",
+      config
+    );
+    request.then((res) => {
+      setFollowedUsers(res.data.users);
+    });
+    request.catch((err) => {
+      alert("Houve uma falha ao obter os posts, por favor atualize a página!");
+    });
   };
-  const request = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/users/follows", config)
-  request.then((res) => {
-    setFollowedUsers(res.data.users)
-  })
-  request.catch((err) => {
-    alert("Houve uma falha ao obter os posts, por favor atualize a página!");
-  })
-}
 
   function checkForPostsUpdate(receivedPosts) {
+
+    
+
     if (posts === null) {
       setPosts(receivedPosts);
     } else {
       const newPosts = [];
+      
 
       receivedPosts.forEach((rp) => {
         let doPush = true;
 
         posts.forEach((p) => {
           if (p.id === rp.id) {
+
             doPush = false;
           }
         });
-
+        console.log("banana",doPush);
         if (doPush) {
           newPosts.push(rp);
         }
@@ -102,11 +109,9 @@ const getFollowedUsers = (token) => {
     }
   }
 
- 
-
   return (
     <>
-      <Header avatar={user.user.avatar} followedUsers={followedUsers}/>
+      <Header avatar={user.user.avatar} followedUsers={followedUsers} />
       <Container>
         <Text>timeline</Text>
         <HashtagTrend></HashtagTrend>

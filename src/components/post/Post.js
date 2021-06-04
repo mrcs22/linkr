@@ -26,9 +26,7 @@ export default function Post(props) {
     getPosts,
     likes,
     reposts,
-    repostUser,
-    setPosts,
-    posts
+    repostUser   
   } = props;
 
   const youtubeId = link.includes("youtube") ? getYoutubeId(link) : null;
@@ -44,9 +42,6 @@ export default function Post(props) {
 const closeModal = (e) => {
     setShowModal(false)
 }
-
-console.log(reposts);
-console.log(repostUser);
 
   return (
     <Div>
@@ -133,7 +128,7 @@ console.log(repostUser);
   }
     const request = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts/${postId}/share`,"",config)
     request.then((res) => {
-      setPosts([...posts]);
+      getPosts(user.token);
       closeModal();      
     })
     request.catch((resp) =>{

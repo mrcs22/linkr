@@ -7,7 +7,7 @@ export default function PostRepost(props) {
     function askToRepost(){
         openModal();
     }
-  
+  console.log(reposts);
     return (
       <div>
           <BiRepost onClick={askToRepost} />
