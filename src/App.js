@@ -19,27 +19,32 @@ const getFollowedUsers = (token) => {
       Authorization: `Bearer ${token}`,
     },
   };
-  const request = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/users/follows", config)
-  
+  const request = axios.get(
+    "https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/users/follows",
+    config
+  );
+
   request.catch((err) => {
     alert("Houve uma falha ao obter os posts, por favor atualize a página!");
-  })
-  return request
-}
+  });
+  return request;
+};
 
 export default function App() {
-  const initialUserState =  (localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null)
-  
+  const initialUserState = localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user"))
+    : null;
+
   const [user, setUser] = useState(initialUserState);
-  const [followedUsers, setFollowedUsers] = useState([])
+  const [followedUsers, setFollowedUsers] = useState([]);
 
   useEffect(() => {
-    if(initialUserState){
+    if (initialUserState) {
       getFollowedUsers(user.token).then((res) => {
-        setFollowedUsers(res.data.users)
-      })
+        setFollowedUsers(res.data.users);
+      });
     }
-  }, [initialUserState, user.token])
+  }, [initialUserState, user.token]);
 
   return (
     <BrowserRouter>
@@ -47,15 +52,15 @@ export default function App() {
 
       <Switch>
         <UserContext.Provider value={{ user, setUser }}>
-          <FollowedContext.Provider value={{ followedUsers, setFollowedUsers}}>
+          <FollowedContext.Provider value={{ followedUsers, setFollowedUsers }}>
             <Route path="/" exact component={LogIn}></Route>
             <Route path="/sign-up" exact component={SignUp}></Route>
-            <PrivateRoute path={"/timeline"} component={Timeline}/>
-            <PrivateRoute path={"/my-posts"} component={MyPosts}/>
-            <PrivateRoute path={"/my-likes"} component={LikedPosts}/>
-            <PrivateRoute path={"/hashtags/:hashtag"} component={Hashtag}/>
-            <PrivateRoute path={"/user/:id"} component={UserPosts}/>
-          </FollowedContext.Provider> 
+            <PrivateRoute path={"/timeline"} component={Timeline} />
+            <PrivateRoute path={"/my-posts"} component={MyPosts} />
+            <PrivateRoute path={"/my-likes"} component={LikedPosts} />
+            <PrivateRoute path={"/hashtag/:hashtag"} component={Hashtag} />
+            <PrivateRoute path={"/user/:id"} component={UserPosts} />
+          </FollowedContext.Provider>
         </UserContext.Provider>
       </Switch>
     </BrowserRouter>
