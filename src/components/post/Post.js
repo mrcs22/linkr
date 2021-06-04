@@ -12,7 +12,7 @@ import Modal from "react-modal";
 import axios from "axios";
 import UserContext from "../UserContext";
 import PostComment from "./PostComment";
-
+import { FiSend } from "react-icons/fi";
 export default function Post(props) {
   const {
     postId,
@@ -27,6 +27,7 @@ export default function Post(props) {
     getPosts,
     likes,
     reposts,
+    followedUsers,
     repostUser,
     comments    
   } = props;
@@ -39,6 +40,7 @@ export default function Post(props) {
   const [visibility, setVisibility] = useState(false);
   const [showRepost, setShowrepost] = useState(false);
   const { user } = useContext(UserContext);
+  const [keyword, setKeyword] = useState("");
 
   const openRepost = () => {
     setShowrepost(true);
@@ -57,6 +59,7 @@ export default function Post(props) {
   };
 
   return (
+    <div>
     <Div>
       <div>
         <Link to={`/user/${userId}`}>
@@ -129,6 +132,49 @@ export default function Post(props) {
       </Modal>
 
     </Div>
+    {visibility === false ? (
+        ""
+      ) : (
+        <Comments>
+          {notes.length === 0 ? (
+            <Note>
+              <h3>Nenhum comentário ainda</h3>
+            </Note>
+          ) : (
+            notes.map((item) => (
+              <Note>
+                <img src={item.user.avatar} alt={item.user.username} />
+                <div className="texts">
+                  <div>
+                    <h1>{item.user.username}</h1>
+                    <h2>
+                      {item.user.username === username
+                        ? "• post’s author"
+                        : followedUsers.includes(item.user.username)
+                        ? "• following"
+                        : ""}
+                    </h2>
+                  </div>
+                  <h4>{item.text}</h4>
+                </div>
+              </Note>
+            ))
+          )}
+          <CommentBar>
+            <img src={user.user.avatar} alt={username} />
+            <form onSubmit={postComment}>
+              <input
+                type="text"
+                placeholder="write a comment"
+                value={keyword}
+                onChange={(e) => setKeyword(e.target.value)}
+              />
+              <SendIcon />
+            </form>
+          </CommentBar>
+        </Comments>
+      )}
+    </div>
   );
 
   function highlightHashtags(text) {
@@ -146,6 +192,30 @@ export default function Post(props) {
     });
 
     return newText;
+  }
+
+  function postComment(e) {
+    
+    e.preventDefault();
+    
+    const config = {
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    };
+    const body = { text: keyword };
+    const req = axios.post(
+      `https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts/${postId}/comment`,
+      body,
+      config
+    );
+    req.then((r) => {
+      getComments();
+      setKeyword("");
+    });
+    req.catch((r) => {
+      alert("Houve um erro ao enviar o comentário");
+    });
   }
 
   function getComments() {
@@ -217,6 +287,97 @@ const modalStyle = {
     textAlign: "center",
   },
 };
+const SendIcon = styled(FiSend)`
+  position: absolute;
+  width: 14px;
+  height: 15px;
+  right: 10px;
+  bottom: 12px;
+  color: #f3f3f3;
+`;
+const Comments = styled.div`
+  width: 611px;
+  background: #1e1e1e;
+  border-radius: 16px;
+  padding-top: 76px;
+  padding-bottom: 25px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-bottom: 15px;
+  margin-top: -63px;
+  display: flex;
+  flex-direction: column;
+`;
+const Note = styled.div`
+  width: 571px;
+  height: 71px;
+  border-bottom: 1px solid #353535;
+  display: flex;
+  justify-content: left;
+  align-itens: center;
+  font-size: 14px;
+  h1 {
+    color: #f3f3f3;
+    font-weight: 700;
+    margin-right: 10px;
+  }
+  h2 {
+    color: #565656;
+    font-weight: 400;
+  }
+  h3 {
+    display: flex;
+    margin: 0 auto;
+    color: #f3f3f3;
+    font-weight: 700;
+    line-height: 71px;
+    text-align: center;
+  }
+  h4 {
+    color: #acacac;
+    font-size: 14px;
+    font-weight: 400;
+    width: 450px;
+    margin-top: 4px;
+  }
+  .texts {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  img {
+    width: 39px;
+    height: 39px;
+    margin-top: 16px;
+    border-radius: 50%;
+    margin-right: 13px;
+  }
+`;
+const CommentBar = styled.div`
+  display: flex;
+  height: 39px;
+  margin-top: 13px;
+  position: relative;
+  img {
+    width: 39px;
+    height: 39px;
+    border-radius: 50%;
+    margin-right: 13px;
+  }
+  input {
+    font-family: "Lato";
+    font-style: italic;
+    width: 520px;
+    border: none;
+    height: 39px;
+    padding-left: 13px;
+    border-radius: 8px;
+    background: #252525;
+    color: #575757;
+    font-size: 16px;
+    position: relative;
+  }
+`;
 
 const ButtonContainer = styled.div`
   button {
