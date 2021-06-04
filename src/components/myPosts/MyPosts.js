@@ -9,10 +9,15 @@ import UserContext from "../UserContext";
 import Post from "../post/Post";
 import PuffLoader from "../Loader";
 import HashtagTrend from "../hashtag/HashtagTrend";
+import InfiniteScroll from "react-infinite-scroller";
+import FollowedContext from "../FollowedContext";
 
 export default function MyPosts() {
   const { user } = useContext(UserContext);
+  const { followedUsers } = useContext(FollowedContext);
   const [posts, setPosts] = useState(null);
+  const [hasMore, setHasMore] = useState(true);
+  const [offset, setOffset] = useState(10);
 
   useEffect(() => {
     getPosts(user.token);
@@ -20,7 +25,7 @@ export default function MyPosts() {
 
   return (
     <>
-      <Header avatar={user.user.avatar} />
+      <Header avatar={user.user.avatar} followedUsers={followedUsers} />
       <Container>
         <Text>my posts</Text>
         <HashtagTrend />
@@ -29,28 +34,35 @@ export default function MyPosts() {
         ) : posts.length === 0 ? (
           <Text noPosts>Nenhum Post encontrado</Text>
         ) : (
-          posts.map((p) => (
-            <Post
-              key={p.id}
-              postId={p.id}
-              username={p.user.username}
-              userId={p.user.id}
-              avatar={p.user.avatar}
-              text={p.text}
-              link={p.link}
-              linkTitle={p.linkTitle}
-              linkDescription={p.linkDescription}
-              linkImage={p.linkImage}
-              getPosts={getPosts}
-              likes={p.likes}
-            />
-          ))
+          <InfiniteScroll
+            pageStart={0}
+            loadMore={() => getPosts(user.token, true)}
+            hasMore={hasMore}
+            loader={<PuffLoader />}
+          >
+            {posts.map((p) => (
+              <Post
+                key={p.id}
+                postId={p.id}
+                username={p.user.username}
+                userId={p.user.id}
+                avatar={p.user.avatar}
+                text={p.text}
+                link={p.link}
+                linkTitle={p.linkTitle}
+                linkDescription={p.linkDescription}
+                linkImage={p.linkImage}
+                getPosts={getPosts}
+                likes={p.likes}
+              />
+            ))}
+          </InfiniteScroll>
         )}
       </Container>
     </>
   );
 
-  function getPosts(token) {
+  function getPosts(token, shouldUseOffset) {
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -58,12 +70,23 @@ export default function MyPosts() {
     };
 
     const req = axios.get(
-      `https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/users/${user.user.id}/posts`,
+      `https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/users/${
+        user.user.id
+      }/posts${!!shouldUseOffset ? `?offset=${offset}` : ""}`,
       config
     );
 
     req.then((r) => {
-      setPosts(r.data.posts);
+      if (shouldUseOffset) {
+        if (r.data.posts.length === 0) {
+          setHasMore(false);
+          return;
+        }
+        setPosts([...posts, ...r.data.posts]);
+        setOffset(offset + 10);
+      } else {
+        setPosts(r.data.posts);
+      }
     });
 
     req.catch((r) => {

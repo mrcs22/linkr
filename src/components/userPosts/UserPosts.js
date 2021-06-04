@@ -11,20 +11,22 @@ import PuffLoader from "../Loader";
 import { useParams } from "react-router";
 import FollowButton from "./FollowButton";
 import HashtagTrend from "../hashtag/HashtagTrend";
+import FollowedContext from "../FollowedContext";
 
 export default function UserPosts() {
   const { user } = useContext(UserContext);
+  const { followedUsers } = useContext(FollowedContext)
   const [selectedUserInfo, setSelectedUserInfo] = useState([]);
   const { id } = useParams();
   const [posts, setPosts] = useState(null);
 
   useEffect(() => {
     getPostsAndSelectedUserInfo(user.token);
-  }, [user.token]);
+  }, [user.token, id]);
 
   return (
     <>
-      <Header avatar={user.user.avatar} />
+      <Header avatar={user.user.avatar} followedUsers={followedUsers}/>
       <Container>
         <Text>
           {selectedUserInfo.length === 0

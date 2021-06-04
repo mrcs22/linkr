@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { BsPencil } from "react-icons/bs";
-import { useContext, useState, useCallback, useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
 import UserContext from "../UserContext";
 import axios from "axios";
 
@@ -21,19 +21,20 @@ export default function EditPost({
     setIsEditing(!isEditing);
   };
 
-  const escFunction = useCallback((event) => {
-    if (event.keyCode === 27) {
-      setIsEditing(false);
-    }
-  }, []);
+  
 
   useEffect(() => {
+    const escFunction = (event) => {
+      if (event.keyCode === 27) {
+        setIsEditing(false);
+      }
+    };
     document.addEventListener("keydown", escFunction, false);
 
     return () => {
       document.removeEventListener("keydown", escFunction, false);
     };
-  }, []);
+  }, [setIsEditing]);
 
   const sendChanges = (e) => {
     setIsLoading(true);

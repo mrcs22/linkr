@@ -3,7 +3,6 @@ import { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
 import InfiniteScroll from "react-infinite-scroller";
 import useInterval from "../../helpers/useInterval";
-
 import Container from "../Container";
 import Header from "../header/Header";
 import UserContext from "../UserContext";
@@ -11,12 +10,14 @@ import NewPost from "../post/NewPost";
 import Post from "../post/Post";
 import PuffLoader from "../Loader";
 import HashtagTrend from "../hashtag/HashtagTrend";
+import FollowedContext from "../FollowedContext";
 
 export default function Timeline() {
   const { user } = useContext(UserContext);
+  const { followedUsers, setFollowedUsers } = useContext(FollowedContext);
   const [posts, setPosts] = useState(null);
 
-  const [followedUsers, setFollowedUsers] = useState(null);
+
   const [hasMore, setHasMore] = useState(true);
   const olderLoadedPostId = posts === null ? null : posts[posts.length - 1].id;
 
@@ -68,6 +69,8 @@ export default function Timeline() {
         Authorization: `Bearer ${token}`,
       },
     };
+
+
     const request = axios.get(
       "https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/users/follows",
       config
@@ -79,7 +82,6 @@ export default function Timeline() {
       alert("Houve uma falha ao obter os posts, por favor atualize a página!");
     });
   };
-
   function checkForPostsUpdate(receivedPosts) {
     if (posts === null) {
       setPosts(receivedPosts);
@@ -103,6 +105,9 @@ export default function Timeline() {
           newPosts.push(rp);
         }
       });
+
+      setPosts([...newPosts, ...posts]);
+
     }
   }
 
@@ -140,10 +145,14 @@ export default function Timeline() {
                 linkImage={p.linkImage}
                 getPosts={getPosts}
                 likes={p.likes}
+
                 reposts={p.repostCount}
                 repostUser={p.repostedBy}
                 setPosts={setPosts}
                 posts={posts}
+
+                geolocation={p.geolocation}
+
               />
             ))}
           </InfiniteScroll>
