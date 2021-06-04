@@ -7,13 +7,10 @@ import LinkInfo from "./LinkInfo";
 import PostLike from "./PostLike";
 import YoutubePlayer from "./YoutubePlayer";
 import getYoutubeId from "get-youtube-id";
-<<<<<<< HEAD
-import LinkPreview from "../linkPreview/LinkPreview";
-=======
 import { IoMdPin } from "react-icons/io";
 import Modal from "react-modal";
 import MapContainer from "./MapContainer";
->>>>>>> main
+import LinkPreview from "../linkPreview/LinkPreview";
 
 export default function Post(props) {
   const {
@@ -35,6 +32,7 @@ export default function Post(props) {
   const [showModal, setShowModal] = useState(false);
   const postText = highlightHashtags(text);
   const [isPostLiked, setIsPostLiked] = useState(false);
+  const [showLinkPreview, setShowLinkPreview] = useState(false);
 
   const openModal = () => {
     setShowModal(true);
@@ -93,13 +91,13 @@ export default function Post(props) {
               linkDescription={linkDescription}
               link={link}
               linkImage={linkImage}
-              setShowModal={setShowModal}
+              setShowModal={setShowLinkPreview}
             />
             <LinkPreview
               title={linkTitle}
               link={link}
-              showModal={showModal}
-              setShowModal={setShowModal}
+              showModal={showLinkPreview}
+              setShowModal={setShowLinkPreview}
             />
           </>
         )}
