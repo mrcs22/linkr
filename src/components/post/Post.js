@@ -15,6 +15,7 @@ import axios from "axios";
 import { IoMdPin } from "react-icons/io";
 import Modal from "react-modal";
 import MapContainer from "./MapContainer";
+import LinkPreview from "../linkPreview/LinkPreview";
 
 
 export default function Post(props) {
@@ -43,6 +44,7 @@ export default function Post(props) {
   const [keyword, setKeyword] = useState("");
   const [notes, setNotes] = useState([]);
   const [visibility, setVisibility] = useState(false);
+  const [showLinkPreview, setShowLinkPreview] = useState(false);
 
 
   const openModal = () => {
@@ -97,23 +99,28 @@ export default function Post(props) {
           postId={postId}
           highlightHashtags={highlightHashtags}
         />
-
-      {youtubeId !== null ? (
-            <YoutubePlayer
-              linkTitle={linkTitle}
-              link={link}
-              youtubeId={youtubeId}
-            />
-          ) : (
+        {youtubeId !== null ? (
+          <YoutubePlayer
+            linkTitle={linkTitle}
+            link={link}
+            youtubeId={youtubeId}
+          />
+        ) : (         
             <LinkInfo
               linkTitle={linkTitle}
               linkDescription={linkDescription}
               link={link}
               linkImage={linkImage}
+              setShowModal={setShowLinkPreview}
             />
-          )
-      }
-
+            <LinkPreview
+              title={linkTitle}
+              link={link}
+              showModal={showLinkPreview}
+              setShowModal={setShowLinkPreview}
+            />
+          </>
+        )}
       </div>
 
     </Div>
