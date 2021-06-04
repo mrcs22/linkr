@@ -89,6 +89,8 @@ export default function Post(props) {
         )}
       </div>
 
+
+
       <Modal
         isOpen={showRepost}
         style={modalStyle}
@@ -105,6 +107,7 @@ export default function Post(props) {
           </button>
         </ButtonContainer>
       </Modal>
+
     </Div>
   );
 
