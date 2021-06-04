@@ -80,7 +80,7 @@ export default function NewPost({ getPosts, token }) {
     req.then((r) => {
       clearInputs();
       setIsSavingPost(false);
-      getPosts();
+      getPosts(user.token);
       console.log(r);
     });
 

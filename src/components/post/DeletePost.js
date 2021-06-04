@@ -28,7 +28,8 @@ export default function DeletePost({ownerId, postId, getPosts}){
         const request = axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts/${postId}`, config)
         request.then((res) => {
             getPosts(user.token)
-            setIsLoading(false)
+            setIsLoading(false);
+            closeModal();
         })
         request.catch((err) => {
             setShowModal(false)
