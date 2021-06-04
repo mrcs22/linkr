@@ -2,9 +2,7 @@ import axios from "axios";
 import { useState, useContext } from "react";
 import styled from "styled-components";
 import { IoLocationOutline } from "react-icons/io5";
-
 import { IoMdPin } from "react-icons/io";
-
 import UserContext from "../UserContext";
 
 export default function NewPost({ getPosts, token }) {
@@ -66,24 +64,22 @@ export default function NewPost({ getPosts, token }) {
         Authorization: `Bearer ${token}`,
       },
     };
-
-    const req = axios.post(
-      "https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts",
+    
+    const body =     
       {
         text,
         link,
-        geolocation:{
-          latitude: coordinates.latitude,
-          longitude: coordinates.longitude
-        }
-      },
-      config
-    );
+      };    
+
+    if(coordinates !== null) body.geolocation = coordinates;
+       
+    const req = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts",body,config);
 
     req.then((r) => {
       clearInputs();
       setIsSavingPost(false);
       getPosts();
+      console.log(r);
     });
 
     req.catch((r) => {
@@ -102,16 +98,21 @@ export default function NewPost({ getPosts, token }) {
   if(!'geolocation' in navigator){
     return alert("Navegador não tem suporte para localização");
   } 
-  var permission = window.confirm("Permite acesso à sua atual localização?");
-  if(permission){
-    navigator.geolocation.getCurrentPosition((p) =>{
-      setCoordinates(p.coords);  
-    });
-  }
+
+  {coordinates !== null ? setCoordinates(null) : getCoordinates()}
+}
+
+function getCoordinates() {
+  navigator.geolocation.getCurrentPosition((p) =>{
+    setCoordinates({
+      latitude: p.coords.latitude,
+      longitude: p.coords.longitude
+    });  
+  });  
+}
 }
 
 
-}
 
 const Post = styled.div`
   display: flex;
