@@ -10,6 +10,8 @@ import getYoutubeId from "get-youtube-id";
 import { IoMdPin } from "react-icons/io";
 import Modal from "react-modal";
 
+
+
 export default function Post(props) {
   const {
     postId,
@@ -30,12 +32,12 @@ export default function Post(props) {
   const [showModal, setShowModal] = useState(false);
   const postText = highlightHashtags(text);
   const [isPostLiked, setIsPostLiked] = useState(false);
-  const [place, setPlace] = useState("");
+
   
 
   const openModal = () => {
-    const source = "https://www.google.com.br/maps/@" + geolocation.latitude + "," + geolocation.longitude + ",15z";
-    setPlace(source);
+    
+    
     setShowModal(true);
   };
 
@@ -104,7 +106,7 @@ export default function Post(props) {
             X
           </X>
         </Title>
-        <Map src={place} />
+
       </Modal>
     </Div>
   );
@@ -125,6 +127,7 @@ export default function Post(props) {
 
     return newText;
   }
+
 }
 
 const modalStyle = {
@@ -153,14 +156,6 @@ const modalStyle = {
     fontWeight: "700",
   },
 };
-
-const Map = styled.iframe`
-  height: 240px;
-  width: 713px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 15px;
-`;
 
 const X = styled.h1`
   color: #fff;
