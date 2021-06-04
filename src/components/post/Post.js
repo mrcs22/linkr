@@ -25,7 +25,7 @@ export default function Post(props) {
     getPosts,
     likes,
     comments,
-    likedUsers,
+    followedUsers,
     user,
   } = props;
 
@@ -110,7 +110,7 @@ export default function Post(props) {
                     <h2>
                       {item.user.username === username
                         ? "• post’s author"
-                        : likedUsers.includes(item.user.username)
+                        : followedUsers.includes(item.user.username)
                         ? "• following"
                         : ""}
                     </h2>

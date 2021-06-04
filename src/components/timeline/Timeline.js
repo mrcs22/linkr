@@ -16,6 +16,7 @@ export default function Timeline() {
   const { user } = useContext(UserContext);
   const [posts, setPosts] = useState(null);
 
+
   const [followedUsers, setFollowedUsers] = useState(null)
   const [hasMore, setHasMore] = useState(true);
   const olderLoadedPostId = posts === null ? null : posts[posts.length - 1].id;
@@ -134,7 +135,7 @@ const getFollowedUsers = (token) => {
                 getPosts={getPosts}
                 likes={p.likes}
                 comments={p.commentCount}
-                likedUsers={likedUsers}
+                followedUsers={followedUsers}
                 user={user}
               />
             ))}
