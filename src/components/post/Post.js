@@ -55,6 +55,15 @@ export default function Post(props) {
           isPostLiked={isPostLiked}
           setIsPostLiked={setIsPostLiked}
         />
+        <PostComment
+            postId={postId}
+            comments={comments}
+            visibility={visibility}
+            setVisibility={setVisibility}
+            setNotes={setNotes}
+            getComments={getComments}
+          />
+          
         <PostRepost reposts={reposts} openRepost={openRepost} />
       </div>
 
@@ -88,8 +97,6 @@ export default function Post(props) {
           />
         )}
       </div>
-
-
 
       <Modal
         isOpen={showRepost}
