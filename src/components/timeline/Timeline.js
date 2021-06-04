@@ -99,6 +99,7 @@ export default function Timeline() {
           newPosts.push(rp);
         }
       });
+      setPosts([...newPosts, ...posts]);
     }
   }
 
