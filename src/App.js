@@ -27,7 +27,7 @@ export default function App() {
           <PrivateRoute path={"/timeline"} component={Timeline}/>
           <PrivateRoute path={"/my-posts"} component={MyPosts}/>
           <PrivateRoute path={"/my-likes"} component={LikedPosts}/>
-          <PrivateRoute path={"/hashtags/:hashtag"} component={Hashtag}/>
+          <PrivateRoute path={"/hashtag/:hashtag"} component={Hashtag}/>
           <PrivateRoute path={"/user/:id"} component={UserPosts}/>
         </UserContext.Provider>
       </Switch>
