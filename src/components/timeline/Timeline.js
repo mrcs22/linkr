@@ -98,6 +98,8 @@ const getFollowedUsers = (token) => {
     }
   }
 
+ 
+
   return (
     <>
       <Header avatar={user.user.avatar} followedUsers={followedUsers}/>
@@ -132,6 +134,8 @@ const getFollowedUsers = (token) => {
                 linkImage={p.linkImage}
                 getPosts={getPosts}
                 likes={p.likes}
+                reposts={p.repostCount}
+                repostUser={p.repostedBy}
               />
             ))}
           </InfiniteScroll>

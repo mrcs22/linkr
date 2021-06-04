@@ -2,10 +2,9 @@ import { BiRepost } from "react-icons/bi";
 
 export default function PostRepost(pros) {
 
-    const { comments, visibility, setVisibility, getComments } = props;
+    const { reposts, repostUser } = props;
 
-
-    function openCommentbox(){
+    function toRepost(){
       getComments();
       setVisibility(!visibility);
     }
