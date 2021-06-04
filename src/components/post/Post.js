@@ -9,8 +9,7 @@ import YoutubePlayer from "./YoutubePlayer";
 import getYoutubeId from "get-youtube-id";
 import { IoMdPin } from "react-icons/io";
 import Modal from "react-modal";
-
-
+import MapContainer from "./MapContainer";
 
 export default function Post(props) {
   const {
@@ -33,11 +32,7 @@ export default function Post(props) {
   const postText = highlightHashtags(text);
   const [isPostLiked, setIsPostLiked] = useState(false);
 
-  
-
   const openModal = () => {
-    
-    
     setShowModal(true);
   };
 
@@ -66,8 +61,11 @@ export default function Post(props) {
           <Link to={`/user/${userId}`}>
             <Name>{username}</Name>
           </Link>
-          {geolocation !== undefined ? (<LocationIcon onClick={openModal} />): ""}
-          
+          {geolocation !== undefined ? (
+            <LocationIcon onClick={openModal} />
+          ) : (
+            ""
+          )}
         </UserLocation>
 
         <EditPost
@@ -102,11 +100,10 @@ export default function Post(props) {
       >
         <Title>
           <p>{username}'s location</p>
-          <X onClick={(e) => closeModal(e)}>
-            X
-          </X>
+          <X onClick={(e) => closeModal(e)}>X</X>
         </Title>
 
+        <MapContainer geolocation={geolocation} />
       </Modal>
     </Div>
   );
@@ -127,9 +124,7 @@ export default function Post(props) {
 
     return newText;
   }
-
 }
-
 const modalStyle = {
   overlay: {
     width: "100%",
@@ -145,10 +140,8 @@ const modalStyle = {
     position: "absolute",
     top: "20vh",
     margin: "0 auto",
-    width: "800px",
+    width: "790px",
     height: "354px",
-    paddingLeft: "40px",
-    paddingRight: "40px",
     backgroundColor: "#333",
     borderRadius: "20px",
     color: "#fff",
@@ -156,19 +149,24 @@ const modalStyle = {
     fontWeight: "700",
   },
 };
-
 const X = styled.h1`
   color: #fff;
   font-size: 25px;
+  position: absolute;
+  left: 735px;
+  top: 23px;
 `;
-
 const Title = styled.div`
   display: flex;
   justify-content: space-between;
   line-height: 38px;
   width: 100%;
+  p {
+    position: absolute;
+    left: 40px;
+    top: 20px;
+  }
 `;
-
 const Div = styled.div`
   display: flex;
   justify-content: space-between;
@@ -304,7 +302,6 @@ const Name = styled.p`
     margin-bottom: 7px;
   }
 `;
-
 const Hashtag = styled(Link)`
   font-family: "Lato";
   font-size: 17px;
