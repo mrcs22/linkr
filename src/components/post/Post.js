@@ -11,6 +11,7 @@ import PostRepost from "./PostRepost";
 import Modal from "react-modal";
 import axios from "axios";
 import UserContext from "../UserContext";
+import PostComment from "./PostComment";
 
 export default function Post(props) {
   const {
@@ -27,11 +28,15 @@ export default function Post(props) {
     likes,
     reposts,
     repostUser,
+    comments    
   } = props;
 
   const youtubeId = link.includes("youtube") ? getYoutubeId(link) : null;
   const postText = highlightHashtags(text);
   const [isPostLiked, setIsPostLiked] = useState(false);
+  const [notes, setNotes] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [visibility, setVisibility] = useState(false);
   const [showRepost, setShowrepost] = useState(false);
   const { user } = useContext(UserContext);
 
@@ -41,6 +46,14 @@ export default function Post(props) {
 
   const closeRepost = (e) => {
     setShowrepost(false);
+  };
+
+  const openModal = () => {
+    setShowModal(true);
+  };
+
+  const closeModal = (e) => {
+    setShowModal(false);
   };
 
   return (
@@ -135,6 +148,28 @@ export default function Post(props) {
     return newText;
   }
 
+  function getComments() {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    };
+
+    const req = axios.get(
+      `https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts/${postId}/comments`,
+      config
+    );
+
+    req.then((r) => {
+      setNotes(r.data.comments);
+
+    });
+
+    req.catch((r) => {
+      alert("Não foi possivel carregar os comentários, tente novamente");
+    });
+  }
+
   function toRepost() {
     const config = {
       headers: {
@@ -192,13 +227,11 @@ const ButtonContainer = styled.div`
     border-radius: 5px;
     margin: 0 15px;
   }
-
   .back_button {
     color: #1877f2;
     background-color: #fff;
     cursor: pointer;
   }
-
   .delete_button {
     color: #fff;
     background-color: #1877f2;
@@ -212,61 +245,45 @@ const Div = styled.div`
   position: relative;
   min-height: 276px;
   width: 611px;
-
   background-color: #171717;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-
   border-radius: 16px;
-
   padding: 16px 18px;
-
   margin-top: 29px;
-
   & > div:first-child {
     display: flex;
     width: 50px;
     flex-direction: column;
     align-items: center;
-
     img {
       width: 50px;
       height: 50px;
-
       border-radius: 50%;
-
       margin-bottom: 19px;
     }
-
     svg {
       width: 20px;
       height: 18px;
       color: #fff;
       margin-bottom: 4px;
     }
-
     svg.liked {
       color: #ac0000;
     }
-
     p {
       width: 50px;
-
       font-family: "Lato";
       font-size: 11px;
-
       color: #fff;
       text-align: center;
     }
-
     & > div {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-
       width: calc(100% - 50px);
     }
-
     p {
       word-break: break-all;
       word-wrap: break-word;
@@ -276,42 +293,32 @@ const Div = styled.div`
       word-wrap: break-word;
     }
   }
-
   & > div:last-child {
     width: 502px;
   }
-
   @media (max-width: 611px) {
     min-height: 232px;
     width: 100%;
     min-width: 320px;
-
     padding: 9px 15px;
     border-radius: 0px;
     margin-top: 16px;
-
     & > div:first-child {
       width: 50px;
-
       img {
         width: 40px;
         height: 40px;
-
         margin-bottom: 17px;
       }
-
       svg {
         width: 17px;
         height: 15px;
-
         margin-bottom: 12px;
       }
-
       p {
         font-size: 9px;
       }
     }
-
     & > div:last-child {
       width: calc(100% - 55px);
     }
@@ -322,9 +329,7 @@ const Name = styled.p`
   font-family: "Lato";
   font-size: 19px;
   color: #fff;
-
   margin-bottom: 10px;
-
   @media (max-width: 611px) {
     font-size: 17px;
     margin-bottom: 7px;
