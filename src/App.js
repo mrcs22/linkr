@@ -12,8 +12,10 @@ import Hashtag from "./components/hashtag/Hashtag";
 import PrivateRoute from "./components/PrivateRoute";
 
 export default function App() {
-  const initialUserState =  (localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null)
-  
+  const initialUserState = localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user"))
+    : null;
+
   const [user, setUser] = useState(initialUserState);
 
   return (
@@ -24,11 +26,11 @@ export default function App() {
         <UserContext.Provider value={{ user, setUser }}>
           <Route path="/" exact component={LogIn}></Route>
           <Route path="/sign-up" exact component={SignUp}></Route>
-          <PrivateRoute path={"/timeline"} component={Timeline}/>
-          <PrivateRoute path={"/my-posts"} component={MyPosts}/>
-          <PrivateRoute path={"/my-likes"} component={LikedPosts}/>
-          <PrivateRoute path={"/hashtags/:hashtag"} component={Hashtag}/>
-          <PrivateRoute path={"/user/:id"} component={UserPosts}/>
+          <PrivateRoute path={"/timeline"} component={Timeline} />
+          <PrivateRoute path={"/my-posts"} component={MyPosts} />
+          <PrivateRoute path={"/my-likes"} component={LikedPosts} />
+          <PrivateRoute path={"/hashtag/:hashtag"} component={Hashtag} />
+          <PrivateRoute path={"/user/:id"} component={UserPosts} />
         </UserContext.Provider>
       </Switch>
     </BrowserRouter>
