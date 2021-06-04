@@ -73,7 +73,6 @@ const getFollowedUsers = (token) => {
     alert("Houve uma falha ao obter os posts, por favor atualize a página!");
   })
 }
-
   function checkForPostsUpdate(receivedPosts) {
     if (posts === null) {
       setPosts(receivedPosts);
@@ -132,6 +131,7 @@ const getFollowedUsers = (token) => {
                 linkImage={p.linkImage}
                 getPosts={getPosts}
                 likes={p.likes}
+                geolocation={p.geolocation}
               />
             ))}
           </InfiniteScroll>
