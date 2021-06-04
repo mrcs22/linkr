@@ -7,6 +7,7 @@ import LinkInfo from "./LinkInfo";
 import PostLike from "./PostLike";
 import YoutubePlayer from "./YoutubePlayer";
 import getYoutubeId from "get-youtube-id";
+import LinkPreview from "../linkPreview/LinkPreview";
 
 export default function Post(props) {
   const {
@@ -65,12 +66,15 @@ export default function Post(props) {
             youtubeId={youtubeId}
           />
         ) : (
-          <LinkInfo
-            linkTitle={linkTitle}
-            linkDescription={linkDescription}
-            link={link}
-            linkImage={linkImage}
-          />
+          <>
+            <LinkInfo
+              linkTitle={linkTitle}
+              linkDescription={linkDescription}
+              link={link}
+              linkImage={linkImage}
+            />
+            <LinkPreview title={linkTitle} link={link} />
+          </>
         )}
       </div>
     </Div>
