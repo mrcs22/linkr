@@ -7,6 +7,8 @@ import LinkInfo from "./LinkInfo";
 import PostLike from "./PostLike";
 import YoutubePlayer from "./YoutubePlayer";
 import getYoutubeId from "get-youtube-id";
+import { IoMdPin } from "react-icons/io";
+import Modal from "react-modal"
 
 export default function Post(props) {
   const {
@@ -21,13 +23,21 @@ export default function Post(props) {
     linkImage,
     getPosts,
     likes,
+    geolocation
   } = props;
 
   const youtubeId = link.includes("youtube") ? getYoutubeId(link) : null;
-
+  const [showModal, setShowModal] = useState(false)
   const postText = highlightHashtags(text);
-
   const [isPostLiked, setIsPostLiked] = useState(false);
+
+  const openModal = () => {
+    setShowModal(true)
+}
+
+const closeModal = (e) => {
+    setShowModal(false)
+}
 
   return (
     <Div>
@@ -46,9 +56,12 @@ export default function Post(props) {
       <DeletePost ownerId={userId} postId={postId} getPosts={getPosts} />
 
       <div>
-        <Link to={`/user/${userId}`}>
-          <Name>{username}</Name>
-        </Link>
+        <UserLocation>
+          <Link to={`/user/${userId}`}>
+            <Name>{username}</Name>
+          </Link>
+          <LocationIcon onClick={showMap}/>
+        </UserLocation>
 
         <EditPost
           ownerId={userId}
@@ -73,6 +86,23 @@ export default function Post(props) {
           />
         )}
       </div>
+
+      <Modal isOpen={showModal} style={modalStyle} onRequestClose={closeModal} ariaHideApp={false}>
+        <p>{username}'s location</p>
+        <h1 className="back_button" onClick={(e) => closeModal(e)}>Não, voltar</h1>
+        
+
+          <iframe
+          width="713"
+          height="240"
+          style="border:0"
+          loading="lazy"
+          allowfullscreen
+          src="https://www.google.com.br/maps/@{latitude},{longitude},15z">
+          </iframe>
+      </Modal>
+
+
     </Div>
   );
 
@@ -91,6 +121,37 @@ export default function Post(props) {
     });
 
     return newText;
+  }
+
+  function showMap(geolocation) {
+    
+  }
+}
+
+
+const modalStyle = {
+  overlay: {
+      width: "100%",
+      height: "100vh",
+      backgroundColor: "rgba(255, 255, 255, 0.9)",
+      zIndex: "2"
+  },
+  content: {
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "space-around",
+      alignItems: "center",
+      position: "absolute",
+      top: "33vh",
+      margin: "0 auto",
+      width: "597px",
+      height: "262px",
+      backgroundColor: "#333",
+      borderRadius: "50px",
+      color: "#fff",
+      fontSize: "30px",
+      fontWeight: "700",
+      textAlign: "center",
   }
 }
 
@@ -205,7 +266,19 @@ const Div = styled.div`
     }
   }
 `;
+const LocationIcon = styled(IoMdPin)`
+  width: 16px;
+  height: 19px;
+  margin-right: 5px;
+  color: #FFFFFF;
+  margin-left: 8px;
+  margin-top: 2px;
+`;
+const UserLocation = styled.div`
+height: 23px;
+display: flex;
 
+`;
 const Name = styled.p`
   font-family: "Lato";
   font-size: 19px;

@@ -73,7 +73,6 @@ const getFollowedUsers = (token) => {
     alert("Houve uma falha ao obter os posts, por favor atualize a página!");
   })
 }
-
   function checkForPostsUpdate(receivedPosts) {
     if (posts === null) {
       setPosts(receivedPosts);
@@ -104,17 +103,6 @@ const getFollowedUsers = (token) => {
       <Container>
         <Text>timeline</Text>
         <HashtagTrend></HashtagTrend>
-
-        {/* <iframe
-          width="600"
-          height="450"
-          style="border:0"
-          loading="lazy"
-          allowfullscreen
-          src="https://www.google.com/maps/embed/v1/place?key=API_KEY
-            &q=Space+Needle,Seattle+WA">
-        </iframe> */}
-
         <NewPost getPosts={() => getPosts(user.token)} token={user.token} />
         {posts === null || followedUsers === null ? (
           <PuffLoader />
@@ -143,6 +131,7 @@ const getFollowedUsers = (token) => {
                 linkImage={p.linkImage}
                 getPosts={getPosts}
                 likes={p.likes}
+                geolocation={p.geolocation}
               />
             ))}
           </InfiniteScroll>

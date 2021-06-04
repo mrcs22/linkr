@@ -2,7 +2,6 @@ import axios from "axios";
 import { useState, useContext } from "react";
 import styled from "styled-components";
 import { IoLocationOutline } from "react-icons/io5";
-import { IoMdPin } from "react-icons/io";
 import UserContext from "../UserContext";
 
 export default function NewPost({ getPosts, token }) {
@@ -64,16 +63,19 @@ export default function NewPost({ getPosts, token }) {
         Authorization: `Bearer ${token}`,
       },
     };
-    
-    const body =     
-      {
-        text,
-        link,
-      };    
 
-    if(coordinates !== null) body.geolocation = coordinates;
-       
-    const req = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts",body,config);
+    const body = {
+      text,
+      link,
+    };
+
+    if (coordinates !== null) body.geolocation = coordinates;
+
+    const req = axios.post(
+      "https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts",
+      body,
+      config
+    );
 
     req.then((r) => {
       clearInputs();
@@ -93,54 +95,44 @@ export default function NewPost({ getPosts, token }) {
     setText("");
   }
 
-  function getLocation(){
+  function getLocation() {
+    if (!navigator.geolocation) {
+      return alert("Navegador não tem suporte para localização");
+    } else {
+      coordinates !== null ? setCoordinates(null) : getCoordinates();
+    }
+  }
 
-  if(!'geolocation' in navigator){
-    return alert("Navegador não tem suporte para localização");
-  } 
-
-  {coordinates !== null ? setCoordinates(null) : getCoordinates()}
+  function getCoordinates() {
+    navigator.geolocation.getCurrentPosition((p) => {
+      setCoordinates({
+        latitude: p.coords.latitude,
+        longitude: p.coords.longitude
+      });
+    });
+  }
 }
-
-function getCoordinates() {
-  navigator.geolocation.getCurrentPosition((p) =>{
-    setCoordinates({
-      latitude: p.coords.latitude,
-      longitude: p.coords.longitude
-    });  
-  });  
-}
-}
-
-
 
 const Post = styled.div`
   display: flex;
   justify-content: space-between;
-
   min-height: 209px;
   width: 611px;
-
   background-color: #fff;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-
   border-radius: 16px;
-
   padding: 16px 18px;
 
   div:first-child {
     img {
       width: 50px;
       height: 50px;
-
       border-radius: 50%;
     }
   }
-
   div:last-child {
     width: 503px;
   }
-
   @media (max-width: 611px) {
     min-height: 164px;
     width: 100%;
@@ -151,28 +143,23 @@ const Post = styled.div`
     div:first-child {
       display: none;
     }
-
     div:last-child {
       width: 100%;
     }
   }
 `;
-
 const Title = styled.p`
   font-family: "Lato";
   font-size: 20px;
   font-weight: 300;
   color: #707070;
-
   margin-bottom: 15px;
-
   @media (max-width: 611px) {
     font-size: 17px;
     text-align: center;
     margin-bottom: 10px;
   }
 `;
-
 const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
@@ -186,19 +173,18 @@ const Footer = styled.div`
   justify-content: space-between;
   align-itens: center;
   line-height: 31px;
-  h1{
+  h1 {
     color: #949494;
     font-weight: 300;
     font-size: 13px;
   }
-  div{
-    display:flex;
+  div {
+    display: flex;
     width: 150px;
-    justify-content: left; 
+    justify-content: left;
     line-height: 18px;
   }
 `;
-
 const LocationIcon = styled(IoLocationOutline)`
   width: 13px;
   height: 15px;
@@ -208,55 +194,39 @@ const LocationIcon = styled(IoLocationOutline)`
 const Input = styled.input`
   width: 503px;
   height: 30px;
-
   background-color: #efefef;
-
   border-radius: 5px;
   border: none;
-
   padding: 8px 12px;
-
   margin-bottom: 5px;
-
   @media (max-width: 611px) {
     width: 100%;
   }
 `;
-
 const TextArea = styled.textarea`
   min-width: 503px;
   max-width: 503px;
   min-height: 66px;
-
   background-color: #efefef;
-
   border-radius: 5px;
   border: none;
-
   padding: 8px 12px;
-
   margin-bottom: 5px;
-
   @media (max-width: 611px) {
     min-width: 100%;
     max-width: 100%;
   }
 `;
-
 const Button = styled.input`
   height: 31px;
   width: 112px;
-
   font-family: "Lato";
   font-size: 14px;
   font-weight: 700;
   color: #fff;
-
   background-color: #1877f2;
-
   border-radius: 5px;
   border: none;
-
   @media (max-width: 611px) {
     height: 22px;
     font-size: 13px;
