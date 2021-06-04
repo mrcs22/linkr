@@ -1,7 +1,7 @@
 import { FaRegHeart } from "react-icons/fa";
 import { BsHeartFill } from "react-icons/bs";
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import ReactTooltip from 'react-tooltip'
 import UserContext from "../UserContext";
 

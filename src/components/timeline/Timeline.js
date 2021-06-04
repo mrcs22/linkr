@@ -3,7 +3,6 @@ import { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
 import InfiniteScroll from "react-infinite-scroller";
 import useInterval from "../../helpers/useInterval";
-
 import Container from "../Container";
 import Header from "../header/Header";
 import UserContext from "../UserContext";
@@ -11,12 +10,12 @@ import NewPost from "../post/NewPost";
 import Post from "../post/Post";
 import PuffLoader from "../Loader";
 import HashtagTrend from "../hashtag/HashtagTrend";
+import FollowedContext from "../FollowedContext";
 
 export default function Timeline() {
   const { user } = useContext(UserContext);
+  const { followedUsers, setFollowedUsers} = useContext(FollowedContext)
   const [posts, setPosts] = useState(null);
-
-  const [followedUsers, setFollowedUsers] = useState(null)
   const [hasMore, setHasMore] = useState(true);
   const olderLoadedPostId = posts === null ? null : posts[posts.length - 1].id;
 
@@ -73,7 +72,6 @@ const getFollowedUsers = (token) => {
     alert("Houve uma falha ao obter os posts, por favor atualize a página!");
   })
 }
-
   function checkForPostsUpdate(receivedPosts) {
     if (posts === null) {
       setPosts(receivedPosts);
@@ -132,6 +130,7 @@ const getFollowedUsers = (token) => {
                 linkImage={p.linkImage}
                 getPosts={getPosts}
                 likes={p.likes}
+                geolocation={p.geolocation}
               />
             ))}
           </InfiniteScroll>
