@@ -16,8 +16,6 @@ export default function MyPosts() {
   const [posts, setPosts] = useState(null);
   const [hasMore, setHasMore] = useState(true);
   const [offset, setOffset] = useState(10);
-  console.clear();
-  console.log(offset);
 
   useEffect(() => {
     getPosts(user.token);
