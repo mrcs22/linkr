@@ -116,9 +116,8 @@ export default function Post(props) {
 
       </div>
 
-      </Div>
-    
-
+    </Div>
+   
       {visibility === false ? (
         ""
       ) : (
@@ -161,11 +160,7 @@ export default function Post(props) {
             </form>
           </CommentBar>
         </Comments>
-      )}
-    
-
-        
-    
+      )}    
 
       <Modal
         isOpen={showModal}
@@ -180,7 +175,7 @@ export default function Post(props) {
 
         <MapContainer geolocation={geolocation} />
       </Modal>
-      </div>  
+  </div>  
    
 
   );
