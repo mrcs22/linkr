@@ -10,6 +10,7 @@ import Header from "../header/Header";
 
 import Post from "../post/Post";
 import PuffLoader from "../Loader";
+import FollowedContext from "../FollowedContext";
 
 export default function Hashtag() {
   const { hashtag } = useParams();
@@ -18,6 +19,7 @@ export default function Hashtag() {
   const [offset, setOffset] = useState(10);
   const { user } = useContext(UserContext);
   const config = { headers: { Authorization: `Bearer ${user.token}` } };
+  const { followedUsers } = useContext(FollowedContext);
 
   useEffect(() => {
     const promise = axios.get(
@@ -51,7 +53,7 @@ export default function Hashtag() {
   }
   return (
     <>
-      <Header avatar={user.user.avatar} />
+      <Header avatar={user.user.avatar} followedUsers={followedUsers} />
 
       <Container>
         <Text># {hashtag}</Text>

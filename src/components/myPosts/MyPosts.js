@@ -10,9 +10,11 @@ import Post from "../post/Post";
 import PuffLoader from "../Loader";
 import HashtagTrend from "../hashtag/HashtagTrend";
 import InfiniteScroll from "react-infinite-scroller";
+import FollowedContext from "../FollowedContext";
 
 export default function MyPosts() {
   const { user } = useContext(UserContext);
+  const { followedUsers } = useContext(FollowedContext);
   const [posts, setPosts] = useState(null);
   const [hasMore, setHasMore] = useState(true);
   const [offset, setOffset] = useState(10);
@@ -23,7 +25,7 @@ export default function MyPosts() {
 
   return (
     <>
-      <Header avatar={user.user.avatar} />
+      <Header avatar={user.user.avatar} followedUsers={followedUsers} />
       <Container>
         <Text>my posts</Text>
         <HashtagTrend />

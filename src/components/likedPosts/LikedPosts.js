@@ -10,9 +10,11 @@ import UserContext from "../UserContext";
 import Post from "../post/Post";
 import PuffLoader from "../Loader";
 import HashtagTrend from "../hashtag/HashtagTrend";
+import FollowedContext from "../FollowedContext";
 
 export default function LikedPosts() {
   const { user } = useContext(UserContext);
+  const { followedUsers } = useContext(FollowedContext)
   const [posts, setPosts] = useState(null);
   const [hasMore, setHasMore] = useState(true);
   const [offset, setOffset] = useState(10);
@@ -23,7 +25,7 @@ export default function LikedPosts() {
 
   return (
     <>
-      <Header avatar={user.user.avatar} />
+      <Header avatar={user.user.avatar} followedUsers={followedUsers}/>
       <Container>
         <Text>my likes</Text>
         <HashtagTrend />

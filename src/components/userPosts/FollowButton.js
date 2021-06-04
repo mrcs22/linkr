@@ -10,7 +10,7 @@ export default function FollowButton(){
     const [isLoading, setIsLoading] = useState(false)
     const {user} = useContext(UserContext)
     const { id } = useParams()
-
+    
     const config = {
         headers: {
           Authorization: `Bearer ${user.token}`,
@@ -20,7 +20,7 @@ export default function FollowButton(){
     useEffect(() => {
         const request = axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/users/follows`, config)
         request.then((res) => {
-            if(res.data.users.find((user) => user.id == id)){
+            if(res.data.users.find((user) => user.id === +id)){
                 setIsFollowing(true)
             }
         })

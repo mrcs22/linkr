@@ -10,6 +10,9 @@ export default function SearchBar({followedUsers}){
     const [isLoading, setIsLoading] = useState(false)
     const { user } = useContext(UserContext)
 
+    const followedObj = followedUsers.reduce((obj, current) => (
+        {...obj, [current.id]: current }), {})
+
     const search = (searchName) => {
         if(searchName === ""){
             setResults(null)
@@ -51,16 +54,26 @@ export default function SearchBar({followedUsers}){
                     {isLoading && <Li>Loading...</Li>}
                     {results &&
                         !isLoading &&
-                        results.map((result) => (
-                            <Li key={result.id}>
-                                <Link to={`/user/${result.id}`} className="link">
-                                    <img src={result.avatar}/>
-                                    <Name>{result.username}</Name>
-                                    {followedUsers.find((user) => user.id === result.id) && 
-                                        <FollowTag>• following</FollowTag>}
-                                </Link>
-                            </Li>
-                        ))}
+                        results.sort((a ,b) => {
+                            const followsA = followedObj[a.id]
+                            const followsB = followedObj[b.id]
+                            if(followsA && !followsB){
+                                return -1
+                            }
+                            if(!followsA && followsB){
+                                return 1
+                            }
+                            return 0
+                        }).map((result) => (
+                                <Li key={result.id}>
+                                    <Link to={`/user/${result.id}`} className="link">
+                                        <img src={result.avatar} alt="Avatar"/>
+                                        <Name>{result.username}</Name>
+                                        {followedObj[result.id] && <FollowTag>• following</FollowTag>}
+                                    </Link>
+                                </Li>
+                            ))
+                    }
                 </Ul>
             </ResultContainer>
         </StyledSearchBar>
@@ -120,6 +133,7 @@ const ResultContainer = styled.div`
 `
 
 const Ul = styled.ul`
+    margin-bottom: 15px;
 `
 
 const Li = styled.li`
