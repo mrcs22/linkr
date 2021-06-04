@@ -26,8 +26,6 @@ export default function Timeline() {
     getFollowedUsers(user.token);
   }, [user.token]);
 
-  console.log(posts);
-
   useInterval(() => {
     getPosts(user.token);
   }, 15000);
