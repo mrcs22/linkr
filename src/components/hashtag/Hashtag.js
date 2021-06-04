@@ -9,11 +9,13 @@ import Header from "../header/Header";
 
 import Post from "../post/Post";
 import PuffLoader from "../Loader";
+import FollowedContext from "../FollowedContext";
 
 export default function Hashtag() {
   const { hashtag } = useParams();
   const [tags, setTags] = useState([]);
   const { user } = useContext(UserContext);
+  const { followedUsers } = useContext(FollowedContext)
 
   useEffect(() => {
     const config = { headers: { Authorization: `Bearer ${user.token}` } };
@@ -30,7 +32,7 @@ export default function Hashtag() {
 
   return (
     <>
-      <Header avatar={user.user.avatar} />
+      <Header avatar={user.user.avatar} followedUsers={followedUsers}/>
 
       <Container>
         <Text># {hashtag}</Text>

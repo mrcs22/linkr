@@ -33,7 +33,7 @@ export default function HashtagTrend() {
       <Title>trending</Title>
       <Trends>
         {trend.map((item) => (
-          <Link to={`/hashtag/${item.name}`}>
+          <Link to={`/hashtag/${item.name}`} key={item.id}>
             <h1>#{item.name}</h1>
           </Link>
         ))}

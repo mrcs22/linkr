@@ -8,8 +8,14 @@ import PostLike from "./PostLike";
 import PostComment from "./PostComment";
 import YoutubePlayer from "./YoutubePlayer";
 import getYoutubeId from "get-youtube-id";
+
 import { FiSend } from "react-icons/fi";
 import axios from "axios";
+
+import { IoMdPin } from "react-icons/io";
+import Modal from "react-modal";
+import MapContainer from "./MapContainer";
+
 
 export default function Post(props) {
   const {
@@ -27,29 +33,39 @@ export default function Post(props) {
     comments,
     followedUsers,
     user,
+    geolocation,
   } = props;
 
   const youtubeId = link.includes("youtube") ? getYoutubeId(link) : null;
+  const [showModal, setShowModal] = useState(false);
   const postText = highlightHashtags(text);
   const [isPostLiked, setIsPostLiked] = useState(false);
   const [keyword, setKeyword] = useState("");
   const [notes, setNotes] = useState([]);
   const [visibility, setVisibility] = useState(false);
 
-  
+
+  const openModal = () => {
+    setShowModal(true);
+  };
+
+  const closeModal = (e) => {
+    setShowModal(false);
+  };
+
   return (
     <div>
-      <Div>
-        <div>
-          <Link to={`/user/${userId}`}>
-            <img src={avatar} alt={username} />
-          </Link>
-          <PostLike
-            likes={likes}
-            postId={postId}
-            isPostLiked={isPostLiked}
-            setIsPostLiked={setIsPostLiked}
-          />
+    <Div>
+      <div>
+        <Link to={`/user/${userId}`}>
+          <img src={avatar} alt={username} />
+        </Link>
+        <PostLike
+          likes={likes}
+          postId={postId}
+          isPostLiked={isPostLiked}
+          setIsPostLiked={setIsPostLiked}
+        />
           <PostComment
             postId={postId}
             comments={comments}
@@ -58,24 +74,31 @@ export default function Post(props) {
             setNotes={setNotes}
             getComments={getComments}
           />
-        </div>
+      </div>
 
-        <DeletePost ownerId={userId} postId={postId} getPosts={getPosts} />
+      <DeletePost ownerId={userId} postId={postId} getPosts={getPosts} />
 
-        <div>
+      <div>
+        <UserLocation>
           <Link to={`/user/${userId}`}>
             <Name>{username}</Name>
           </Link>
+          {geolocation !== undefined ? (
+            <LocationIcon onClick={openModal} />
+          ) : (
+            ""
+          )}
+        </UserLocation>
 
-          <EditPost
-            ownerId={userId}
-            text={text}
-            postText={postText}
-            postId={postId}
-            highlightHashtags={highlightHashtags}
-          />
+        <EditPost
+          ownerId={userId}
+          text={text}
+          postText={postText}
+          postId={postId}
+          highlightHashtags={highlightHashtags}
+        />
 
-          {youtubeId !== null ? (
+      {youtubeId !== null ? (
             <YoutubePlayer
               linkTitle={linkTitle}
               link={link}
@@ -88,9 +111,13 @@ export default function Post(props) {
               link={link}
               linkImage={linkImage}
             />
-          )}
-        </div>
+          )
+      }
+
+      </div>
+
       </Div>
+    
 
       {visibility === false ? (
         ""
@@ -135,7 +162,27 @@ export default function Post(props) {
           </CommentBar>
         </Comments>
       )}
-    </div>
+    
+
+        
+    
+
+      <Modal
+        isOpen={showModal}
+        style={modalStyle}
+        onRequestClose={closeModal}
+        ariaHideApp={false}
+      >
+        <Title>
+          <p>{username}'s location</p>
+          <X onClick={(e) => closeModal(e)}>X</X> 
+        </Title>
+
+        <MapContainer geolocation={geolocation} />
+      </Modal>
+      </div>  
+   
+
   );
 
   function highlightHashtags(text) {
@@ -189,7 +236,7 @@ export default function Post(props) {
     const config = {
       headers: {
         Authorization: `Bearer ${user.token}`,
-      },
+      },  
     };
 
     const req = axios.get(
@@ -207,6 +254,7 @@ export default function Post(props) {
     });
   }
 }
+
 const Comments = styled.div`
   width: 611px;
   background: #1e1e1e;
@@ -300,6 +348,49 @@ const SendIcon = styled(FiSend)`
   right: 10px;
   bottom: 12px;
   color: #f3f3f3;
+`;
+
+const modalStyle = {
+  overlay: {
+    width: "100%",
+    height: "100vh",
+    backgroundColor: "rgba(255, 255, 255, 0.9)",
+    zIndex: "2",
+  },
+  content: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-around",
+    alignItems: "center",
+    position: "absolute",
+    top: "20vh",
+    margin: "0 auto",
+    width: "790px",
+    height: "354px",
+    backgroundColor: "#333",
+    borderRadius: "20px",
+    color: "#fff",
+    fontSize: "38px",
+    fontWeight: "700",
+  },
+};
+const X = styled.h1`
+  color: #fff;
+  font-size: 25px;
+  position: absolute;
+  left: 735px;
+  top: 23px;
+`;
+const Title = styled.div`
+  display: flex;
+  justify-content: space-between;
+  line-height: 38px;
+  width: 100%;
+  p {
+    position: absolute;
+    left: 40px;
+    top: 20px;
+  }
 `;
 
 const Div = styled.div`
@@ -415,7 +506,18 @@ const Div = styled.div`
     }
   }
 `;
-
+const LocationIcon = styled(IoMdPin)`
+  width: 16px;
+  height: 19px;
+  margin-right: 5px;
+  color: #ffffff;
+  margin-left: 8px;
+  margin-top: 2px;
+`;
+const UserLocation = styled.div`
+  height: 23px;
+  display: flex;
+`;
 const Name = styled.p`
   font-family: "Lato";
   font-size: 19px;
@@ -428,7 +530,6 @@ const Name = styled.p`
     margin-bottom: 7px;
   }
 `;
-
 const Hashtag = styled(Link)`
   font-family: "Lato";
   font-size: 17px;
