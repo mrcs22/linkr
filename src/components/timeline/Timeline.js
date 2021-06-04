@@ -16,6 +16,8 @@ export default function Timeline() {
   const { user } = useContext(UserContext);
   const { followedUsers, setFollowedUsers } = useContext(FollowedContext);
   const [posts, setPosts] = useState(null);
+
+
   const [hasMore, setHasMore] = useState(true);
   const olderLoadedPostId = posts === null ? null : posts[posts.length - 1].id;
 
@@ -23,6 +25,8 @@ export default function Timeline() {
     getPosts(user.token);
     getFollowedUsers(user.token);
   }, [user.token]);
+
+  console.log(posts);
 
   useInterval(() => {
     getPosts(user.token);
@@ -49,6 +53,7 @@ export default function Timeline() {
         }
         setPosts([...posts, ...r.data.posts]);
       } else {
+       
         checkForPostsUpdate(r.data.posts);
       }
     });
@@ -64,6 +69,7 @@ export default function Timeline() {
         Authorization: `Bearer ${token}`,
       },
     };
+
 
     const request = axios.get(
       "https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/users/follows",
@@ -99,7 +105,9 @@ export default function Timeline() {
           newPosts.push(rp);
         }
       });
+
       setPosts([...newPosts, ...posts]);
+
     }
   }
 
@@ -138,10 +146,15 @@ export default function Timeline() {
                 linkImage={p.linkImage}
                 getPosts={getPosts}
                 likes={p.likes}
+                reposts={p.repostCount}
+                repostUser={p.repostedBy}
+                setPosts={setPosts}
+                posts={posts}
                 comments={p.commentCount}
                 followedUsers={followedUsers}
                 user={user}
                 geolocation={p.geolocation}
+
               />
             ))}
           </InfiniteScroll>
