@@ -96,11 +96,7 @@ export default function Post(props) {
           </Link>
           {geolocation !== undefined ? (<LocationIcon onClick={openModal} />): ""}
 
-          {geolocation !== undefined ? (
-            <LocationIcon onClick={openModal} />
-          ) : (
-            ""
-          )}
+     
         </UserLocation>
 
         <EditPost
@@ -146,7 +142,7 @@ export default function Post(props) {
 
       <Modal
         isOpen={showModal}
-        style={modalStyle}
+        style={mapStyle}
         onRequestClose={closeModal}
         ariaHideApp={false}
       >
@@ -291,7 +287,32 @@ export default function Post(props) {
     });
   }
 }
-
+const mapStyle = {
+  overlay: {
+    width: "100%",
+    height: "100vh",
+    backgroundColor: "rgba(255, 255, 255, 0.9)",
+    zIndex: "2",
+  },
+  content: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-around",
+    alignItems: "center",
+    position: "absolute",
+    top: "20vh",
+    margin: "0 auto",
+    width: "790px",
+    height: "354px",
+    paddingLeft: "40px",
+    paddingRight: "40px",
+    backgroundColor: "#333",
+    borderRadius: "20px",
+    color: "#fff",
+    fontSize: "38px",
+    fontWeight: "700",
+  },
+};
 const modalStyle = {
   overlay: {
     width: "100%",
