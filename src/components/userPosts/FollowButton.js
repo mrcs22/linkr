@@ -29,7 +29,6 @@ export default function FollowButton(){
 
     const followUser = () => {
         setIsLoading(true)
-        console.log(isFollowing)
         if(isFollowing){
             const request = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/users/${id}/unfollow`, {}, config)
             request.then((res) => {
