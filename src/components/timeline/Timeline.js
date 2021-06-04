@@ -81,31 +81,28 @@ export default function Timeline() {
   };
 
   function checkForPostsUpdate(receivedPosts) {
-
-    
-
     if (posts === null) {
       setPosts(receivedPosts);
     } else {
       const newPosts = [];
-      
 
       receivedPosts.forEach((rp) => {
         let doPush = true;
 
         posts.forEach((p) => {
-          if (p.id === rp.id) {
-
+          if (!!rp.repostId) {
+            if (p.repostId === rp.repostId) {
+              doPush = false;
+            }
+          } else if (p.id === rp.id) {
             doPush = false;
           }
         });
-        console.log("banana",doPush);
+
         if (doPush) {
           newPosts.push(rp);
         }
       });
-
-      setPosts([...newPosts, ...posts]);
     }
   }
 
