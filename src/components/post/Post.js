@@ -30,6 +30,8 @@ export default function Post(props) {
 
   const [isPostLiked, setIsPostLiked] = useState(false);
 
+  const [showModal, setShowModal] = useState(false);
+
   return (
     <Div>
       <div>
@@ -72,8 +74,14 @@ export default function Post(props) {
               linkDescription={linkDescription}
               link={link}
               linkImage={linkImage}
+              setShowModal={setShowModal}
             />
-            <LinkPreview title={linkTitle} link={link} />
+            <LinkPreview
+              title={linkTitle}
+              link={link}
+              showModal={showModal}
+              setShowModal={setShowModal}
+            />
           </>
         )}
       </div>

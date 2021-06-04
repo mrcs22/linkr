@@ -2,8 +2,7 @@ import { useState } from "react";
 import Modal from "react-modal";
 import styled from "styled-components";
 
-export default function LinkPreview({ link, title }) {
-  const [showModal, setShowModal] = useState(true);
+export default function LinkPreview({ link, title, showModal, setShowModal }) {
   const openModal = () => {
     setShowModal(true);
   };
@@ -20,8 +19,10 @@ export default function LinkPreview({ link, title }) {
     >
       <ModalContainer>
         <div>
-          <Button>Open in new tab</Button>
-          <CloseButton>x</CloseButton>
+          <Button href={link} target="_blank">
+            Open in new tab
+          </Button>
+          <CloseButton onClick={closeModal}>x</CloseButton>
         </div>
         <LinkViewer src={link} title={title}></LinkViewer>
       </ModalContainer>
@@ -53,7 +54,10 @@ const CloseButton = styled.button`
   font-weight: 300;
 `;
 
-const Button = styled.button`
+const Button = styled.a`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 31px;
   width: 112px;
 
@@ -75,7 +79,6 @@ const Button = styled.button`
 
 const LinkViewer = styled.iframe`
   width: calc(90vw - 30px);
-  background-color: red;
   height: calc(100vh - 224px);
   max-width: 923px;
   position: absolute;
