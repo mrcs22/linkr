@@ -117,6 +117,7 @@ export default function Timeline() {
         ) : posts.length === 0 ? (
           <Text noPosts>Nenhuma publicação encontrada</Text>
         ) : (
+
           <InfiniteScroll
             pageStart={0}
             loadMore={() => getPosts(user.token, olderLoadedPostId)}
@@ -137,10 +138,14 @@ export default function Timeline() {
                 linkImage={p.linkImage}
                 getPosts={getPosts}
                 likes={p.likes}
+                comments={p.commentCount}
+                followedUsers={followedUsers}
+                user={user}
                 geolocation={p.geolocation}
               />
             ))}
           </InfiniteScroll>
+
         )}
       </Container>
     </>
@@ -156,10 +161,8 @@ const Text = styled.p`
   margin-left: ${({ noPosts }) => (noPosts ? "130px" : 0)};
   margin-top: ${({ noPosts }) => (noPosts ? "20px" : 0)};
   margin-bottom: 45px;
-
   @media (max-width: 611px) {
     font-size: 33px;
-
     margin-bottom: 29px;
     margin-left: 17px;
   }
