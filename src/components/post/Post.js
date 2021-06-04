@@ -144,6 +144,23 @@ export default function Post(props) {
         </ButtonContainer>
       </Modal>
 
+      <Modal
+        isOpen={showModal}
+        style={modalStyle}
+        onRequestClose={closeModal}
+        ariaHideApp={false}
+      >
+        <Title>
+          <p>{username}'s location</p>
+          <X onClick={(e) => closeModal(e)}>
+            X
+          </X>
+          <X onClick={(e) => closeModal(e)}>X</X>
+        </Title>
+
+        <MapContainer geolocation={geolocation} />
+      </Modal>
+
     </Div>
     {visibility === false ? (
         ""
@@ -311,6 +328,25 @@ const SendIcon = styled(FiSend)`
 const UserLocation = styled.div`
   height: 23px;
   display: flex;
+`;
+const X = styled.h1`
+  color: #fff;
+  font-size: 25px;
+  position: absolute;
+  left: 735px;
+  top: 23px;
+`;
+
+const Title = styled.div`
+  display: flex;
+  justify-content: space-between;
+  line-height: 38px;
+  width: 100%;
+  p {
+    position: absolute;
+    left: 40px;
+    top: 20px;
+  }
 `;
 const LocationIcon = styled(IoMdPin)`
   width: 16px;
