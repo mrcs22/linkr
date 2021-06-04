@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import DeletePost from "./DeletePost";
@@ -8,7 +8,9 @@ import PostLike from "./PostLike";
 import YoutubePlayer from "./YoutubePlayer";
 import getYoutubeId from "get-youtube-id";
 import PostRepost from "./PostRepost";
-import Modal from "react-modal"
+import Modal from "react-modal";
+import axios from "axios";
+import UserContext from "../UserContext";
 
 export default function Post(props) {
   const {
@@ -23,14 +25,17 @@ export default function Post(props) {
     linkImage,
     getPosts,
     likes,
-    resposts,
-    repostUser
+    reposts,
+    repostUser,
+    setPosts,
+    posts
   } = props;
 
   const youtubeId = link.includes("youtube") ? getYoutubeId(link) : null;
   const postText = highlightHashtags(text);  
   const [isPostLiked, setIsPostLiked] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const { user } = useContext(UserContext);
 
   const openModal = () => {
     setShowModal(true)
@@ -39,6 +44,9 @@ export default function Post(props) {
 const closeModal = (e) => {
     setShowModal(false)
 }
+
+console.log(reposts);
+console.log(repostUser);
 
   return (
     <Div>
@@ -53,8 +61,8 @@ const closeModal = (e) => {
           setIsPostLiked={setIsPostLiked}
         />
         <PostRepost
-         resposts={resposts}
-         repostUser={repostUser}
+         reposts={reposts}
+         openModal={openModal}
         />
       </div>
 
@@ -93,7 +101,7 @@ const closeModal = (e) => {
                 <p>Do you want to re-post this link?</p>
                 <ButtonContainer>
                     <button className="back_button" onClick={(e) => closeModal(e)}>No, cancel</button>
-                    <button className="delete_button" onClick={deletePost}>Yes, share!</button>
+                    <button className="delete_button" onClick={toRepost}>Yes, share!</button>
                 </ButtonContainer>
             </Modal>
     </Div>
@@ -115,7 +123,31 @@ const closeModal = (e) => {
 
     return newText;
   }
-}
+
+  function toRepost(){
+
+    const config = {
+      headers: {
+          Authorization: `Bearer ${user.token}`
+      }
+  }
+    const request = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts/${postId}/share`,"",config)
+    request.then((res) => {
+      setPosts([...posts]);
+      closeModal();      
+    })
+    request.catch((resp) =>{
+      alert("Não foi possível repostar o post");
+      closeModal();
+    })
+  }
+    
+  
+
+
+
+  }
+
 
 const modalStyle = {
   overlay: {

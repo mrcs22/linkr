@@ -25,6 +25,8 @@ export default function Timeline() {
     getFollowedUsers(user.token)
   }, [user.token]);
 
+  console.log(posts);
+
   useInterval(() => {
     getPosts(user.token);
   }, 15000);
@@ -35,6 +37,8 @@ export default function Timeline() {
         Authorization: `Bearer ${token}`,
       },
     };
+
+    
 
     const url = `https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/following/posts${
       older ? `?olderThan=${older}` : ""
@@ -136,6 +140,8 @@ const getFollowedUsers = (token) => {
                 likes={p.likes}
                 reposts={p.repostCount}
                 repostUser={p.repostedBy}
+                setPosts={setPosts}
+                posts={posts}
               />
             ))}
           </InfiniteScroll>

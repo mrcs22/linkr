@@ -1,18 +1,19 @@
 import { BiRepost } from "react-icons/bi";
 
-export default function PostRepost(pros) {
+export default function PostRepost(props) {
 
-    const { reposts, repostUser } = props;
+    const { reposts, openModal } = props;
 
-    function toRepost(){
-      getComments();
-      setVisibility(!visibility);
+    function askToRepost(){
+        openModal();
     }
+
   
     return (
       <div>
-          <BiRepost onClick={toRepost} />
+          <BiRepost onClick={askToRepost} />
           <p className="likes">{reposts} re-posts</p> 
       </div>
     );
   }
+
