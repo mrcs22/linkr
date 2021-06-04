@@ -52,6 +52,7 @@ export default function App() {
 
       <Switch>
         <UserContext.Provider value={{ user, setUser }}>
+
           <FollowedContext.Provider value={{ followedUsers, setFollowedUsers }}>
             <Route path="/" exact component={LogIn}></Route>
             <Route path="/sign-up" exact component={SignUp}></Route>
@@ -61,6 +62,7 @@ export default function App() {
             <PrivateRoute path={"/hashtag/:hashtag"} component={Hashtag} />
             <PrivateRoute path={"/user/:id"} component={UserPosts} />
           </FollowedContext.Provider>
+
         </UserContext.Provider>
       </Switch>
     </BrowserRouter>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import DeletePost from "./DeletePost";
@@ -7,10 +7,10 @@ import LinkInfo from "./LinkInfo";
 import PostLike from "./PostLike";
 import YoutubePlayer from "./YoutubePlayer";
 import getYoutubeId from "get-youtube-id";
-import { IoMdPin } from "react-icons/io";
+import PostRepost from "./PostRepost";
 import Modal from "react-modal";
-import MapContainer from "./MapContainer";
-import LinkPreview from "../linkPreview/LinkPreview";
+import axios from "axios";
+import UserContext from "../UserContext";
 
 export default function Post(props) {
   const {
@@ -25,21 +25,22 @@ export default function Post(props) {
     linkImage,
     getPosts,
     likes,
-    geolocation,
+    reposts,
+    repostUser,
   } = props;
 
   const youtubeId = link.includes("youtube") ? getYoutubeId(link) : null;
-  const [showModal, setShowModal] = useState(false);
   const postText = highlightHashtags(text);
   const [isPostLiked, setIsPostLiked] = useState(false);
-  const [showLinkPreview, setShowLinkPreview] = useState(false);
+  const [showRepost, setShowrepost] = useState(false);
+  const { user } = useContext(UserContext);
 
-  const openModal = () => {
-    setShowModal(true);
+  const openRepost = () => {
+    setShowrepost(true);
   };
 
-  const closeModal = (e) => {
-    setShowModal(false);
+  const closeRepost = (e) => {
+    setShowrepost(false);
   };
 
   return (
@@ -54,21 +55,15 @@ export default function Post(props) {
           isPostLiked={isPostLiked}
           setIsPostLiked={setIsPostLiked}
         />
+        <PostRepost reposts={reposts} openRepost={openRepost} />
       </div>
 
       <DeletePost ownerId={userId} postId={postId} getPosts={getPosts} />
 
       <div>
-        <UserLocation>
-          <Link to={`/user/${userId}`}>
-            <Name>{username}</Name>
-          </Link>
-          {geolocation !== undefined ? (
-            <LocationIcon onClick={openModal} />
-          ) : (
-            ""
-          )}
-        </UserLocation>
+        <Link to={`/user/${userId}`}>
+          <Name>{username}</Name>
+        </Link>
 
         <EditPost
           ownerId={userId}
@@ -85,37 +80,34 @@ export default function Post(props) {
             youtubeId={youtubeId}
           />
         ) : (
-          <>
-            <LinkInfo
-              linkTitle={linkTitle}
-              linkDescription={linkDescription}
-              link={link}
-              linkImage={linkImage}
-              setShowModal={setShowLinkPreview}
-            />
-            <LinkPreview
-              title={linkTitle}
-              link={link}
-              showModal={showLinkPreview}
-              setShowModal={setShowLinkPreview}
-            />
-          </>
+          <LinkInfo
+            linkTitle={linkTitle}
+            linkDescription={linkDescription}
+            link={link}
+            linkImage={linkImage}
+          />
         )}
       </div>
 
+
+
       <Modal
-        isOpen={showModal}
+        isOpen={showRepost}
         style={modalStyle}
-        onRequestClose={closeModal}
+        onRequestClose={closeRepost}
         ariaHideApp={false}
       >
-        <Title>
-          <p>{username}'s location</p>
-          <X onClick={(e) => closeModal(e)}>X</X>
-        </Title>
-
-        <MapContainer geolocation={geolocation} />
+        <p>Do you want to re-post this link?</p>
+        <ButtonContainer>
+          <button className="back_button" onClick={(e) => closeRepost(e)}>
+            No, cancel
+          </button>
+          <button className="delete_button" onClick={toRepost}>
+            Yes, share!
+          </button>
+        </ButtonContainer>
       </Modal>
+
     </Div>
   );
 
@@ -135,7 +127,29 @@ export default function Post(props) {
 
     return newText;
   }
+
+  function toRepost() {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    };
+    const request = axios.post(
+      `https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts/${postId}/share`,
+      "",
+      config
+    );
+    request.then((res) => {
+      getPosts(user.token);
+      closeRepost();
+    });
+    request.catch((resp) => {
+      alert("Não foi possível repostar o post");
+      closeRepost();
+    });
+  }
 }
+
 const modalStyle = {
   overlay: {
     width: "100%",
@@ -149,35 +163,42 @@ const modalStyle = {
     justifyContent: "space-around",
     alignItems: "center",
     position: "absolute",
-    top: "20vh",
+    top: "33vh",
     margin: "0 auto",
-    width: "790px",
-    height: "354px",
+    width: "597px",
+    height: "262px",
     backgroundColor: "#333",
-    borderRadius: "20px",
+    borderRadius: "50px",
     color: "#fff",
-    fontSize: "38px",
+    fontSize: "30px",
     fontWeight: "700",
+    textAlign: "center",
   },
 };
-const X = styled.h1`
-  color: #fff;
-  font-size: 25px;
-  position: absolute;
-  left: 735px;
-  top: 23px;
-`;
-const Title = styled.div`
-  display: flex;
-  justify-content: space-between;
-  line-height: 38px;
-  width: 100%;
-  p {
-    position: absolute;
-    left: 40px;
-    top: 20px;
+
+const ButtonContainer = styled.div`
+  button {
+    width: 134px;
+    height: 37px;
+    font-size: 18px;
+    border-style: none;
+    border-radius: 5px;
+    margin: 0 15px;
+  }
+
+  .back_button {
+    color: #1877f2;
+    background-color: #fff;
+    cursor: pointer;
+  }
+
+  .delete_button {
+    color: #fff;
+    background-color: #1877f2;
+    cursor: pointer;
   }
 `;
+
 const Div = styled.div`
   display: flex;
   justify-content: space-between;
@@ -289,18 +310,7 @@ const Div = styled.div`
     }
   }
 `;
-const LocationIcon = styled(IoMdPin)`
-  width: 16px;
-  height: 19px;
-  margin-right: 5px;
-  color: #ffffff;
-  margin-left: 8px;
-  margin-top: 2px;
-`;
-const UserLocation = styled.div`
-  height: 23px;
-  display: flex;
-`;
+
 const Name = styled.p`
   font-family: "Lato";
   font-size: 19px;
@@ -313,6 +323,7 @@ const Name = styled.p`
     margin-bottom: 7px;
   }
 `;
+
 const Hashtag = styled(Link)`
   font-family: "Lato";
   font-size: 17px;
