@@ -8,7 +8,7 @@ import PostLike from "./PostLike";
 import YoutubePlayer from "./YoutubePlayer";
 import getYoutubeId from "get-youtube-id";
 import { IoMdPin } from "react-icons/io";
-import Modal from "react-modal"
+import Modal from "react-modal";
 
 export default function Post(props) {
   const {
@@ -23,21 +23,25 @@ export default function Post(props) {
     linkImage,
     getPosts,
     likes,
-    geolocation
+    geolocation,
   } = props;
 
   const youtubeId = link.includes("youtube") ? getYoutubeId(link) : null;
-  const [showModal, setShowModal] = useState(false)
+  const [showModal, setShowModal] = useState(false);
   const postText = highlightHashtags(text);
   const [isPostLiked, setIsPostLiked] = useState(false);
+  const [place, setPlace] = useState("");
+  
 
   const openModal = () => {
-    setShowModal(true)
-}
+    const source = "https://www.google.com.br/maps/@" + geolocation.latitude + "," + geolocation.longitude + ",15z";
+    setPlace(source);
+    setShowModal(true);
+  };
 
-const closeModal = (e) => {
-    setShowModal(false)
-}
+  const closeModal = (e) => {
+    setShowModal(false);
+  };
 
   return (
     <Div>
@@ -60,7 +64,8 @@ const closeModal = (e) => {
           <Link to={`/user/${userId}`}>
             <Name>{username}</Name>
           </Link>
-          <LocationIcon onClick={showMap}/>
+          {geolocation !== undefined ? (<LocationIcon onClick={openModal} />): ""}
+          
         </UserLocation>
 
         <EditPost
@@ -87,22 +92,20 @@ const closeModal = (e) => {
         )}
       </div>
 
-      <Modal isOpen={showModal} style={modalStyle} onRequestClose={closeModal} ariaHideApp={false}>
-        <p>{username}'s location</p>
-        <h1 className="back_button" onClick={(e) => closeModal(e)}>Não, voltar</h1>
-        
-
-          <iframe
-          width="713"
-          height="240"
-          style="border:0"
-          loading="lazy"
-          allowfullscreen
-          src="https://www.google.com.br/maps/@{latitude},{longitude},15z">
-          </iframe>
+      <Modal
+        isOpen={showModal}
+        style={modalStyle}
+        onRequestClose={closeModal}
+        ariaHideApp={false}
+      >
+        <Title>
+          <p>{username}'s location</p>
+          <X onClick={(e) => closeModal(e)}>
+            X
+          </X>
+        </Title>
+        <Map src={place} />
       </Modal>
-
-
     </Div>
   );
 
@@ -122,38 +125,54 @@ const closeModal = (e) => {
 
     return newText;
   }
-
-  function showMap(geolocation) {
-    
-  }
 }
-
 
 const modalStyle = {
   overlay: {
-      width: "100%",
-      height: "100vh",
-      backgroundColor: "rgba(255, 255, 255, 0.9)",
-      zIndex: "2"
+    width: "100%",
+    height: "100vh",
+    backgroundColor: "rgba(255, 255, 255, 0.9)",
+    zIndex: "2",
   },
   content: {
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "space-around",
-      alignItems: "center",
-      position: "absolute",
-      top: "33vh",
-      margin: "0 auto",
-      width: "597px",
-      height: "262px",
-      backgroundColor: "#333",
-      borderRadius: "50px",
-      color: "#fff",
-      fontSize: "30px",
-      fontWeight: "700",
-      textAlign: "center",
-  }
-}
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-around",
+    alignItems: "center",
+    position: "absolute",
+    top: "20vh",
+    margin: "0 auto",
+    width: "800px",
+    height: "354px",
+    paddingLeft: "40px",
+    paddingRight: "40px",
+    backgroundColor: "#333",
+    borderRadius: "20px",
+    color: "#fff",
+    fontSize: "38px",
+    fontWeight: "700",
+  },
+};
+
+const Map = styled.iframe`
+  height: 240px;
+  width: 713px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 15px;
+`;
+
+const X = styled.h1`
+  color: #fff;
+  font-size: 25px;
+`;
+
+const Title = styled.div`
+  display: flex;
+  justify-content: space-between;
+  line-height: 38px;
+  width: 100%;
+`;
 
 const Div = styled.div`
   display: flex;
@@ -270,14 +289,13 @@ const LocationIcon = styled(IoMdPin)`
   width: 16px;
   height: 19px;
   margin-right: 5px;
-  color: #FFFFFF;
+  color: #ffffff;
   margin-left: 8px;
   margin-top: 2px;
 `;
 const UserLocation = styled.div`
-height: 23px;
-display: flex;
-
+  height: 23px;
+  display: flex;
 `;
 const Name = styled.p`
   font-family: "Lato";
