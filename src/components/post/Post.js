@@ -105,7 +105,8 @@ export default function Post(props) {
             link={link}
             youtubeId={youtubeId}
           />
-        ) : (         
+        ) : (   
+          <>      
             <LinkInfo
               linkTitle={linkTitle}
               linkDescription={linkDescription}
