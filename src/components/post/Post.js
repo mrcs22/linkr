@@ -15,6 +15,7 @@ import PostComment from "./PostComment";
 import { FiSend } from "react-icons/fi";
 import MapContainer from "./MapContainer";
 import { IoMdPin } from "react-icons/io";
+import { BiRepost } from "react-icons/bi";
 
 export default function Post(props) {
   const {
@@ -62,8 +63,23 @@ export default function Post(props) {
     setShowModal(false);
   };
 
+  console.log(repostUser);
+
   return (
-    <div>
+    <PostBox>
+  
+      
+    {reposts === 0 ? "" : 
+    (<RepostInfo>
+      <RepostIcon/>
+      <h1>Re-posted by
+        <strong>
+          {repostUser.username === username ?
+          "you" : ` ${repostUser.username}`}
+        </strong>
+      </h1>
+    </RepostInfo>)}
+
     <Div>
       <div>
         <Link to={`/user/${userId}`}>
@@ -200,7 +216,7 @@ export default function Post(props) {
           </CommentBar>
         </Comments>
       )}
-    </div>
+    </PostBox>
   );
 
   function highlightHashtags(text) {
@@ -313,6 +329,10 @@ const mapStyle = {
     fontWeight: "700",
   },
 };
+const PostBox = styled.div` 
+display: flex;
+flex-direction: column;
+`;
 const modalStyle = {
   overlay: {
     width: "100%",
@@ -381,7 +401,7 @@ const Comments = styled.div`
   width: 611px;
   background: #1e1e1e;
   border-radius: 16px;
-  padding-top: 76px;
+  padding-top: 66px;
   padding-bottom: 25px;
   padding-left: 20px;
   padding-right: 20px;
@@ -389,6 +409,29 @@ const Comments = styled.div`
   margin-top: -63px;
   display: flex;
   flex-direction: column;
+`;
+const RepostIcon = styled(BiRepost)`
+width: 22px;
+height: 13px;
+font-weight: bold;
+margin-top: 10px;
+`;
+const RepostInfo = styled.div`
+width: 611px;
+display: flex;
+align:itens: center;
+line-height: 33px;
+padding-bottom: 25px;
+heigh: 50px;
+padding-left: 13px;
+margin-bottom: -55px;
+margin-top: 38px;
+background: #1e1e1e;
+border-radius: 16px;
+color: #fff;
+font-family: "Lato";
+font-size: 11px;
+
 `;
 const Note = styled.div`
   width: 571px;
