@@ -34,14 +34,14 @@ export default function NewPost({ getPosts, token }) {
             onChange={(e) => setText(e.target.value)}
             placeholder="Muito irado esse link falando de #javascript"
           />
-          <Footer>
+          <Footer color={coordinates !== null ? "#238700" : "#949494"}>
             <div onClick={getLocation}>
-              <LocationIcon color={coordinates !== null ? "#238700" : "#949494"} />
-              <h1 color={coordinates !== null ? "#238700" : "#949494"}>
+              <LocationIcon />
+              <h3 >
                 {coordinates !== null
                   ? "Localização ativada"
                   : "Localização desativada"}
-              </h1>
+              </h3>
             </div>
             <Button
               disabled={isSavingPost}
@@ -174,13 +174,14 @@ const Footer = styled.div`
   align-itens: center;
   line-height: 31px;
   color: ${props => props.color};
-  h1 {
 
+  h3 {
+    
     font-weight: 300;
     font-size: 13px;
   }
   div {
-    color: ${props => props.color};
+
     display: flex;
     width: 150px;
     justify-content: left;
@@ -191,7 +192,7 @@ const LocationIcon = styled(IoLocationOutline)`
   width: 13px;
   height: 15px;
   margin-right: 5px;
-  color: ${props => props.color};
+  
 `;
 const Input = styled.input`
   width: 503px;
