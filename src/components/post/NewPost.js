@@ -34,14 +34,14 @@ export default function NewPost({ getPosts, token }) {
             onChange={(e) => setText(e.target.value)}
             placeholder="Muito irado esse link falando de #javascript"
           />
-          <Footer>
+          <Footer color={coordinates !== null ? "#238700" : "#949494"}>
             <div onClick={getLocation}>
               <LocationIcon />
-              <h1>
+              <h3>
                 {coordinates !== null
                   ? "Localização ativada"
                   : "Localização desativada"}
-              </h1>
+              </h3>
             </div>
             <Button
               disabled={isSavingPost}
@@ -80,7 +80,7 @@ export default function NewPost({ getPosts, token }) {
     req.then((r) => {
       clearInputs();
       setIsSavingPost(false);
-      getPosts();
+      getPosts(user.token);
       console.log(r);
     });
 
@@ -107,7 +107,7 @@ export default function NewPost({ getPosts, token }) {
     navigator.geolocation.getCurrentPosition((p) => {
       setCoordinates({
         latitude: p.coords.latitude,
-        longitude: p.coords.longitude
+        longitude: p.coords.longitude,
       });
     });
   }
@@ -173,8 +173,8 @@ const Footer = styled.div`
   justify-content: space-between;
   align-itens: center;
   line-height: 31px;
-  h1 {
-    color: #949494;
+  color: ${(props) => props.color};
+  h3 {
     font-weight: 300;
     font-size: 13px;
   }
@@ -189,7 +189,6 @@ const LocationIcon = styled(IoLocationOutline)`
   width: 13px;
   height: 15px;
   margin-right: 5px;
-  color: #949494;
 `;
 const Input = styled.input`
   width: 503px;

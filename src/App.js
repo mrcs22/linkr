@@ -44,7 +44,7 @@ export default function App() {
         setFollowedUsers(res.data.users);
       });
     }
-  }, [initialUserState, user.token]);
+  }, [user.token]);
 
   return (
     <BrowserRouter>

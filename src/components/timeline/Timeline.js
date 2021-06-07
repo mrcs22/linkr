@@ -26,8 +26,6 @@ export default function Timeline() {
     getFollowedUsers(user.token);
   }, [user.token]);
 
-  console.log(posts);
-
   useInterval(() => {
     getPosts(user.token);
   }, 15000);
@@ -62,6 +60,9 @@ export default function Timeline() {
       alert("Houve uma falha ao obter os posts, por favor atualize a página!");
     });
   }
+
+  console.log(posts);
+
 
   const getFollowedUsers = (token) => {
     const config = {
@@ -111,6 +112,8 @@ export default function Timeline() {
     }
   }
 
+
+
   return (
     <>
       <Header avatar={user.user.avatar} followedUsers={followedUsers} />
@@ -154,7 +157,6 @@ export default function Timeline() {
                 followedUsers={followedUsers}
                 user={user}
                 geolocation={p.geolocation}
-
               />
             ))}
           </InfiniteScroll>

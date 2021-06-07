@@ -50,7 +50,9 @@ export default function Hashtag() {
     promise.catch(() => {
       alert("Houve uma falha ao obter os posts, por favor atualize a página!");
     });
+    
   }
+  console.log(tags);
   return (
     <>
       <Header avatar={user.user.avatar} followedUsers={followedUsers} />
@@ -81,6 +83,7 @@ export default function Hashtag() {
                 linkTitle={p.linkTitle}
                 linkDescription={p.linkDescription}
                 linkImage={p.linkImage}
+                reposts={p.repostCount}
                 likes={p.likes}
               />
             ))}
