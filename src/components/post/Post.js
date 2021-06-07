@@ -63,7 +63,6 @@ export default function Post(props) {
     setShowModal(false);
   };
 
-  console.log(repostUser);
 
   return (
     <PostBox>
@@ -74,8 +73,8 @@ export default function Post(props) {
       <RepostIcon/>
       <h1>Re-posted by
         <strong>
-          {repostUser.username === username ?
-          "you" : ` ${repostUser.username}`}
+          {repostUser.id === user.user.id ?
+          " you" : ` ${repostUser.username}`}
         </strong>
       </h1>
     </RepostInfo>)}

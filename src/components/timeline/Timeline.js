@@ -61,6 +61,9 @@ export default function Timeline() {
     });
   }
 
+  console.log(posts);
+
+
   const getFollowedUsers = (token) => {
     const config = {
       headers: {
@@ -108,6 +111,8 @@ export default function Timeline() {
 
     }
   }
+
+
 
   return (
     <>
