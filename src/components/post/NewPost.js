@@ -36,8 +36,8 @@ export default function NewPost({ getPosts, token }) {
           />
           <Footer>
             <div onClick={getLocation}>
-              <LocationIcon />
-              <h1>
+              <LocationIcon color={coordinates !== null ? "#238700" : "#949494"} />
+              <h1 color={coordinates !== null ? "#238700" : "#949494"}>
                 {coordinates !== null
                   ? "Localização ativada"
                   : "Localização desativada"}
@@ -173,12 +173,14 @@ const Footer = styled.div`
   justify-content: space-between;
   align-itens: center;
   line-height: 31px;
+  color: ${props => props.color};
   h1 {
-    color: #949494;
+
     font-weight: 300;
     font-size: 13px;
   }
   div {
+    color: ${props => props.color};
     display: flex;
     width: 150px;
     justify-content: left;
@@ -189,7 +191,7 @@ const LocationIcon = styled(IoLocationOutline)`
   width: 13px;
   height: 15px;
   margin-right: 5px;
-  color: #949494;
+  color: ${props => props.color};
 `;
 const Input = styled.input`
   width: 503px;
