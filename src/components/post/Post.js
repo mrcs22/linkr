@@ -34,7 +34,7 @@ export default function Post(props) {
     followedUsers,
     geolocation,
     repostUser,
-    comments    
+    comments,
   } = props;
 
   const youtubeId = link.includes("youtube") ? getYoutubeId(link) : null;
@@ -63,34 +63,36 @@ export default function Post(props) {
     setShowModal(false);
   };
 
-
   return (
     <PostBox>
-  
-      
-    {reposts === 0 ? "" : 
-    (<RepostInfo>
-      <RepostIcon/>
-      <h1>Re-posted by
-        <strong>
-          {repostUser.id === user.user.id ?
-          " you" : ` ${repostUser.username}`}
-        </strong>
-      </h1>
-    </RepostInfo>)}
+      {repostUser === undefined ? (
+        ""
+      ) : (
+        <RepostInfo>
+          <RepostIcon />
+          <h1>
+            Re-posted by
+            <strong>
+              {repostUser.id === user.user.id
+                ? " you"
+                : ` ${repostUser.username}`}
+            </strong>
+          </h1>
+        </RepostInfo>
+      )}
 
-    <Div>
-      <div>
-        <Link to={`/user/${userId}`}>
-          <img src={avatar} alt={username} />
-        </Link>
-        <PostLike
-          likes={likes}
-          postId={postId}
-          isPostLiked={isPostLiked}
-          setIsPostLiked={setIsPostLiked}
-        />
-        <PostComment
+      <Div>
+        <div>
+          <Link to={`/user/${userId}`}>
+            <img src={avatar} alt={username} />
+          </Link>
+          <PostLike
+            likes={likes}
+            postId={postId}
+            isPostLiked={isPostLiked}
+            setIsPostLiked={setIsPostLiked}
+          />
+          <PostComment
             postId={postId}
             comments={comments}
             visibility={visibility}
@@ -98,82 +100,81 @@ export default function Post(props) {
             setNotes={setNotes}
             getComments={getComments}
           />
-          
-        <PostRepost reposts={reposts} openRepost={openRepost} />
-      </div>
 
-      <DeletePost ownerId={userId} postId={postId} getPosts={getPosts} />
+          <PostRepost reposts={reposts} openRepost={openRepost} />
+        </div>
 
-      <div>
-      <UserLocation>
-          <Link to={`/user/${userId}`}>
-            <Name>{username}</Name>
-          </Link>
-          {geolocation !== undefined ? (<LocationIcon onClick={openModal} />): ""}
+        <DeletePost ownerId={userId} postId={postId} getPosts={getPosts} />
 
-     
-        </UserLocation>
+        <div>
+          <UserLocation>
+            <Link to={`/user/${userId}`}>
+              <Name>{username}</Name>
+            </Link>
+            {geolocation !== undefined ? (
+              <LocationIcon onClick={openModal} />
+            ) : (
+              ""
+            )}
+          </UserLocation>
 
-        <EditPost
-          ownerId={userId}
-          text={text}
-          postText={postText}
-          postId={postId}
-          highlightHashtags={highlightHashtags}
-        />
-
-        {youtubeId !== null ? (
-          <YoutubePlayer
-            linkTitle={linkTitle}
-            link={link}
-            youtubeId={youtubeId}
+          <EditPost
+            ownerId={userId}
+            text={text}
+            postText={postText}
+            postId={postId}
+            highlightHashtags={highlightHashtags}
           />
-        ) : (
-          <LinkInfo
-            linkTitle={linkTitle}
-            linkDescription={linkDescription}
-            link={link}
-            linkImage={linkImage}
-          />
-        )}
-      </div>
 
-      <Modal
-        isOpen={showRepost}
-        style={modalStyle}
-        onRequestClose={closeRepost}
-        ariaHideApp={false}
-      >
-        <p>Do you want to re-post this link?</p>
-        <ButtonContainer>
-          <button className="back_button" onClick={(e) => closeRepost(e)}>
-            No, cancel
-          </button>
-          <button className="delete_button" onClick={toRepost}>
-            Yes, share!
-          </button>
-        </ButtonContainer>
-      </Modal>
+          {youtubeId !== null ? (
+            <YoutubePlayer
+              linkTitle={linkTitle}
+              link={link}
+              youtubeId={youtubeId}
+            />
+          ) : (
+            <LinkInfo
+              linkTitle={linkTitle}
+              linkDescription={linkDescription}
+              link={link}
+              linkImage={linkImage}
+            />
+          )}
+        </div>
 
-      <Modal
-        isOpen={showModal}
-        style={mapStyle}
-        onRequestClose={closeModal}
-        ariaHideApp={false}
-      >
-        <Title>
-          <p>{username}'s location</p>
-          <X onClick={(e) => closeModal(e)}>
-            X
-          </X>
-          <X onClick={(e) => closeModal(e)}>X</X>
-        </Title>
+        <Modal
+          isOpen={showRepost}
+          style={modalStyle}
+          onRequestClose={closeRepost}
+          ariaHideApp={false}
+        >
+          <p>Do you want to re-post this link?</p>
+          <ButtonContainer>
+            <button className="back_button" onClick={(e) => closeRepost(e)}>
+              No, cancel
+            </button>
+            <button className="delete_button" onClick={toRepost}>
+              Yes, share!
+            </button>
+          </ButtonContainer>
+        </Modal>
 
-        <MapContainer geolocation={geolocation} />
-      </Modal>
+        <Modal
+          isOpen={showModal}
+          style={mapStyle}
+          onRequestClose={closeModal}
+          ariaHideApp={false}
+        >
+          <Title>
+            <p>{username}'s location</p>
+            <X onClick={(e) => closeModal(e)}>X</X>
+            <X onClick={(e) => closeModal(e)}>X</X>
+          </Title>
 
-    </Div>
-    {visibility === false ? (
+          <MapContainer geolocation={geolocation} />
+        </Modal>
+      </Div>
+      {visibility === false ? (
         ""
       ) : (
         <Comments>
@@ -236,9 +237,8 @@ export default function Post(props) {
   }
 
   function postComment(e) {
-    
     e.preventDefault();
-    
+
     const config = {
       headers: {
         Authorization: `Bearer ${user.token}`,
@@ -273,7 +273,6 @@ export default function Post(props) {
 
     req.then((r) => {
       setNotes(r.data.comments);
-
     });
 
     req.catch((r) => {
@@ -328,9 +327,9 @@ const mapStyle = {
     fontWeight: "700",
   },
 };
-const PostBox = styled.div` 
-display: flex;
-flex-direction: column;
+const PostBox = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 const modalStyle = {
   overlay: {
@@ -410,10 +409,10 @@ const Comments = styled.div`
   flex-direction: column;
 `;
 const RepostIcon = styled(BiRepost)`
-width: 22px;
-height: 13px;
-font-weight: bold;
-margin-top: 10px;
+  width: 22px;
+  height: 13px;
+  font-weight: bold;
+  margin-top: 10px;
 `;
 const RepostInfo = styled.div`
 width: 611px;

@@ -37,7 +37,7 @@ export default function NewPost({ getPosts, token }) {
           <Footer color={coordinates !== null ? "#238700" : "#949494"}>
             <div onClick={getLocation}>
               <LocationIcon />
-              <h3 >
+              <h3>
                 {coordinates !== null
                   ? "Localização ativada"
                   : "Localização desativada"}
@@ -107,7 +107,7 @@ export default function NewPost({ getPosts, token }) {
     navigator.geolocation.getCurrentPosition((p) => {
       setCoordinates({
         latitude: p.coords.latitude,
-        longitude: p.coords.longitude
+        longitude: p.coords.longitude,
       });
     });
   }
@@ -173,15 +173,12 @@ const Footer = styled.div`
   justify-content: space-between;
   align-itens: center;
   line-height: 31px;
-  color: ${props => props.color};
-
+  color: ${(props) => props.color};
   h3 {
-    
     font-weight: 300;
     font-size: 13px;
   }
   div {
-
     display: flex;
     width: 150px;
     justify-content: left;
@@ -192,7 +189,6 @@ const LocationIcon = styled(IoLocationOutline)`
   width: 13px;
   height: 15px;
   margin-right: 5px;
-  
 `;
 const Input = styled.input`
   width: 503px;

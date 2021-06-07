@@ -157,7 +157,6 @@ export default function Timeline() {
                 followedUsers={followedUsers}
                 user={user}
                 geolocation={p.geolocation}
-
               />
             ))}
           </InfiniteScroll>
