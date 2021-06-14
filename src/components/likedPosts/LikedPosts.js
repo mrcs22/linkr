@@ -14,7 +14,7 @@ import FollowedContext from "../FollowedContext";
 
 export default function LikedPosts() {
   const { user } = useContext(UserContext);
-  const { followedUsers } = useContext(FollowedContext)
+  const { followedUsers } = useContext(FollowedContext);
   const [posts, setPosts] = useState(null);
   const [hasMore, setHasMore] = useState(true);
   const [offset, setOffset] = useState(10);
@@ -25,7 +25,7 @@ export default function LikedPosts() {
 
   return (
     <>
-      <Header avatar={user.user.avatar} followedUsers={followedUsers}/>
+      <Header avatar={user.user.avatar} followedUsers={followedUsers} />
       <Container>
         <Text>my likes</Text>
         <HashtagTrend />
@@ -52,8 +52,16 @@ export default function LikedPosts() {
                 linkTitle={p.linkTitle}
                 linkDescription={p.linkDescription}
                 linkImage={p.linkImage}
-                likes={p.likes}
                 getPosts={getPosts}
+                likes={p.likes}
+                reposts={p.repostCount}
+                repostUser={p.repostedBy}
+                setPosts={setPosts}
+                posts={posts}
+                comments={p.commentCount}
+                followedUsers={followedUsers}
+                user={user}
+                geolocation={p.geolocation}
               />
             ))}
           </InfiniteScroll>

@@ -54,6 +54,14 @@ export default function MyPosts() {
                 linkImage={p.linkImage}
                 getPosts={getPosts}
                 likes={p.likes}
+                reposts={p.repostCount}
+                repostUser={p.repostedBy}
+                setPosts={setPosts}
+                posts={posts}
+                comments={p.commentCount}
+                followedUsers={followedUsers}
+                user={user}
+                geolocation={p.geolocation}
               />
             ))}
           </InfiniteScroll>

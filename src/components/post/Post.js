@@ -449,7 +449,7 @@ const Note = styled.div`
   border-bottom: 1px solid #353535;
   display: flex;
   justify-content: left;
-  align-itens: center;
+  align-items: center;
   font-size: 14px;
   h1 {
     color: #f3f3f3;
