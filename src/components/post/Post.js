@@ -426,21 +426,20 @@ const RepostIcon = styled(BiRepost)`
   margin-top: 10px;
 `;
 const RepostInfo = styled.div`
-width: 611px;
-display: flex;
-align:itens: center;
-line-height: 33px;
-padding-bottom: 25px;
-heigh: 50px;
-padding-left: 13px;
-margin-bottom: -55px;
-margin-top: 38px;
-background: #1e1e1e;
-border-radius: 16px;
-color: #fff;
-font-family: "Lato";
-font-size: 11px;
-
+  width: 611px;
+  display: flex;
+  align-items: center;
+  line-height: 33px;
+  padding-bottom: 25px;
+  height: 50px;
+  padding-left: 13px;
+  margin-bottom: -55px;
+  margin-top: 38px;
+  background: #1e1e1e;
+  border-radius: 16px;
+  color: #fff;
+  font-family: "Lato";
+  font-size: 11px;
 `;
 const Note = styled.div`
   width: 571px;
