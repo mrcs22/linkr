@@ -3,12 +3,8 @@ import Modal from "react-modal";
 import styled from "styled-components";
 
 export default function LinkPreview({ link, title, showModal, setShowModal }) {
-  const openModal = () => {
-    setShowModal(true);
-  };
-
   const closeModal = (e) => {
-    setShowModal(false);
+    setShowModal();
   };
   return (
     <Modal
@@ -31,11 +27,9 @@ export default function LinkPreview({ link, title, showModal, setShowModal }) {
 }
 const ModalContainer = styled.div`
   padding: 0 27px;
-
   & > div {
     display: flex;
     align-items: center;
-
     width: calc(90vw - 30px);
     max-width: 923px;
     justify-content: space-between;
@@ -60,17 +54,13 @@ const Button = styled.a`
   align-items: center;
   height: 31px;
   width: 112px;
-
   font-family: "Lato";
   font-size: 14px;
   font-weight: 700;
   color: #fff;
-
   background-color: #1877f2;
-
   border-radius: 5px;
   border: none;
-
   @media (max-width: 611px) {
     height: 22px;
     font-size: 13px;

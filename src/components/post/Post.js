@@ -16,6 +16,7 @@ import { FiSend } from "react-icons/fi";
 import MapContainer from "./MapContainer";
 import { IoMdPin } from "react-icons/io";
 import { BiRepost } from "react-icons/bi";
+import LinkPreview from "../linkPreview/LinkPreview";
 
 export default function Post(props) {
   const {
@@ -42,6 +43,7 @@ export default function Post(props) {
   const [isPostLiked, setIsPostLiked] = useState(false);
   const [notes, setNotes] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [showLinkPreview, setShowLinkPreview] = useState(false);
   const [visibility, setVisibility] = useState(false);
   const [showRepost, setShowrepost] = useState(false);
   const { user } = useContext(UserContext);
@@ -133,12 +135,21 @@ export default function Post(props) {
               youtubeId={youtubeId}
             />
           ) : (
-            <LinkInfo
-              linkTitle={linkTitle}
-              linkDescription={linkDescription}
-              link={link}
-              linkImage={linkImage}
-            />
+            <>
+              <LinkInfo
+                linkTitle={linkTitle}
+                linkDescription={linkDescription}
+                link={link}
+                linkImage={linkImage}
+                setShowModal={() => setShowLinkPreview(true)}
+              />
+              <LinkPreview
+                title={linkTitle}
+                link={link}
+                showModal={showLinkPreview}
+                setShowModal={() => setShowLinkPreview(false)}
+              />
+            </>
           )}
         </div>
 

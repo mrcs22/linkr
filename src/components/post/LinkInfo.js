@@ -10,7 +10,7 @@ export default function LinkInfo(props) {
 
         <p>{linkDescription}</p>
 
-        <a onClick={() => setShowModal(true)} rel="noreferrer">
+        <a onClick={() => setShowModal()} rel="noreferrer">
           {link}
         </a>
       </div>
