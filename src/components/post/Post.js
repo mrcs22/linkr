@@ -38,7 +38,9 @@ export default function Post(props) {
     comments,
   } = props;
 
-  const youtubeId = link.includes("youtube") ? getYoutubeId(link) : null;
+  const isLinkFromYoutube =
+    link.includes("youtube") || link.includes("youtu.be");
+  const youtubeId = isLinkFromYoutube ? getYoutubeId(link) : null;
   const postText = highlightHashtags(text);
   const [isPostLiked, setIsPostLiked] = useState(false);
   const [notes, setNotes] = useState([]);
