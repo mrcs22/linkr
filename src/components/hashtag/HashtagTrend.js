@@ -25,7 +25,8 @@ export default function HashtagTrend() {
 
   function search(e) {
     e.preventDefault();
-    history.push(`/hashtag/${keyword}`);
+    const cleanKeyword = keyword.replace("#", "");
+    history.push(`/hashtag/${cleanKeyword}`);
   }
 
   return (
@@ -38,17 +39,16 @@ export default function HashtagTrend() {
           </Link>
         ))}
         <HashtagSearch>
-        <form onSubmit={search}>
-          <input
-            type="text"
-            placeholder="# type a hashtag"
-            value={keyword}
-            onChange={(e) => setKeyword(e.target.value)}>
-          </input>          
-        </form>
-      </HashtagSearch>
+          <form onSubmit={search}>
+            <input
+              type="text"
+              placeholder="# type a hashtag"
+              value={keyword}
+              onChange={(e) => setKeyword(e.target.value)}
+            ></input>
+          </form>
+        </HashtagSearch>
       </Trends>
-
     </TrendBox>
   );
 }
@@ -82,7 +82,7 @@ const Title = styled.div`
 const Trends = styled.div`
   font-family: "Lato";
   max-width: 100%;
-  height: 293px;  
+  height: 293px;
   padding-left: 16px;
   padding-right: 16px;
   margin-top: 10px;
@@ -95,24 +95,24 @@ const Trends = styled.div`
 `;
 const HashtagSearch = styled.div`
   font-family: "Lato";
-  p{
+  p {
     font-weight: 700;
-    font-size:19px;
+    font-size: 19px;
     line-height: 23px;
     color: #fff;
-    text-align: left;          
+    text-align: left;
   }
-  input{
+  input {
     width: 100%;
     border: none;
     height: 35px;
-    padding-left: 13px;    
+    padding-left: 13px;
     margin-right: 16px;
     margin-top: 10px;
     margin-bottom: 15px;
     border-radius: 8px;
     background: #252525;
-    color: #575757;     
+    color: #575757;
     font-size: 16px;
-  }  
+  }
 `;
