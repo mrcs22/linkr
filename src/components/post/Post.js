@@ -316,7 +316,7 @@ export default function Post(props) {
 }
 const mapStyle = {
   overlay: {
-    width: "100%",
+    width: "100vw",
     height: "100vh",
     backgroundColor: "rgba(255, 255, 255, 0.9)",
     zIndex: "2",
@@ -328,8 +328,9 @@ const mapStyle = {
     alignItems: "center",
     position: "absolute",
     top: "20vh",
-    margin: "0 auto",
-    width: "790px",
+    left:"5vw",
+   margin: "0 auto",
+    width: "90vw",
     height: "354px",
     paddingLeft: "40px",
     paddingRight: "40px",
@@ -409,7 +410,8 @@ const LocationIcon = styled(IoMdPin)`
   margin-top: 2px;
 `;
 const Comments = styled.div`
-  width: 611px;
+  width: 100%;
+  max-width: 611px;
   background: #1e1e1e;
   border-radius: 16px;
   padding-top: 66px;
@@ -428,7 +430,8 @@ const RepostIcon = styled(BiRepost)`
   margin-top: 10px;
 `;
 const RepostInfo = styled.div`
-  width: 611px;
+  width: 100%;
+  max-width: 611px;
   display: flex;
   align-items: center;
   line-height: 33px;
@@ -442,9 +445,19 @@ const RepostInfo = styled.div`
   color: #fff;
   font-family: "Lato";
   font-size: 11px;
+
+  & > svg{
+    margin-top: 0;
+  }
+
+@media(max-width:611px){
+  margin-bottom: -40px;
+}
 `;
+
 const Note = styled.div`
-  width: 571px;
+  width: 100%;
+  max-width: 571px;
   height: 71px;
   border-bottom: 1px solid #353535;
   display: flex;
@@ -490,6 +503,7 @@ const Note = styled.div`
 `;
 const CommentBar = styled.div`
   display: flex;
+  
   height: 39px;
   margin-top: 13px;
   position: relative;
@@ -502,7 +516,8 @@ const CommentBar = styled.div`
   input {
     font-family: "Lato";
     font-style: italic;
-    width: 520px;
+    width: calc(100vw - 90px);
+    max-width: 520px;
     border: none;
     height: 39px;
     padding-left: 13px;
@@ -540,7 +555,8 @@ const Div = styled.div`
   justify-content: space-between;
   position: relative;
   min-height: 276px;
-  width: 611px;
+  width: 100%;
+  max-width: 611px;
   background-color: #171717;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 16px;

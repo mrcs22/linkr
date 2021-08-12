@@ -92,6 +92,7 @@ const StyledSearchBar = styled.div`
     border-radius: 8px;
     padding: 0 15px;
     color: #c6c6c6;
+    margin: 0 10px;
 
     input {
         width: 100%;
@@ -104,6 +105,10 @@ const StyledSearchBar = styled.div`
             font-size: 19px;
             color: #c6c6c6;
         }
+    }
+
+    @media(max-width: 600px){
+        display: none;
     }
 `
 

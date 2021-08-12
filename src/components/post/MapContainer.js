@@ -4,15 +4,15 @@ export function MapContainer(props) {
   const { geolocation } = props;
 
   const mapStyles = {
-    width: "713px",
+    width: "85vw",
     height: "240px",    
   };
 
   const containerStyle = {
     position: 'absolute',
     top: '81px',
-    left: '37px',  
-    width: "713px",
+    left: '2.5vw',  
+    width: "85vw",
     height: "240px",
   };
 

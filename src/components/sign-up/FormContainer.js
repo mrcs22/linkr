@@ -25,7 +25,8 @@ h1{
     text-decoration: underline;          
 }
 input{
-    width: 429px;
+    width: 95%;
+    margin:0 auto;
     height: 65px;
     margin-bottom: 13px;
     border-radius: 6px;
@@ -35,7 +36,8 @@ input{
     font-size: 27px;
 }    
 button{
-    width: 429px;
+     width: 95%;
+    margin:0 auto;
     height: 65px;
     border-radius: 6px;
     background: #1877F2;

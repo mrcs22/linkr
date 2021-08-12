@@ -64,7 +64,7 @@ const TrendBox = styled.div`
   left: calc(50vw + 150px);
   top: 211px;
 
-  @media (max-width: 600px) {
+  @media (max-width: 950px) {
     display: none;
   }
 `;

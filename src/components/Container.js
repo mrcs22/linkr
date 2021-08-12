@@ -25,7 +25,7 @@ const Content = styled.div`
   margin: 0 auto;
   margin-top: 53px;
 
-  @media (max-width: 938px) {
+  @media (max-width: 950px) {
     width: 611px;
   }
 
