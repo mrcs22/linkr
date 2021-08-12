@@ -32,11 +32,15 @@ export default function Hashtag() {
     });
   }, [hashtag, user]);
 
+ 
+
   function updateTags() {
     const promise = axios.get(
       `https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/hashtags/${hashtag}/posts?offset=${offset}`,
       config
     );
+
+
 
     promise.then((answer) => {
       if (answer.data.posts.length === 0) {
@@ -52,7 +56,7 @@ export default function Hashtag() {
     });
     
   }
-  console.log(tags);
+
   return (
     <>
       <Header avatar={user.user.avatar} followedUsers={followedUsers} />
@@ -83,6 +87,7 @@ export default function Hashtag() {
                 linkTitle={p.linkTitle}
                 linkDescription={p.linkDescription}
                 linkImage={p.linkImage}
+                getPosts={updateTags}
                 reposts={p.repostCount}
                 likes={p.likes}
               />

@@ -81,7 +81,6 @@ export default function NewPost({ getPosts, token }) {
       clearInputs();
       setIsSavingPost(false);
       getPosts(user.token);
-      console.log(r);
     });
 
     req.catch((r) => {

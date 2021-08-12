@@ -44,6 +44,7 @@ export default function UserPosts() {
             <Post
               key={p.id}
               username={p.user.username}
+              postId={p.id}
               userId={p.user.id}
               avatar={p.user.avatar}
               text={p.text}
@@ -52,6 +53,7 @@ export default function UserPosts() {
               linkDescription={p.linkDescription}
               linkImage={p.linkImage}
               likes={p.likes}
+              getPosts={()=>getPostsAndSelectedUserInfo(user.token)}
             />
           ))
         )}

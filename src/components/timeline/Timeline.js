@@ -19,7 +19,7 @@ export default function Timeline() {
 
 
   const [hasMore, setHasMore] = useState(true);
-  const olderLoadedPostId = posts === null ? null : posts[posts.length - 1].id;
+  const olderLoadedPostId = posts === null ? null : posts[posts.length - 1]?.id;
 
   useEffect(() => {
     getPosts(user.token);
@@ -60,9 +60,6 @@ export default function Timeline() {
       alert("Houve uma falha ao obter os posts, por favor atualize a página!");
     });
   }
-
-  console.log(posts);
-
 
   const getFollowedUsers = (token) => {
     const config = {
